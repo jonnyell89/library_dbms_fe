@@ -1,37 +1,30 @@
 import "./style.scss";
-// import typescriptLogo from "./typescript.svg";
-// import viteLogo from "/vite.svg";
-// import { setupCounter } from "./counter.ts";
 
-// document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-//   <div>
-//     <a href="https://vite.dev" target="_blank">
-//       <img src="${viteLogo}" class="logo" alt="Vite logo" />
-//     </a>
-//     <a href="https://www.typescriptlang.org/" target="_blank">
-//       <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-//     </a>
-//     <h1>Vite + TypeScript</h1>
-//     <div class="card">
-//       <button id="counter" type="button"></button>
-//     </div>
-//     <p class="read-the-docs">
-//       Click on the Vite and TypeScript logos to learn more
-//     </p>
-//   </div>
-// `;
+function renderForms() {
+  const oldFormContainer = document.querySelector<HTMLDivElement>(
+    "#oldContainer__form"
+  );
+  const newFormContainer = document.querySelector<HTMLDivElement>(
+    "#newContainer__form"
+  );
 
-// setupCounter(document.querySelector<HTMLButtonElement>("#counter")!);
+  if (!oldFormContainer) {
+    throw new Error("Old Member Form Container did not render.");
+  }
 
-document.querySelector<HTMLDivElement>("#oldContainer__form")!.innerHTML = `
-  <form action="/api/members" method="get">
+  if (!newFormContainer) {
+    throw new Error("New Member Form Container did not render.");
+  }
+
+  oldFormContainer.innerHTML = `
+  <form id="old-member-form" action="/api/members" method="get">
     <p>
       <label for="name">Name</label><br>
-      <input type="text" id="name" name="member_name" required />
+      <input type="text" id="name" required />
     </p>
     <p>
       <label for="email">Email</label><br>
-      <input type="email" id="email" name="member_email required" />
+      <input type="email" id="email" required" />
     </p>
     <p class="button">
       <button type="submit">Submit</button>
@@ -39,38 +32,91 @@ document.querySelector<HTMLDivElement>("#oldContainer__form")!.innerHTML = `
   </form>
 `;
 
-document.querySelector<HTMLDivElement>("#newContainer__form")!.innerHTML = `
-  <form action="/api/members" method="post">
+  newFormContainer.innerHTML = `
+  <form id="new-member-form" action="/api/members" method="post">
     <p>
       <label for="name">Name</label><br>
-      <input type="text" id="name" name="member_name" required />
+      <input type="text" id="name" required />
     </p>
     <p>
       <label for="email">Email</label><br>
-      <input type="email" id="email" name="member_email" required />
+      <input type="email" id="email" required />
     </p>
     <p>
       <label for="line1">Line 1</label><br>
-      <input type="text" id="line1" name="member_line1" required />
+      <input type="text" id="line1" required />
     </p>
     <p>
       <label for="line2">Line 2</label><br>
-      <input type="text" id="line2" name="member_line2" required />
+      <input type="text" id="line2" required />
     </p>
     <p>
       <label for="city">City</label><br>
-      <input type="text" id="city" name="member_city" required />
+      <input type="text" id="city" required />
     </p>
     <p>
       <label for="county">County</label><br>
-      <input type="text" id="county" name="member_county" required />
+      <input type="text" id="county" required />
     </p>
     <p>
       <label for="postcode">Postcode</label><br>
-      <input type="text" id="postcode" name="member_postcode" required />
+      <input type="text" id="postcode" required />
     </p>
     <p class="button">
       <button type="submit">Submit</button>
     </p>
   </form>
 `;
+}
+
+function attachNewFormEventListeners() {
+  const newForm = document.getElementById(
+    "new-member-form"
+  ) as HTMLFormElement | null;
+
+  if (!newForm) {
+    throw new Error("New Member Form did not render.");
+  }
+
+  newForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const data = {
+      name: (document.getElementById("name") as HTMLInputElement).value,
+      email: (document.getElementById("email") as HTMLInputElement).value,
+      address: {
+        line1: (document.getElementById("line1") as HTMLInputElement).value,
+        line2: (document.getElementById("line2") as HTMLInputElement).value,
+        city: (document.getElementById("city") as HTMLInputElement).value,
+        county: (document.getElementById("county") as HTMLInputElement).value,
+        postcode: (document.getElementById("postcode") as HTMLInputElement)
+          .value,
+      },
+    };
+
+    try {
+      const response = await fetch("http://localhost:5173/api/members", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const json = await response.json();
+        alert(
+          "New member created: " + json.name + " (ID: " + json.memberId + ")"
+        );
+      } else {
+        const error = await response.text();
+        alert("Error: " + error);
+      }
+    } catch (e) {
+      alert("Failed to connect to the server.");
+    }
+  });
+}
+
+renderForms();
+attachNewFormEventListeners();
