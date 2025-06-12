@@ -17,14 +17,14 @@ function renderForms() {
   }
 
   oldFormContainer.innerHTML = `
-  <form id="old-member-form" action="/api/members" method="get">
+  <form id="old-member-form">
     <p>
       <label for="name">Name</label><br>
-      <input type="text" id="name" required />
+      <input type="text" id="old-name" required />
     </p>
     <p>
       <label for="email">Email</label><br>
-      <input type="email" id="email" required" />
+      <input type="email" id="old-email" required" />
     </p>
     <p class="button">
       <button type="submit">Submit</button>
@@ -33,14 +33,14 @@ function renderForms() {
 `;
 
   newFormContainer.innerHTML = `
-  <form id="new-member-form" action="/api/members" method="post">
+  <form id="new-member-form">
     <p>
       <label for="name">Name</label><br>
-      <input type="text" id="name" required />
+      <input type="text" id="new-name" required />
     </p>
     <p>
       <label for="email">Email</label><br>
-      <input type="email" id="email" required />
+      <input type="email" id="new-email" required />
     </p>
     <p>
       <label for="line1">Line 1</label><br>
@@ -69,6 +69,49 @@ function renderForms() {
 `;
 }
 
+function attachOldFormEventListeners() {
+  const oldForm = document.getElementById(
+    "old-member-form"
+  ) as HTMLFormElement | null;
+
+  if (!oldForm) {
+    throw new Error("Old Member Form did not render.");
+  }
+
+  oldForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const data = {
+      name: (document.getElementById("old-name") as HTMLInputElement).value,
+      email: (document.getElementById("old-email") as HTMLInputElement).value,
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/members/search", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      console.log(data);
+
+      if (response.ok) {
+        const json = await response.json();
+        console.log(
+          "Old member found: " + json.name + " (ID: " + json.memberId + ")"
+        );
+      } else {
+        const error = await response.text();
+        console.log("Error: " + error);
+      }
+    } catch (e) {
+      console.log("Failed to connect to the Spring Boot API.");
+    }
+  });
+}
+
 function attachNewFormEventListeners() {
   const newForm = document.getElementById(
     "new-member-form"
@@ -95,7 +138,7 @@ function attachNewFormEventListeners() {
     };
 
     try {
-      const response = await fetch("http://localhost:5173/api/members", {
+      const response = await fetch("http://localhost:8080/api/members", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,20 +146,23 @@ function attachNewFormEventListeners() {
         body: JSON.stringify(data),
       });
 
+      console.log(data);
+
       if (response.ok) {
         const json = await response.json();
-        alert(
+        console.log(
           "New member created: " + json.name + " (ID: " + json.memberId + ")"
         );
       } else {
         const error = await response.text();
-        alert("Error: " + error);
+        console.log("Error: " + error);
       }
     } catch (e) {
-      alert("Failed to connect to the server.");
+      console.log("Failed to connect to the Spring Boot API.");
     }
   });
 }
 
 renderForms();
+attachOldFormEventListeners();
 attachNewFormEventListeners();
