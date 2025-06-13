@@ -4,4 +4,9 @@ export function renderBookResultContainer(): void {
   if (!resultContainer) {
     throw new Error("Search Result Feed did not render.");
   }
+
+  resultContainer.innerHTML = `
+    <h1>Library Search Results</h1>
+    <div id="resultContainer__feed"></div>
+  `;
 }

@@ -7,20 +7,18 @@ export function renderBookSearchContainer(): void {
 
   searchContainer.innerHTML = `
     <h1>Library Book Search</h1>
-    <div id="searchContainer__form">
-      <form id="book-search-form">
-        <p>
-          <label for="author">Author</label><br>
-          <input type="text" id="author" />
-        </p>
-        <p>
-          <label for="title">Title</label><br>
-          <input type="text" id="title" />
-        </p>
-        <p class="button">
-          <button type="submit">Submit</button>
-        </p>
-      </form>
-    </div>
+    <form id="searchContainer__form">
+      <p>
+        <label for="author">Author</label><br>
+        <input type="text" id="author" />
+      </p>
+      <p>
+        <label for="title">Title</label><br>
+        <input type="text" id="title" />
+      </p>
+      <p class="button">
+        <button type="submit">Submit</button>
+      </p>
+    </form>
   `;
 }
