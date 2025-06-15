@@ -12,6 +12,8 @@ import { renderBookResultContainer } from "./forms/resultContainer";
 import { oldDevEventListeners } from "./handlers/oldDevEvent";
 import { newDevEventListeners } from "./handlers/newDevEvent";
 
+import { attachSearchFormEventListeners } from "./handlers/searchContainerEvents";
+
 function initMemberForms() {
   // Render Form Containers
   renderOldMemberFormContainer();
@@ -29,13 +31,4 @@ initMemberForms();
 renderBookSearchContainer();
 renderBookResultContainer();
 
-// function init() {
-//   // Injects the forms into the DOM
-//   renderForms();
-
-//   // Attaches the event listeners
-//   attachOldFormEventListeners();
-//   attachNewFormEventListeners();
-// }
-
-// init();
+attachSearchFormEventListeners();

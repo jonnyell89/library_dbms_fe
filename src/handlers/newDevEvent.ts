@@ -1,10 +1,15 @@
 export function newDevEventListeners() {
+  const container = document.querySelector<HTMLElement>(".container");
   const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
   const oldMemberForm = document.getElementById("oldContainer__form") as HTMLFormElement | null;
   const newContainer = document.querySelector<HTMLElement>(".newContainer");
   const newMemberForm = document.getElementById("newContainer__form") as HTMLFormElement | null;
   const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
   const resultContainer = document.querySelector<HTMLElement>(".resultContainer");
+
+  if (!container) {
+    throw new Error("Main Container did not render.")
+  }
 
   if (!oldContainer) {
     throw new Error("Old Member Form Container did not render.");
@@ -37,6 +42,8 @@ export function newDevEventListeners() {
     oldContainer.style.display = "none";
 
     newContainer.style.display = "none";
+
+    container.style.flexDirection = "column";
 
     searchContainer.style.display = "block";
 
