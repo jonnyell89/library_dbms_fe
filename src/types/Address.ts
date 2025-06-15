@@ -1,5 +1,4 @@
-export type Address = {
-  addressId: number;
+export interface Address {
   line1: string;
   line2: string;
   city: string;

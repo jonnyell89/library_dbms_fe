@@ -1,12 +1,8 @@
-import enum {Availability} from "../enums"
-
-export type Book = {
-  bookId: number;
-  availability: Availability;
+export interface Book {
   author: string;
   title: string;
   authorKey: string;
   titleKey: string;
-  firstYearPublish: number;
-  cover: number;
+  firstYearPublish?: number;
+  cover?: number;
 };

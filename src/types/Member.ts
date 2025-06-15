@@ -1,8 +1,7 @@
 import type { Address } from "./Address";
 
-export type Member = {
-  memberId: number;
-  address: Address;
+export interface Member {
   name: string;
   email: string;
+  address: Address;
 };
