@@ -1,0 +1,114 @@
+import type { BookRequestDTO } from "../types/BookRequestDTO";
+import type { BookResponseDTO } from "../types/BookResponseDTO";
+
+export function displaySearchBooks(books: BookRequestDTO[]) {
+    const resultContainerCards = document.getElementById("resultContainer__cards");
+
+    if (!resultContainerCards) {
+        throw new Error("Result Container Cards did not render.")
+    }
+
+    resultContainerCards.innerHTML = "";
+
+    books.forEach(book => {
+        const bookCard = createBookCard(book);
+
+        const reserveButton = bookCard.querySelector("button");
+
+        if (reserveButton && reserveButton instanceof HTMLButtonElement) {
+            // Attaches an event listener to the reserveButton for each bookCard.
+            attachReserveButtonEvent(reserveButton, bookCard, book);
+        }
+
+        resultContainerCards.appendChild(bookCard);
+    });
+}
+
+export function createBookCard(book: BookRequestDTO) {
+    const bookCard = document.createElement("div");
+    bookCard.classList.add("bookCard");
+
+    bookCard.innerHTML = `
+        <p>Title: ${book.title}</p>
+        <p>Author: ${book.author}</p>
+        <p>Published: ${book.firstPublishYear}</p>
+        <button class="reserveButton" type="button">Reserve</button>
+    `;
+
+    return bookCard;
+}
+
+export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookCard: HTMLElement, book: BookRequestDTO): void {
+    reserveButton.addEventListener("click", async () => {
+        try {
+            // Saves book to bookRepository.
+            const savedBook = await saveBookToDatabase(book);
+
+            // Clones bookCard for reuse in reservationContainer.
+            const reservedCard = bookCard.cloneNode(true) as HTMLElement;
+
+            // To swap the reservedCard reserveButton with removeBotton.
+            const removeButton = reservedCard.querySelector("button");
+            
+            if (removeButton) {
+                removeButton.textContent = "Remove";
+                removeButton.classList.remove("reserveButton");
+                removeButton.classList.add("removeButton");
+                attachRemoveButtonEvent(removeButton, reservedCard, savedBook);
+            }
+
+            const reservationContainerCards = document.getElementById("reservationContainer__cards");
+            if (reservationContainerCards) {
+                reservationContainerCards.appendChild(reservedCard);
+            }
+        } catch (error) {
+            console.error("Failed to reserve book: ", error);
+        }
+    });
+}
+
+export async function saveBookToDatabase(book: BookRequestDTO): Promise<BookResponseDTO> {
+    console.log(book.firstPublishYear)
+    const response = await fetch("http://localhost:8080/api/books", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(book),
+    });
+
+    if (response.ok) {
+        console.log(`${book.title} saved to bookRepository.`)
+    }
+
+    if (!response.ok) {
+        throw new Error("Failed to save book to bookRepository.")
+    }
+
+    const savedBook: BookResponseDTO = await response.json();
+    console.log(savedBook.firstPublishYear);
+    return savedBook;
+}
+
+export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCard: HTMLElement, book: BookResponseDTO): void {
+    removeButton.addEventListener("click", async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/books/${book.bookId}`, {
+                method: "DELETE",
+            });
+
+            if (response.ok) {
+                console.log(`${book.title} deleted from bookRespository.`)
+            }
+
+            if (!response.ok) {
+                throw new Error("Failed to delete book from bookRepository.");
+            }
+
+            // Removes bookCard from reservationContainerCards.
+            bookCard.remove();
+        } catch (error) {
+            console.error("Failed to remove book from reservationContainerCards.")
+        }
+    });
+}

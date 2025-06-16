@@ -1,8 +1,8 @@
-export interface Book {
+export interface BookRequestDTO {
   author: string;
   title: string;
   authorKey: string;
   titleKey: string;
-  firstYearPublish?: number;
+  firstPublishYear?: number;
   cover?: number;
 };

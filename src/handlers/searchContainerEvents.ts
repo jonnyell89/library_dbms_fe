@@ -1,4 +1,7 @@
-import type { OLResponse, OLDetails } from "../types/OpenLibraryResponse";
+import type { OLResponse } from "../types/OpenLibraryResponse";
+import type { BookRequestDTO } from "../types/BookRequestDTO";
+import { mapOLResponseToBookRequestDTO } from "../mappers/mapOLResponseToBookRequestDTO";
+import { displaySearchBooks } from "./resultContainerEvents";
 import { formatInput } from "../utils/formatInput";
 
 export function attachSearchFormEventListeners(): void {
@@ -12,22 +15,30 @@ export function attachSearchFormEventListeners(): void {
 
         event.preventDefault();
 
-        // const author = (document.getElementById("author") as HTMLInputElement).value;
-        // const title = (document.getElementById("title") as HTMLInputElement).value;
+        const author = (document.getElementById("author") as HTMLInputElement).value;
+        const title = (document.getElementById("title") as HTMLInputElement).value;
 
-        // const authorFormat = formatInput(author);
-        // const titleFormat = formatInput(title);
+        let url = "https://openlibrary.org/search.json?";
 
-        // const url = `https://openlibrary.org/search.json?title=${titleFormat}`;
-        const testURL = `https://openlibrary.org/search.json?title=the+lord+of+the+rings`
+        if (author && title) {
+            url += `author=${formatInput(author)}&title=${formatInput(title)}`;
+        } else if (author) {
+            url += `author=${formatInput(author)}`;
+        } else if (title) {
+            url += `title=${formatInput(title)};`
+        } else {
+            throw new Error("Both search fields are empty.")
+        }
 
         try {
-            const response = await fetch(testURL);
+            const response = await fetch(url);
 
             if (response.ok) {
                 const data: OLResponse = await response.json();
                 console.log("Open Library Response: ", data);
-                // Book display to the DOM
+                
+                const books: BookRequestDTO[] = mapOLResponseToBookRequestDTO(data.docs.slice(0, 10));
+                displaySearchBooks(books);
             } else {
                 const error = await response.text();
                 console.log("Error: " + error);

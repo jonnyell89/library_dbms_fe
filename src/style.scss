@@ -22,13 +22,15 @@ body {
 
 .container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  min-width: 50%;
-  margin-top: 10%;
-  gap: 10%;
+  width: 100%;
+  max-width: 280px;
+  min-width: 250px;
+
+  margin-top: 5%;
 }
 
 h1 {
@@ -58,12 +60,19 @@ button[type="submit"] {
   background-color: #09422d;
 }
 
+button[type="button"] {
+  width: 100%;
+  border: 0px;
+
+  background-color: #09422d;
+}
+
 .oldContainer {
-  min-width: 40%;
+  width: 100%;
+
   padding: 2%;
 
   border: 1px solid black;
-
   background-color: #0b5239;
 }
 
@@ -72,11 +81,13 @@ button[type="submit"] {
 }
 
 .newContainer {
-  min-width: 40%;
+  width: 100%;
+
   padding: 2%;
 
-  border: 1px solid black;
+  margin-top: 5%;
 
+  border: 1px solid black;
   background-color: #0b5239;
 }
 
@@ -84,12 +95,32 @@ button[type="submit"] {
   background-color: #0D6244;
 }
 
-.searchContainer {
-  min-width: 40%;
+.reservationContainer {
+  width: 100%;
+
   padding: 2%;
 
-  border: 1px solid black;
+  margin-top: 5%;
 
+  border: 1px solid black;
+  background-color: #0b5239;
+}
+
+#reservationContainer__cards {
+  min-width: 70%;
+  min-height: 90%;
+
+  background-color: #0D6244;
+}
+
+.searchContainer {
+  width: 100%;
+
+  padding: 2%;
+
+  margin-top: 5%;
+
+  border: 1px solid black;
   background-color: #0b5239;
 }
 
@@ -98,18 +129,17 @@ button[type="submit"] {
 }
 
 .resultContainer {
-  min-width: 70%;
+  width: 100%;
+
   padding: 2%;
 
-  border: 1px solid black;
+  margin-top: 5%;
 
+  border: 1px solid black;
   background-color: #0b5239;
 }
 
-#resultContainer__feed {  
-  min-width: 70%;
-  min-height: 90%;
+#resultContainer__cards {  
 
-  // border: 1px solid black;
-  background-color: #0D6244;   
+  background-color: #0D6244;
 }

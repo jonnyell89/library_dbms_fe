@@ -1,7 +1,7 @@
 import type { Reservation } from "./Reservation";
-import type { Book } from "./Book";
+import type { BookRequestDTO } from "./BookRequestDTO";
 
 export interface ReservedBook {
   reservation: Reservation;
-  book: Book;
+  book: BookRequestDTO;
 };
