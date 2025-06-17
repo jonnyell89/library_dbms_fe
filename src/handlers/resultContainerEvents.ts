@@ -1,5 +1,7 @@
+import { addSelectedBook, removeSelectedBook, selectedBooks } from "../state";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
+import { toggleConfirmButton } from "./reservationContainerEvents";
 
 export function displaySearchBooks(books: BookRequestDTO[]) {
     const resultContainerCards = document.getElementById("resultContainer__cards");
@@ -8,11 +10,14 @@ export function displaySearchBooks(books: BookRequestDTO[]) {
         throw new Error("Result Container Cards did not render.")
     }
 
+    // Clears resultContainerCards.
     resultContainerCards.innerHTML = "";
 
     books.forEach(book => {
+        // Creates bookCard.
         const bookCard = createBookCard(book);
 
+        // Selects bookCard reserveButton.
         const reserveButton = bookCard.querySelector("button");
 
         if (reserveButton && reserveButton instanceof HTMLButtonElement) {
@@ -20,6 +25,7 @@ export function displaySearchBooks(books: BookRequestDTO[]) {
             attachReserveButtonEvent(reserveButton, bookCard, book);
         }
 
+        // Appends bookCard to resultContainerCards.
         resultContainerCards.appendChild(bookCard);
     });
 }
@@ -43,6 +49,13 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
         try {
             // Saves book to bookRepository.
             const savedBook = await saveBookToDatabase(book);
+
+            // Adds BookResponseDTO to selectedBooks list globally.
+            addSelectedBook(savedBook);
+            console.log("selectedBooks list: ", selectedBooks);
+
+            // Toggles the confirmButton state.
+            toggleConfirmButton();
 
             // Clones bookCard for reuse in reservationContainer.
             const reservedCard = bookCard.cloneNode(true) as HTMLElement;
@@ -68,7 +81,6 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
 }
 
 export async function saveBookToDatabase(book: BookRequestDTO): Promise<BookResponseDTO> {
-    console.log(book.firstPublishYear)
     const response = await fetch("http://localhost:8080/api/books", {
         method: "POST",
         headers: {
@@ -86,7 +98,6 @@ export async function saveBookToDatabase(book: BookRequestDTO): Promise<BookResp
     }
 
     const savedBook: BookResponseDTO = await response.json();
-    console.log(savedBook.firstPublishYear);
     return savedBook;
 }
 
@@ -107,6 +118,13 @@ export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCar
 
             // Removes bookCard from reservationContainerCards.
             bookCard.remove();
+
+            // Removes BookResponseDTO from selectedBooks list globally.
+            removeSelectedBook(book);
+            console.log("selectedBooks list: ", selectedBooks);
+
+            // Toggles the confirmButton state.
+            toggleConfirmButton();
         } catch (error) {
             console.error("Failed to remove book from reservationContainerCards.")
         }

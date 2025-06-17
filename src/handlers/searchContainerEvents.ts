@@ -4,7 +4,7 @@ import { mapOLResponseToBookRequestDTO } from "../mappers/mapOLResponseToBookReq
 import { displaySearchBooks } from "./resultContainerEvents";
 import { formatInput } from "../utils/formatInput";
 
-export function attachSearchFormEventListeners(): void {
+export function attachSearchFormEvent(): void {
     const bookSearchForm = document.getElementById("searchContainer__form") as HTMLFormElement | null;
 
     if (!bookSearchForm) {

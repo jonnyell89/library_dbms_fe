@@ -6,7 +6,7 @@ export function renderBookResultContainer(): void {
   }
 
   resultContainer.innerHTML = `
-    <h1>Library Search Results</h1>
+    <h1>Library Results</h1>
     <div id="resultContainer__cards"></div>
   `;
 }

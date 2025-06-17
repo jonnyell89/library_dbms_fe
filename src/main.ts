@@ -5,9 +5,10 @@ import { renderReservationContainer } from "./forms/reservationContainer";
 import { renderBookSearchContainer } from "./forms/searchContainer";
 import { renderBookResultContainer } from "./forms/resultContainer";
 
-import { attachOldMemberFormEventListeners } from "./handlers/oldContainerEvents";
-import { attachNewMemberFormEventListeners } from "./handlers/newContainerEvents";
-import { attachSearchFormEventListeners } from "./handlers/searchContainerEvents";
+import { attachOldMemberFormEvent } from "./handlers/oldContainerEvents";
+import { attachNewMemberFormEvent } from "./handlers/newContainerEvents";
+import { attachSearchFormEvent } from "./handlers/searchContainerEvents";
+import { attachConfirmButtonEvent } from "./handlers/reservationContainerEvents";
 
 function initMemberForms() {
   // Render Form Containers
@@ -15,8 +16,8 @@ function initMemberForms() {
   renderNewMemberFormContainer();
 
   // Attach Form Event Listeners
-  attachOldMemberFormEventListeners();
-  attachNewMemberFormEventListeners();
+  attachOldMemberFormEvent();
+  attachNewMemberFormEvent();
 }
 
 function initSearchContainers() {
@@ -26,7 +27,10 @@ function initSearchContainers() {
   renderBookResultContainer();
 
   // Attach Search Event Listeners
-  attachSearchFormEventListeners();
+  attachSearchFormEvent();
+
+  // Attach Reservation Event Listeners
+  attachConfirmButtonEvent();
 }
 
 initMemberForms();

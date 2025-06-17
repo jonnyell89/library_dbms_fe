@@ -1,6 +1,6 @@
 export interface ReservationResponseDTO {
   reservationId: number;
   memberId: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
 };

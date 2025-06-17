@@ -6,7 +6,7 @@ export function renderBookSearchContainer(): void {
   }
 
   searchContainer.innerHTML = `
-    <h1>Library Book Search</h1>
+    <h1>Library Search</h1>
     <form id="searchContainer__form">
       <p>
         <label for="author">Author</label><br>

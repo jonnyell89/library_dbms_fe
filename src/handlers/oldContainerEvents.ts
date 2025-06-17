@@ -1,6 +1,7 @@
+import { currentMemberId, setCurrentMemberId } from "../state";
 import { formatInput } from "../utils/formatInput";
 
-export function attachOldMemberFormEventListeners() {
+export function attachOldMemberFormEvent() {
   const oldMemberForm = document.getElementById("oldContainer__form") as HTMLFormElement | null;
 
   const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
@@ -50,6 +51,10 @@ export function attachOldMemberFormEventListeners() {
       if (response.ok) {
         const json = await response.json();
         console.log("Old member found: " + json.name + " (ID: " + json.memberId + ")");
+
+        // Sets currentMemberId globally.
+        setCurrentMemberId(json.memberId);
+        console.log("currentMemberId: " + currentMemberId);
         
         // showBookSearchForm();
         oldContainer.style.display = "none";

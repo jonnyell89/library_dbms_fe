@@ -1,4 +1,6 @@
-export function attachNewMemberFormEventListeners() {
+import { currentMemberId, setCurrentMemberId } from "../state";
+
+export function attachNewMemberFormEvent() {
   const newMemberForm = document.getElementById("newContainer__form") as HTMLFormElement | null;
 
   const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
@@ -62,6 +64,10 @@ export function attachNewMemberFormEventListeners() {
       if (response.ok) {
         const json = await response.json();
         console.log("New member created: " + json.name + " (ID: " + json.memberId + ")");
+
+        // Sets currentMemberId globally.
+        setCurrentMemberId(json.memberId);
+        console.log("currentMemberId: " + currentMemberId);
         
         // showBookSearchForm();
         oldContainer.style.display = "none";
