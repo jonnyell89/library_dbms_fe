@@ -1,4 +1,4 @@
-export interface Address {
+export interface AddressRequestDTO {
   line1: string;
   line2: string;
   city: string;

@@ -1,4 +1,4 @@
-import type { Reservation } from "./Reservation";
+import type { Reservation } from "./ReservationRequestDTO";
 import type { BookRequestDTO } from "./BookRequestDTO";
 
 export interface ReservedBook {
