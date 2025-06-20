@@ -1,14 +1,15 @@
 import type { ReservedBookRequestDTO } from "../types/ReservedBookRequestDTO";
-import { currentReservationId } from "../state";
+import { currentReservation } from "../state";
 
+// Maps data to ReservedBookRequestDTO.
 export function mapReservedBookRequestDTO(currentBookId: number): ReservedBookRequestDTO {
 
-    if (currentReservationId === null) {
-        throw new Error("No currentReservationId set to state.");
+    if (currentReservation.reservationId === null) {
+        throw new Error("No currentReservation set to state.");
     }
 
     return {
-        reservationId: currentReservationId,
+        reservationId: currentReservation.reservationId,
         bookId: currentBookId
     };
 }

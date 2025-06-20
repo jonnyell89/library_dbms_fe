@@ -1,4 +1,5 @@
-import { currentMemberId, setCurrentMemberId } from "../state";
+import { currentMember, setCurrentMember } from "../state";
+import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 
 export function attachNewMemberFormEvent() {
   const newMemberForm = document.getElementById("newContainer__form") as HTMLFormElement | null;
@@ -18,7 +19,7 @@ export function attachNewMemberFormEvent() {
   }
 
   if (!newContainer) {
-    throw new Error("New Member Form container did not render.");
+    throw new Error("New Member Form Container did not render.");
   }
 
   if (!reservationContainer) {
@@ -30,13 +31,16 @@ export function attachNewMemberFormEvent() {
   }
 
   if (!resultContainer) {
-    throw new Error("Search Result Feed did not render.");
+    throw new Error("Search Result Container did not render.");
   }
 
+  // Attaches submit event listener to newMemberForm.
   newMemberForm.addEventListener("submit", async function (event) {
     
+    // Prevents web browser from reloading after newMemberForm submission.
     event.preventDefault();
 
+    // Maps newMemberForm data to MemberRequestDTO.
     const data = {
       name: (document.getElementById("newName") as HTMLInputElement).value,
       email: (document.getElementById("newEmail") as HTMLInputElement).value,
@@ -50,7 +54,7 @@ export function attachNewMemberFormEvent() {
     };
 
     try {
-      // POST request does require a body.
+      // Attempts to POST MemberRequestDTO to API endpoint.
       const response = await fetch("http://localhost:8080/api/members", {
         method: "POST",
         headers: {
@@ -59,15 +63,14 @@ export function attachNewMemberFormEvent() {
         body: JSON.stringify(data),
       });
 
-      console.log(data);
-
       if (response.ok) {
-        const json = await response.json();
-        console.log("New member created: " + json.name + " (ID: " + json.memberId + ")");
+        // Maps response from API to MemberResponseDTO.
+        const newMember: MemberResponseDTO = await response.json();
+        console.log("New member created: " + newMember.name + " (ID: " + newMember.memberId + ")");
 
-        // Sets currentMemberId globally.
-        setCurrentMemberId(json.memberId);
-        console.log("currentMemberId: " + currentMemberId);
+        // Sets currentMember to state.
+        setCurrentMember(newMember);
+        console.log("currentMember: ", currentMember);
         
         // showBookSearchForm();
         oldContainer.style.display = "none";

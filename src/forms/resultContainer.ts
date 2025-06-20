@@ -2,7 +2,7 @@ export function renderBookResultContainer(): void {
   const resultContainer = document.querySelector<HTMLElement>(".resultContainer");
 
   if (!resultContainer) {
-    throw new Error("Search Result Feed container did not render.");
+    throw new Error("Search Result Container did not render.");
   }
 
   resultContainer.innerHTML = `

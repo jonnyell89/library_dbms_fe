@@ -1,4 +1,5 @@
-import { currentMemberId, setCurrentMemberId } from "../state";
+import { currentMember, setCurrentMember } from "../state";
+import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 import { formatInput } from "../utils/formatInput";
 
 export function attachOldMemberFormEvent() {
@@ -19,7 +20,7 @@ export function attachOldMemberFormEvent() {
   }
 
   if (!newContainer) {
-    throw new Error("New Member Form container did not render.");
+    throw new Error("New Member Form Container did not render.");
   }
 
   if (!reservationContainer) {
@@ -34,27 +35,32 @@ export function attachOldMemberFormEvent() {
     throw new Error("Search Result Container did not render.");
   }
 
+  // Attaches submit event listener to oldMemberForm.
   oldMemberForm.addEventListener("submit", async function (event) {
     
+    // Prevents web browser from reloading after oldMemberForm submission.
     event.preventDefault();
 
     const name = (document.getElementById("oldName") as HTMLInputElement).value;
     const email = (document.getElementById("oldEmail") as HTMLInputElement).value;
+
+    // Attaches member field values to Spring Boot API URL.
     const url = `http://localhost:8080/api/members/search?name=${formatInput(name)}&email=${formatInput(email)}`;
 
     try {
-      // GET request does not require a body.
+      // Attempts to GET member field values from API endpoint.
       const response = await fetch(url);
 
       console.log({ name, email });
 
       if (response.ok) {
-        const json = await response.json();
-        console.log("Old member found: " + json.name + " (ID: " + json.memberId + ")");
+        // Maps response from API endpoint to MemberResponseDTO.
+        const oldMember: MemberResponseDTO = await response.json();
+        console.log("Old member found: " + oldMember.name + " (ID: " + oldMember.memberId + ")");
 
-        // Sets currentMemberId globally.
-        setCurrentMemberId(json.memberId);
-        console.log("currentMemberId: " + currentMemberId);
+        // Sets currentMember to state.
+        setCurrentMember(oldMember);
+        console.log("currentMember: ", currentMember);
         
         // showBookSearchForm();
         oldContainer.style.display = "none";

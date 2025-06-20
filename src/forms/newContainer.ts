@@ -2,7 +2,7 @@ export function renderNewMemberFormContainer(): void {
   const newContainer = document.querySelector<HTMLElement>(".newContainer");
 
   if (!newContainer) {
-    throw new Error("New Member Form container did not render.");
+    throw new Error("New Member Form Container did not render.");
   }
 
   newContainer.innerHTML = `

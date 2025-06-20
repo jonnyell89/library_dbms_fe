@@ -2,7 +2,7 @@ export function renderBookSearchContainer(): void {
   const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
 
   if (!searchContainer) {
-    throw new Error("Book Search Form container did not render.");
+    throw new Error("Book Search Form Container did not render.");
   }
 
   searchContainer.innerHTML = `

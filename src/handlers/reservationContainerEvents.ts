@@ -1,36 +1,42 @@
 import { mapReservationRequestDTO } from "../mappers/mapReservationRequestDTO";
 import { mapReservedBookRequestDTO } from "../mappers/mapReservedBookRequestDTO";
-import { getSelectedBooks, selectedBooks, setCurrentReservationId } from "../state";
+import { getSelectedBooks, selectedBooks, setCurrentReservation } from "../state";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 import type { ReservationRequestDTO } from "../types/ReservationRequestDTO";
 import type { ReservationResponseDTO } from "../types/ReservationResponseDTO";
+import type { ReservedBookRequestDTO } from "../types/ReservedBookRequestDTO";
 import type { ReservedBookResponseDTO } from "../types/ReservedBookResponseDTO";
 
 export function toggleConfirmButton(): void {
+    // Captures confirmButton.
     const confirmButton = document.querySelector<HTMLButtonElement>(".confirmButton");
 
+    // Handles error event.
     if (!confirmButton) {
         throw new Error("Confirm Button did not render.");
     }
 
-    if (selectedBooks.length > 0) {
-        confirmButton.style.display = "block";
-    } else {
-        confirmButton.style.display = "none";
-    }
+    // Toggles confirmButton display.
+    confirmButton.style.display = selectedBooks.length > 0 ? "block" : "none";
 }
 
 export function attachConfirmButtonEvent(): void {
+    // Captures confirmButton.
     const confirmButton = document.querySelector<HTMLButtonElement>(".confirmButton");
 
+    // Handles error event.
     if (!confirmButton) {
         throw new Error("Confirm Button did not render.");
     }
 
+    // Attaches click event listener to confirmButton.
     confirmButton.addEventListener("click", async () => {
+        
+        // Maps data to ReservationRequestDTO.
         const reservation: ReservationRequestDTO = mapReservationRequestDTO();
         
         try {
+            // Attempts to POST ReservationRequestDTO to API endpoint.
             const response = await fetch("http://localhost:8080/api/reservations", {
                 method: "POST",
                 headers: {
@@ -40,11 +46,12 @@ export function attachConfirmButtonEvent(): void {
             })
 
             if (response.ok) {
+                // Maps response from API endpoint to ReservationResponseDTO.
                 const savedReservation: ReservationResponseDTO = await response.json();
                 console.log("Reservation saved to reservationRepository: ", savedReservation);
 
-                // Sets currentReservationId globally.
-                setCurrentReservationId(savedReservation.reservationId);
+                // Sets currentReservation to state.
+                setCurrentReservation(savedReservation);
 
                 // To add attachReservedBooksToReservation:
                 await attachReservedBooksToReservation()
@@ -59,12 +66,16 @@ export function attachConfirmButtonEvent(): void {
 
 export async function attachReservedBooksToReservation(): Promise<void> {
     
+    // Gets selectedBooks list of BookResponseDTOs held in state.
     const selectedBooks: BookResponseDTO[] = getSelectedBooks();
     
+    // forEach cannot work asynchronously, use for...of Loop instead.
     for (const selectedBook of selectedBooks) {
         try {
-            const reservedBook = mapReservedBookRequestDTO(selectedBook.bookId);
+            // Maps data to ReservedBookRequestDTO.
+            const reservedBook: ReservedBookRequestDTO = mapReservedBookRequestDTO(selectedBook.bookId);
 
+            // Attempts to POST ReservedBookRequestDTO to API endpoint.
             const response = await fetch("http://localhost:8080/api/reserved-books", {
                 method: "POST",
                 headers: {
@@ -74,13 +85,14 @@ export async function attachReservedBooksToReservation(): Promise<void> {
             })
 
             if (response.ok) {
+                // Maps response from API endpoint to ReservedBookResponseDTO.
                 const savedReservedBook: ReservedBookResponseDTO = await response.json();
                 console.log("ReservedBook saved to reservedBook repository: ", savedReservedBook);
             } else {
                 console.error("Failed to save reservedBook to reservedBookRepository.");
             }
         } catch (error) {
-            console.error("Failed to reserveBook:", error);
+            console.error("Failed to reserve book:", error);
         }
     }
 };
