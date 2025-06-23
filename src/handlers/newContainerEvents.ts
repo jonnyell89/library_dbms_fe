@@ -1,3 +1,4 @@
+import { initContainers } from "../main";
 import { currentMember, setCurrentMember } from "../state";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 
@@ -5,6 +6,7 @@ export function attachNewMemberFormEvent(): void {
   const newMemberForm = document.querySelector<HTMLFormElement>(".newContainer__form");
   const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
   const newContainer = document.querySelector<HTMLElement>(".newContainer");
+  const memberContainer = document.querySelector<HTMLElement>(".memberContainer");
   const reservationContainer = document.querySelector<HTMLElement>(".reservationContainer");
   const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
   const resultContainer = document.querySelector<HTMLElement>(".resultContainer");
@@ -19,6 +21,10 @@ export function attachNewMemberFormEvent(): void {
 
   if (!newContainer) {
     throw new Error("New Member Container did not render.");
+  }
+
+  if (!memberContainer) {
+    throw new Error("Member Container did not render.");
   }
 
   if (!reservationContainer) {
@@ -70,10 +76,13 @@ export function attachNewMemberFormEvent(): void {
         // Sets currentMember to state.
         setCurrentMember(newMember);
         console.log("currentMember: ", currentMember);
+
+        // Initialises containers after currentMember has been set to state.
+        initContainers();
         
-        // showBookSearchForm();
         oldContainer.style.display = "none";
         newContainer.style.display = "none";
+        memberContainer.style.display = "block";
         reservationContainer.style.display = "block";
         searchContainer.style.display = "block";
         resultContainer.style.display = "block";

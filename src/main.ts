@@ -1,6 +1,7 @@
 import "./style.scss";
 import { renderOldMemberFormContainer } from "./forms/oldContainer";
 import { renderNewMemberFormContainer } from "./forms/newContainer";
+import { renderMemberContainer } from "./forms/memberContainer";
 import { renderReservationContainer } from "./forms/reservationContainer";
 import { renderBookSearchContainer } from "./forms/searchContainer";
 import { renderBookResultContainer } from "./forms/resultContainer";
@@ -20,13 +21,14 @@ function initMemberForms() {
   attachNewMemberFormEvent();
 }
 
-function initSearchContainers() {
-  // Render Search Containers
+export function initContainers() {
+  // Render Containers
+  renderMemberContainer();
   renderReservationContainer();
   renderBookSearchContainer();
   renderBookResultContainer();
 
-  // Attach Search Event Listeners
+  // Attach Event Listeners
   attachSearchFormEvent();
 
   // Attach Reservation Event Listeners
@@ -34,5 +36,3 @@ function initSearchContainers() {
 }
 
 initMemberForms();
-
-initSearchContainers();

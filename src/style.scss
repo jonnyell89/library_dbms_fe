@@ -98,10 +98,28 @@ input {
   }
 }
 
+.memberContainer {
+  width: 100%;
+  padding: 2%;
+  margin-top: 5%; // Gap between memberContainer and the top of the page.
+  background-color: #0b5239;
+  border: 1px solid black;
+
+  &__btn {
+    width: 100%;
+    background-color: #09422d; 
+    border: 0px;
+
+    &--signOut {
+      font-weight: bold;
+    }
+  }
+}
+
 .reservationContainer {
   width: 100%;
   padding: 2%;
-  margin-top: 5%; // Gap between reservationContainer and the top of the page.
+  margin-top: 5%; // Gap between reservationContainer and memberContainer.
   background-color: #0b5239;
   border: 1px solid black;
 
