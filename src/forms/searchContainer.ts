@@ -2,12 +2,12 @@ export function renderBookSearchContainer(): void {
   const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
 
   if (!searchContainer) {
-    throw new Error("Book Search Form Container did not render.");
+    throw new Error("Search Container did not render.");
   }
 
   searchContainer.innerHTML = `
     <h1>Library Search</h1>
-    <form id="searchContainer__form">
+    <form class="searchContainer__form">
       <p>
         <label for="author">Author</label><br>
         <input type="text" id="author" />
@@ -16,9 +16,7 @@ export function renderBookSearchContainer(): void {
         <label for="title">Title</label><br>
         <input type="text" id="title" />
       </p>
-      <p class="button">
-        <button type="submit">Submit</button>
-      </p>
+      <button class="searchContainer__btn searchContainer__btn--submit" type="submit">Submit</button>
     </form>
   `;
 }

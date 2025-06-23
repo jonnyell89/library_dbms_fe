@@ -5,7 +5,7 @@ import { toggleConfirmButton } from "./reservationContainerEvents";
 
 export function displayResults(books: BookRequestDTO[]): void {
     // Captures resultContainerCards.
-    const resultContainerCards = document.querySelector<HTMLDivElement>("#resultContainer__cards");
+    const resultContainerCards = document.querySelector<HTMLDivElement>(".resultContainer__cards");
 
     // Handles error event.
     if (!resultContainerCards) {
@@ -20,7 +20,7 @@ export function displayResults(books: BookRequestDTO[]): void {
         const bookCard = createBookCard(book);
 
         // Captures bookCard reserveButton.
-        const reserveButton = bookCard.querySelector<HTMLButtonElement>("button");
+        const reserveButton = bookCard.querySelector<HTMLButtonElement>(".resultContainer__btn--reserve");
 
         if (reserveButton && reserveButton instanceof HTMLButtonElement) {
             // Attaches click event listener to reserveButton for each bookCard.
@@ -37,13 +37,13 @@ export function createBookCard(book: BookRequestDTO) {
     const bookCard = document.createElement("div");
 
     // Adds bookCard class to bookCard element.
-    bookCard.classList.add("bookCard");
+    bookCard.classList.add("resultContainer__cards--card");
 
     bookCard.innerHTML = `
         <p>Title: ${book.title}</p>
         <p>Author: ${book.author}</p>
         <p>Published: ${book.firstPublishYear}</p>
-        <button class="reserveButton" type="button">Reserve</button>
+        <button class="resultContainer__btn resultContainer__btn--reserve" type="button">Reserve</button>
     `;
 
     return bookCard;
@@ -65,21 +65,21 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
             toggleConfirmButton();
 
             // Clones bookCard for reservationContainer.
-            const reservedCard = bookCard.cloneNode(true) as HTMLElement;
+            const reservedCard = bookCard.cloneNode(true) as HTMLDivElement;
 
             // Captures reservedCard removeButton.
-            const removeButton = reservedCard.querySelector<HTMLButtonElement>("button");
+            const removeButton = reservedCard.querySelector<HTMLButtonElement>(".resultContainer__btn--reserve");
             
             if (removeButton && removeButton instanceof HTMLButtonElement) {
                 // Swaps Reserve with Remove.
                 removeButton.textContent = "Remove";
-                removeButton.classList.remove("reserveButton");
-                removeButton.classList.add("removeButton");
+                removeButton.classList.remove("resultContainer__btn--reserve");
+                removeButton.classList.add("reservationContainer__btn--remove");
                 attachRemoveButtonEvent(removeButton, reservedCard, savedBook);
             }
 
             // Captures reservationContainerCards.
-            const reservationContainerCards = document.querySelector<HTMLDivElement>("#reservationContainer__cards");
+            const reservationContainerCards = document.querySelector<HTMLDivElement>(".reservationContainer__cards");
 
             if (reservationContainerCards && reservationContainerCards instanceof HTMLDivElement) {
                 // Appends reservedCard to reservationContainerCards.

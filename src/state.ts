@@ -1,3 +1,4 @@
+import type { BookRequestDTO } from "./types/BookRequestDTO";
 import type { BookResponseDTO } from "./types/BookResponseDTO";
 import type { MemberResponseDTO } from "./types/MemberResponseDTO";
 import type { ReservationResponseDTO } from "./types/ReservationResponseDTO";
@@ -31,6 +32,21 @@ export function removeSelectedBook(book: BookResponseDTO) {
     if (bookIndex > -1) {
         selectedBooks.splice(bookIndex, 1);
     }
+}
+
+export function isSelectedBook(book: BookRequestDTO): boolean {
+    return selectedBooks.some(bookResponseDTO => {
+        bookResponseDTO.author === book.author &&
+        bookResponseDTO.title === book.title &&
+        bookResponseDTO.authorKey === book.authorKey &&
+        bookResponseDTO.titleKey === book.titleKey &&
+        bookResponseDTO.firstPublishYear === book.firstPublishYear &&
+        bookResponseDTO.cover === book.cover
+    })
+}
+
+export function getSelectedBook(book: BookResponseDTO): BookResponseDTO | undefined {
+    return selectedBooks.find(bookResponseDTO => bookResponseDTO.bookId === book.bookId);
 }
 
 export function getSelectedBooks(): BookResponseDTO[] {

@@ -6,7 +6,7 @@ import { formatInput } from "../utils/formatInput";
 
 export function attachSearchFormEvent(): void {
     // Caputes bookSearchForm.
-    const bookSearchForm = document.querySelector<HTMLFormElement>("#searchContainer__form");
+    const bookSearchForm = document.querySelector<HTMLFormElement>(".searchContainer__form");
 
     // Handles error event.
     if (!bookSearchForm) {

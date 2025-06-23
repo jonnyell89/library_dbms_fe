@@ -2,12 +2,12 @@ export function renderNewMemberFormContainer(): void {
   const newContainer = document.querySelector<HTMLElement>(".newContainer");
 
   if (!newContainer) {
-    throw new Error("New Member Form Container did not render.");
+    throw new Error("New Member Container did not render.");
   }
 
   newContainer.innerHTML = `
     <h1>Become a Member</h1>
-    <form id="newContainer__form">
+    <form class="newContainer__form">
       <p>
         <label for="name">Name</label><br>
         <input type="text" id="newName" />
@@ -36,9 +36,7 @@ export function renderNewMemberFormContainer(): void {
         <label for="postcode">Postcode</label><br>
         <input type="text" id="postcode" />
       </p>
-      <p class="button">
-        <button type="submit">Submit</button>
-      </p>
+      <button class="newContainer__btn newContainer__btn--submit" type="submit">Submit</button>
     </form>
   `;
 }

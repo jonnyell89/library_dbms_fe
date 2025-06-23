@@ -9,7 +9,7 @@ import type { ReservedBookResponseDTO } from "../types/ReservedBookResponseDTO";
 
 export function toggleConfirmButton(): void {
     // Captures confirmButton.
-    const confirmButton = document.querySelector<HTMLButtonElement>(".confirmButton");
+    const confirmButton = document.querySelector<HTMLButtonElement>(".reservationContainer__btn--confirm");
 
     // Handles error event.
     if (!confirmButton) {
@@ -22,7 +22,7 @@ export function toggleConfirmButton(): void {
 
 export function attachConfirmButtonEvent(): void {
     // Captures confirmButton.
-    const confirmButton = document.querySelector<HTMLButtonElement>(".confirmButton");
+    const confirmButton = document.querySelector<HTMLButtonElement>(".reservationContainer__btn--confirm");
 
     // Handles error event.
     if (!confirmButton) {

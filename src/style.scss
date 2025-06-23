@@ -20,19 +20,6 @@ body {
   align-items: center;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  max-width: 280px;
-  min-width: 250px;
-
-  margin-top: 5%;
-}
-
 h1 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-align: center;
@@ -53,104 +40,141 @@ input {
   background-color: #242424;
 }
 
-// button[type="submit"] {
-//   width: 100%;
-//   border: 0px;
 
-//   background-color: #09422d;
-// }
 
-// button[type="button"] {
-//   width: 100%;
-//   border: 0px;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-//   background-color: #09422d;
-// }
-
-button {
   width: 100%;
-  border: 0px;
-
-  background-color: #09422d;  
+  max-width: 280px;
+  min-width: 250px;
 }
 
 .oldContainer {
   width: 100%;
-
   padding: 2%;
-
-  border: 1px solid black;
+  margin-top: 5%; // Gap between oldContainer top and the top of the page.
   background-color: #0b5239;
-}
+  border: 1px solid black;
 
-#oldContainer__form {
-  background-color: #0D6244;
+  &__form {
+    background-color: #0D6244;    
+  }
+
+  &__btn {
+
+    width: 100%;
+    background-color: #09422d; 
+    border: 0px;
+
+    &--submit {
+      font-weight: bold;
+    }
+  }
 }
 
 .newContainer {
   width: 100%;
-
   padding: 2%;
-
-  margin-top: 5%;
-
-  border: 1px solid black;
+  margin-top: 5%; // Gap between newContainer top and oldContainer bottom.
   background-color: #0b5239;
-}
+  border: 1px solid black;
 
-#newContainer__form {
-  background-color: #0D6244;
+  &__form {
+    background-color: #0D6244;    
+  }
+
+  &__btn {
+    width: 100%;
+    background-color: #09422d; 
+    border: 0px;
+    
+    &--submit {
+      font-weight: bold;
+    }
+  }
 }
 
 .reservationContainer {
   width: 100%;
-
   padding: 2%;
-
-  margin-top: 5%;
-
-  border: 1px solid black;
+  margin-top: 5%; // Gap between reservationContainer and the top of the page.
   background-color: #0b5239;
-}
+  border: 1px solid black;
 
-#reservationContainer__cards {
-  min-width: 70%;
-  min-height: 90%;
+  &__cards {
+    min-width: 70%;
+    min-height: 90%;
+    background-color: #0D6244;
 
-  background-color: #0D6244;
+    &--card {
+      background-color: #0b5239;      
+    }
+  }
+
+  &__btn {
+    width: 100%;
+    background-color: #09422d; 
+    border: 0px;
+
+    &--remove {
+      font-weight: bold;
+    }
+    
+    &--confirm {
+      font-weight: bold;
+      margin-top: 5%; // Gap between reservationContainer__btn--confirm and reservationContainer__btn--remove.
+    }
+  }
 }
 
 .searchContainer {
   width: 100%;
-
   padding: 2%;
-
-  margin-top: 5%;
-
-  border: 1px solid black;
+  margin-top: 5%; // Gap between searchContainer top and reservationContainer bottom.
   background-color: #0b5239;
-}
+  border: 1px solid black;
 
-#searchContainer__form {
-  background-color: #0D6244;  
-}
+  &__form {
+    background-color: #0D6244;    
+  }
 
-.confirmButton {
-  margin-top: 5%;
+  &__btn {
+    width: 100%;
+    background-color: #09422d; 
+    border: 0px;
+    
+    &--submit {
+      font-weight: bold;
+    }
+  }
 }
 
 .resultContainer {
   width: 100%;
-
   padding: 2%;
-
-  margin-top: 5%;
-
-  border: 1px solid black;
+  margin-top: 5%; // Gap between resultContainer top and searchContainer bottom.
   background-color: #0b5239;
-}
+  border: 1px solid black;
 
-#resultContainer__cards {  
+  &__cards {
+    background-color: #0D6244;
+    
+    &--card {
+      background-color: #0D6244;
+    }
+  }
 
-  background-color: #0D6244;
+  &__btn {
+    width: 100%;
+    background-color: #09422d; 
+    border: 0px;
+    
+    &--reserve {
+      font-weight: bold;
+    }
+  }
 }

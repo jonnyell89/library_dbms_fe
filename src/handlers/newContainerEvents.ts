@@ -1,9 +1,8 @@
 import { currentMember, setCurrentMember } from "../state";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 
-export function attachNewMemberFormEvent() {
-  const newMemberForm = document.getElementById("newContainer__form") as HTMLFormElement | null;
-
+export function attachNewMemberFormEvent(): void {
+  const newMemberForm = document.querySelector<HTMLFormElement>(".newContainer__form");
   const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
   const newContainer = document.querySelector<HTMLElement>(".newContainer");
   const reservationContainer = document.querySelector<HTMLElement>(".reservationContainer");
@@ -15,11 +14,11 @@ export function attachNewMemberFormEvent() {
   }
 
   if (!oldContainer) {
-    throw new Error("Old Member Form Container did not render.");
+    throw new Error("Old Member Container did not render.");
   }
 
   if (!newContainer) {
-    throw new Error("New Member Form Container did not render.");
+    throw new Error("New Member Container did not render.");
   }
 
   if (!reservationContainer) {
@@ -27,11 +26,11 @@ export function attachNewMemberFormEvent() {
   }
 
   if (!searchContainer) {
-    throw new Error("Book Search Form Container did not render.");
+    throw new Error("Search Container did not render.");
   }
 
   if (!resultContainer) {
-    throw new Error("Search Result Container did not render.");
+    throw new Error("Result Container did not render.");
   }
 
   // Attaches submit event listener to newMemberForm.
