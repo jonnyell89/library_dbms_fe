@@ -1,4 +1,4 @@
-export function renderBookResultContainer(): void {
+export function renderResultContainer(): void {
   const resultContainer = document.querySelector<HTMLElement>(".resultContainer");
 
   if (!resultContainer) {

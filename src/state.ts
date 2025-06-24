@@ -3,11 +3,11 @@ import type { BookResponseDTO } from "./types/BookResponseDTO";
 import type { MemberResponseDTO } from "./types/MemberResponseDTO";
 import type { ReservationResponseDTO } from "./types/ReservationResponseDTO";
 
-export let currentMember: MemberResponseDTO;
-export let currentReservation: ReservationResponseDTO;
+export let currentMember: MemberResponseDTO | null = null;
+export let currentReservation: ReservationResponseDTO | null = null;
 export let selectedBooks: BookResponseDTO[] = [];
 
-export function getCurrentMember(): MemberResponseDTO {
+export function getCurrentMember(): MemberResponseDTO | null {
     return currentMember;
 }
 
@@ -15,12 +15,20 @@ export function setCurrentMember(member: MemberResponseDTO) {
     currentMember = member;
 }
 
-export function getCurrentReservation(): ReservationResponseDTO {
+export function clearCurrentMember(): void {
+    currentMember = null;
+}
+
+export function getCurrentReservation(): ReservationResponseDTO | null {
     return currentReservation;
 }
 
 export function setCurrentReservation(reservation: ReservationResponseDTO) {
     currentReservation = reservation;
+}
+
+export function clearCurrentReservation(): void {
+    currentReservation = null;
 }
 
 export function addSelectedBook(book: BookResponseDTO) {
@@ -53,6 +61,6 @@ export function getSelectedBooks(): BookResponseDTO[] {
     return selectedBooks;
 }
 
-export function clearSelectedBooks() {
+export function clearSelectedBooks(): void {
     selectedBooks = [];
 }

@@ -1,42 +1,12 @@
-import { initContainers } from "../main";
+import { signIn } from "../transitions/signIn";
 import { currentMember, setCurrentMember } from "../state";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 
 export function attachNewMemberFormEvent(): void {
   const newMemberForm = document.querySelector<HTMLFormElement>(".newContainer__form");
-  const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
-  const newContainer = document.querySelector<HTMLElement>(".newContainer");
-  const memberContainer = document.querySelector<HTMLElement>(".memberContainer");
-  const reservationContainer = document.querySelector<HTMLElement>(".reservationContainer");
-  const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
-  const resultContainer = document.querySelector<HTMLElement>(".resultContainer");
 
   if (!newMemberForm) {
     throw new Error("New Member Form did not render.");
-  }
-
-  if (!oldContainer) {
-    throw new Error("Old Member Container did not render.");
-  }
-
-  if (!newContainer) {
-    throw new Error("New Member Container did not render.");
-  }
-
-  if (!memberContainer) {
-    throw new Error("Member Container did not render.");
-  }
-
-  if (!reservationContainer) {
-    throw new Error("Reservation Container did not render.");
-  }
-
-  if (!searchContainer) {
-    throw new Error("Search Container did not render.");
-  }
-
-  if (!resultContainer) {
-    throw new Error("Result Container did not render.");
   }
 
   // Attaches submit event listener to newMemberForm.
@@ -78,14 +48,7 @@ export function attachNewMemberFormEvent(): void {
         console.log("currentMember: ", currentMember);
 
         // Initialises containers after currentMember has been set to state.
-        initContainers();
-        
-        oldContainer.style.display = "none";
-        newContainer.style.display = "none";
-        memberContainer.style.display = "block";
-        reservationContainer.style.display = "block";
-        searchContainer.style.display = "block";
-        resultContainer.style.display = "block";
+        signIn();
 
       } else {
         const error = await response.text();
