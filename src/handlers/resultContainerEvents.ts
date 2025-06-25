@@ -19,6 +19,9 @@ export function displayResults(books: BookRequestDTO[]): void {
         // Creates bookCard.
         const bookCard = createBookCard(book);
 
+        // Assigns cover image to bookCard imageElement.
+        bookCardCoverImage(book, bookCard);
+
         // Captures bookCard reserveButton.
         const reserveButton = bookCard.querySelector<HTMLButtonElement>(".resultContainer__btn--reserve");
 
@@ -32,7 +35,7 @@ export function displayResults(books: BookRequestDTO[]): void {
     });
 }
 
-export function createBookCard(book: BookRequestDTO) {
+export function createBookCard(book: BookRequestDTO): HTMLDivElement {
     // Creates new bookCard.
     const bookCard = document.createElement("div");
 
@@ -40,14 +43,39 @@ export function createBookCard(book: BookRequestDTO) {
     bookCard.classList.add("resultContainer__cards--card");
 
     bookCard.innerHTML = `
-        <p>Title: ${book.title}</p>
-        <p>Author: ${book.author}</p>
-        <p>Published: ${book.firstPublishYear}</p>
-        <button class="resultContainer__btn resultContainer__btn--reserve" type="button">Reserve</button>
+        <img class="bookCardImage" alt="${book.title}", style="width: 100%">
+        <div class="bookCardInformation">
+            <p>Title: ${book.title}</p>
+            <p>Author: ${book.author}</p>
+            <p>Published: ${book.firstPublishYear}</p>
+            <button class="resultContainer__btn resultContainer__btn--reserve" type="button">Reserve</button>
+        </div>
     `;
 
     return bookCard;
 }
+
+export function bookCardCoverImage(book: BookRequestDTO, bookCard: HTMLDivElement): void {
+    // Captures bookCard imageElement.
+    const imageElement = bookCard.querySelector<HTMLImageElement>(".bookCardImage");
+    
+    // Handles error event.
+    if (!imageElement) {
+        throw new Error("Book Card Image did not render.");
+    }
+
+    if (book.coverEditionKey) {
+        // Assigns coverEditionKey to src directly from public access URL.
+        imageElement.src = `https://covers.openlibrary.org/b/olid/${book.coverEditionKey}-L.jpg`;
+    } else if (book.cover) {
+        // Assigns cover to src directly from public access URL.
+        imageElement.src = `https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`;
+    } else {
+        console.log(`No cover information available for ${book.title}.`);
+    }
+}
+
+
 
 export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookCard: HTMLElement, book: BookRequestDTO): void {
     // Attaches click event listener to reserveButton.
@@ -86,7 +114,7 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
                 reservationContainerCards.appendChild(reservedCard);
             }
         } catch (error) {
-            console.error("Failed to reserve book: ", error);
+            console.error(`Failed to reserve ${book.title}: `, error);
         }
     });
 }
@@ -104,7 +132,7 @@ export async function saveBookToDatabase(book: BookRequestDTO): Promise<BookResp
     if (response.ok) {
         console.log(`${book.title} saved to bookRepository.`)
     } else {
-        throw new Error("Failed to save book to bookRepository.")
+        throw new Error(`Failed to save ${book.title} to bookRepository.`)
     }
 
     // Maps response from API endpoint to BookResponseDTO.
@@ -126,7 +154,7 @@ export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCar
             if (response.ok) {
                 console.log(`${book.title} deleted from bookRespository.`)
             } else {
-                throw new Error("Failed to delete book from bookrepository.");
+                throw new Error(`Failed to delete ${book.title} from bookrepository.`);
             }
 
             // Removes bookCard from reservationContainerCards.
@@ -139,7 +167,7 @@ export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCar
             // Toggles confirmButton state.
             toggleConfirmButton();
         } catch (error) {
-            console.error("Failed to remove book from reservationContainerCards.")
+            console.error(`Failed to remove ${book.title} from reservationContainerCards: `, error)
         }
     });
 }

@@ -5,4 +5,5 @@ export interface BookRequestDTO {
   titleKey: string;
   firstPublishYear?: number;
   cover?: number;
+  coverEditionKey?: string;
 };

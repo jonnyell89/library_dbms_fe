@@ -6,4 +6,5 @@ export interface BookResponseDTO {
   titleKey: string;
   firstPublishYear?: number;
   cover?: number;
+  coverEditionKey?: string;
 };

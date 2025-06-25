@@ -9,6 +9,7 @@ export function mapOLResponseToBookRequestDTO(docs: OLDetails[]): BookRequestDTO
         authorKey: doc.author_key?.[0],
         titleKey: doc.key,
         firstPublishYear: doc.first_publish_year,
-        cover: doc.cover_i
+        cover: doc.cover_i,
+        coverEditionKey: doc.cover_edition_key
     }));
 }
