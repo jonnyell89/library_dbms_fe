@@ -1,3 +1,4 @@
+import { removeSelectedBook } from "../state";
 import { mapReservationRequestDTO } from "../mappers/mapReservationRequestDTO";
 import { mapReservedBookRequestDTO } from "../mappers/mapReservedBookRequestDTO";
 import { getSelectedBooks, selectedBooks, setCurrentReservation } from "../state";
@@ -6,6 +7,39 @@ import type { ReservationRequestDTO } from "../types/ReservationRequestDTO";
 import type { ReservationResponseDTO } from "../types/ReservationResponseDTO";
 import type { ReservedBookRequestDTO } from "../types/ReservedBookRequestDTO";
 import type { ReservedBookResponseDTO } from "../types/ReservedBookResponseDTO";
+
+// attachRemoveButtonEvent -> removeSelectedBook, toggleConfirmButton -> attachConfirmButtonEvent -> mapReservationRequestDTO, setCurrentReservation, attachReservedBooksToReservation -> getSelectedBooks, mapReservedBookRequestDTO.
+
+export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCard: HTMLElement, book: BookResponseDTO): void {
+    // Attaches click event listener to removeButton.
+    removeButton.addEventListener("click", async () => {
+
+        try {
+            // Attempts to DELETE Book object from API endpoint.
+            const response = await fetch(`http://localhost:8080/api/books/${book.bookId}`, {
+                method: "DELETE",
+            });
+
+            if (response.ok) {
+                console.log(`${book.title} deleted from bookRespository.`)
+            } else {
+                throw new Error(`Failed to delete ${book.title} from bookrepository.`);
+            }
+
+            // Removes bookCard from reservationContainerFeed.
+            bookCard.remove();
+
+            // Removes BookResponseDTO from selectedBooks list held in state.
+            removeSelectedBook(book);
+            console.log("selectedBooks list: ", selectedBooks);
+
+            // Toggles confirmButton state.
+            toggleConfirmButton();
+        } catch (error) {
+            console.error(`Failed to remove ${book.title} from reservationContainerFeed: `, error)
+        }
+    });
+}
 
 export function toggleConfirmButton(): void {
     // Captures confirmButton.

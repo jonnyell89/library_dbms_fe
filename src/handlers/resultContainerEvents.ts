@@ -1,7 +1,9 @@
-import { addSelectedBook, removeSelectedBook, selectedBooks } from "../state";
+import { addSelectedBook, selectedBooks } from "../state";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
-import { toggleConfirmButton } from "./reservationContainerEvents";
+import { attachRemoveButtonEvent, toggleConfirmButton } from "./reservationContainerEvents";
+
+// displayBooks -> createBookCard, bookcardImage -> attachReserveButtonEvent -> saveBookToDatabase, addSelectedBook, toggleConfirmButton -> attachRemoveButtonEvent.
 
 export function displayResults(books: BookRequestDTO[]): void {
     // Captures resultContainerFeed.
@@ -23,7 +25,7 @@ export function displayResults(books: BookRequestDTO[]): void {
         bookCardImage(book, bookCard);
 
         // Captures bookCard reserveButton.
-        const reserveButton = bookCard.querySelector<HTMLButtonElement>(".resultContainer__btn--reserve");
+        const reserveButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn--reserve");
 
         if (reserveButton && reserveButton instanceof HTMLButtonElement) {
             // Attaches click event listener to reserveButton for each bookCard.
@@ -48,8 +50,8 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
             <p>Title: ${book.title}</p>
             <p>Author: ${book.author}</p>
             <p>Published: ${book.firstPublishYear}</p>
-            <button class="resultContainer__btn resultContainer__btn--reserve" type="button">Reserve</button>
         </div>
+        <button class="bookCard__btn bookCard__btn--reserve" type="button">Reserve</button>
     `;
 
     return bookCard;
@@ -93,14 +95,14 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
             // Clones bookCard for reservationContainer.
             const reservedCard = bookCard.cloneNode(true) as HTMLDivElement;
 
-            // Captures reservedCard removeButton.
-            const removeButton = reservedCard.querySelector<HTMLButtonElement>(".resultContainer__btn--reserve");
+            // Captures reservedCard reserveButton to become removeButton.
+            const removeButton = reservedCard.querySelector<HTMLButtonElement>(".bookCard__btn--reserve");
             
             if (removeButton && removeButton instanceof HTMLButtonElement) {
                 // Swaps Reserve with Remove.
                 removeButton.textContent = "Remove";
-                removeButton.classList.remove("resultContainer__btn--reserve");
-                removeButton.classList.add("reservationContainer__btn--remove");
+                removeButton.classList.remove("bookCard__btn--reserve");
+                removeButton.classList.add("bookCard__btn--remove");
                 attachRemoveButtonEvent(removeButton, reservedCard, savedBook);
             }
 
@@ -137,35 +139,4 @@ export async function saveBookToDatabase(book: BookRequestDTO): Promise<BookResp
     const savedBook: BookResponseDTO = await response.json();
 
     return savedBook;
-}
-
-export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCard: HTMLElement, book: BookResponseDTO): void {
-    // Attaches click event listener to removeButton.
-    removeButton.addEventListener("click", async () => {
-
-        try {
-            // Attempts to DELETE Book object from API endpoint.
-            const response = await fetch(`http://localhost:8080/api/books/${book.bookId}`, {
-                method: "DELETE",
-            });
-
-            if (response.ok) {
-                console.log(`${book.title} deleted from bookRespository.`)
-            } else {
-                throw new Error(`Failed to delete ${book.title} from bookrepository.`);
-            }
-
-            // Removes bookCard from reservationContainerFeed.
-            bookCard.remove();
-
-            // Removes BookResponseDTO from selectedBooks list held in state.
-            removeSelectedBook(book);
-            console.log("selectedBooks list: ", selectedBooks);
-
-            // Toggles confirmButton state.
-            toggleConfirmButton();
-        } catch (error) {
-            console.error(`Failed to remove ${book.title} from reservationContainerFeed: `, error)
-        }
-    });
 }

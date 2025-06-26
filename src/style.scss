@@ -126,21 +126,17 @@ input {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    background-color: #0D6244;
+    background-color: #0b5239;
     }
 
   &__btn {
     width: 100%;
     background-color: #09422d; 
     border: 0px;
-
-    &--remove {
-      font-weight: bold;
-    }
     
     &--confirm {
       font-weight: bold;
-      margin-top: 5%; // Gap between reservationContainer__btn--confirm and reservationContainer__btn--remove.
+      margin-top: 1rem; // Gap between reservationContainer__btn--confirm and reservationContainer__btn--remove.
     }
   }
 }
@@ -178,30 +174,44 @@ input {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    background-color: #0D6244;
+    background-color: #0b5239;
+  }
+}
+
+.bookCard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #0D6244;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+
+  &__image {
+    display: block;    
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__information {
+    padding: 2px 16px;
   }
 
   &__btn {
     width: 100%;
     background-color: #09422d; 
     border: 0px;
-    
+
     &--reserve {
+      font-weight: bold;
+    }
+
+    &--remove {
       font-weight: bold;
     }
   }
 }
 
-.bookCard {
-  // width: 100%;
-  // background-color: #0D6244;
-  border: 1px solid black;
-
-  // &__image {
-
-  // }
-
-  // &__information {
-
-  // }
+.bookCard:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);  
 }
