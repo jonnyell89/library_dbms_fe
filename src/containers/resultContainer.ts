@@ -7,6 +7,6 @@ export function renderResultContainer(): void {
 
   resultContainer.innerHTML = `
     <h1>Library Results</h1>
-    <div class="resultContainer__cards"></div>
+    <div class="resultContainer__feed"></div>
   `;
 }

@@ -4,23 +4,23 @@ import type { BookResponseDTO } from "../types/BookResponseDTO";
 import { toggleConfirmButton } from "./reservationContainerEvents";
 
 export function displayResults(books: BookRequestDTO[]): void {
-    // Captures resultContainerCards.
-    const resultContainerCards = document.querySelector<HTMLDivElement>(".resultContainer__cards");
+    // Captures resultContainerFeed.
+    const resultContainerFeed = document.querySelector<HTMLDivElement>(".resultContainer__feed");
 
     // Handles error event.
-    if (!resultContainerCards) {
-        throw new Error("Result Container Cards did not render.")
+    if (!resultContainerFeed) {
+        throw new Error("Result Container Feed did not render.")
     }
 
-    // Clears resultContainerCards.
-    resultContainerCards.innerHTML = "";
+    // Clears resultContainerFeed.
+    resultContainerFeed.innerHTML = "";
 
     books.forEach(book => {
         // Creates bookCard.
         const bookCard = createBookCard(book);
 
-        // Assigns cover image to bookCard imageElement.
-        bookCardCoverImage(book, bookCard);
+        // Assigns image to bookCard imageElement.
+        bookCardImage(book, bookCard);
 
         // Captures bookCard reserveButton.
         const reserveButton = bookCard.querySelector<HTMLButtonElement>(".resultContainer__btn--reserve");
@@ -30,8 +30,8 @@ export function displayResults(books: BookRequestDTO[]): void {
             attachReserveButtonEvent(reserveButton, bookCard, book);
         }
 
-        // Appends bookCard to resultContainerCards.
-        resultContainerCards.appendChild(bookCard);
+        // Appends bookCard to resultContainerFeed.
+        resultContainerFeed.appendChild(bookCard);
     });
 }
 
@@ -40,11 +40,11 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
     const bookCard = document.createElement("div");
 
     // Adds bookCard class to bookCard element.
-    bookCard.classList.add("resultContainer__cards--card");
+    bookCard.classList.add("bookCard");
 
     bookCard.innerHTML = `
-        <img class="bookCardImage" alt="${book.title}", style="width: 100%">
-        <div class="bookCardInformation">
+        <img class="bookCard__image" alt="${book.title}", style="width: 100%">
+        <div class="bookCard__information">
             <p>Title: ${book.title}</p>
             <p>Author: ${book.author}</p>
             <p>Published: ${book.firstPublishYear}</p>
@@ -55,9 +55,9 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
     return bookCard;
 }
 
-export function bookCardCoverImage(book: BookRequestDTO, bookCard: HTMLDivElement): void {
+export function bookCardImage(book: BookRequestDTO, bookCard: HTMLDivElement): void {
     // Captures bookCard imageElement.
-    const imageElement = bookCard.querySelector<HTMLImageElement>(".bookCardImage");
+    const imageElement = bookCard.querySelector<HTMLImageElement>(".bookCard__image");
     
     // Handles error event.
     if (!imageElement) {
@@ -74,8 +74,6 @@ export function bookCardCoverImage(book: BookRequestDTO, bookCard: HTMLDivElemen
         console.log(`No cover information available for ${book.title}.`);
     }
 }
-
-
 
 export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookCard: HTMLElement, book: BookRequestDTO): void {
     // Attaches click event listener to reserveButton.
@@ -106,12 +104,12 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
                 attachRemoveButtonEvent(removeButton, reservedCard, savedBook);
             }
 
-            // Captures reservationContainerCards.
-            const reservationContainerCards = document.querySelector<HTMLDivElement>(".reservationContainer__cards");
+            // Captures reservationContainerFeed.
+            const reservationContainerFeed = document.querySelector<HTMLDivElement>(".reservationContainer__feed");
 
-            if (reservationContainerCards && reservationContainerCards instanceof HTMLDivElement) {
-                // Appends reservedCard to reservationContainerCards.
-                reservationContainerCards.appendChild(reservedCard);
+            if (reservationContainerFeed && reservationContainerFeed instanceof HTMLDivElement) {
+                // Appends reservedCard to reservationContainerFeed.
+                reservationContainerFeed.appendChild(reservedCard);
             }
         } catch (error) {
             console.error(`Failed to reserve ${book.title}: `, error);
@@ -157,7 +155,7 @@ export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCar
                 throw new Error(`Failed to delete ${book.title} from bookrepository.`);
             }
 
-            // Removes bookCard from reservationContainerCards.
+            // Removes bookCard from reservationContainerFeed.
             bookCard.remove();
 
             // Removes BookResponseDTO from selectedBooks list held in state.
@@ -167,7 +165,7 @@ export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCar
             // Toggles confirmButton state.
             toggleConfirmButton();
         } catch (error) {
-            console.error(`Failed to remove ${book.title} from reservationContainerCards: `, error)
+            console.error(`Failed to remove ${book.title} from reservationContainerFeed: `, error)
         }
     });
 }

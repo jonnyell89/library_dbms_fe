@@ -7,7 +7,7 @@ export function renderReservationContainer(): void {
 
   reservationContainer.innerHTML = `
     <h1>Reservation</h1>
-    <div class="reservationContainer__cards"></div>
+    <div class="reservationContainer__feed"></div>
     <button class="reservationContainer__btn reservationContainer__btn--confirm" type="button" style="display: none">Confirm</button>
   `;
 }

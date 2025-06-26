@@ -51,12 +51,12 @@ input {
   width: 100%;
   max-width: 280px;
   min-width: 250px;
+  gap: 1rem;
 }
 
 .oldContainer {
   width: 100%;
   padding: 2%;
-  margin-top: 5%; // Gap between oldContainer top and the top of the page.
   background-color: #0b5239;
   border: 1px solid black;
 
@@ -79,7 +79,6 @@ input {
 .newContainer {
   width: 100%;
   padding: 2%;
-  margin-top: 5%; // Gap between newContainer top and oldContainer bottom.
   background-color: #0b5239;
   border: 1px solid black;
 
@@ -101,7 +100,6 @@ input {
 .memberContainer {
   width: 100%;
   padding: 2%;
-  margin-top: 5%; // Gap between memberContainer and the top of the page.
   background-color: #0b5239;
   border: 1px solid black;
 
@@ -119,19 +117,17 @@ input {
 .reservationContainer {
   width: 100%;
   padding: 2%;
-  margin-top: 5%; // Gap between reservationContainer and memberContainer.
   background-color: #0b5239;
   border: 1px solid black;
 
-  &__cards {
-    min-width: 70%;
-    min-height: 90%;
+  &__feed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
     background-color: #0D6244;
-
-    &--card {
-      background-color: #0b5239;      
     }
-  }
 
   &__btn {
     width: 100%;
@@ -152,7 +148,6 @@ input {
 .searchContainer {
   width: 100%;
   padding: 2%;
-  margin-top: 5%; // Gap between searchContainer top and reservationContainer bottom.
   background-color: #0b5239;
   border: 1px solid black;
 
@@ -174,16 +169,16 @@ input {
 .resultContainer {
   width: 100%;
   padding: 2%;
-  margin-top: 5%; // Gap between resultContainer top and searchContainer bottom.
   background-color: #0b5239;
   border: 1px solid black;
 
-  &__cards {
+  &__feed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
     background-color: #0D6244;
-    
-    &--card {
-      background-color: #0D6244;
-    }
   }
 
   &__btn {
@@ -195,4 +190,18 @@ input {
       font-weight: bold;
     }
   }
+}
+
+.bookCard {
+  // width: 100%;
+  // background-color: #0D6244;
+  border: 1px solid black;
+
+  // &__image {
+
+  // }
+
+  // &__information {
+
+  // }
 }
