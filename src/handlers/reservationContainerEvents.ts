@@ -14,17 +14,21 @@ export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCar
     // Attaches click event listener to removeButton.
     removeButton.addEventListener("click", async () => {
 
+        // Spring Boot API endpoint.
+        const url = `http://localhost:8080/api/books/${book.bookId}`;
+
         try {
             // Attempts to DELETE Book object from API endpoint.
-            const response = await fetch(`http://localhost:8080/api/books/${book.bookId}`, {
+            const response = await fetch(url, {
                 method: "DELETE",
             });
 
-            if (response.ok) {
-                console.log(`${book.title} deleted from bookRespository.`)
-            } else {
-                throw new Error(`Failed to delete ${book.title} from bookrepository.`);
+            // Handles error event.
+            if (!response.ok) {
+                throw new Error("Attempted Spring Boot API '/api/books' DELETE request encountered an error.");
             }
+            
+            console.log(`${book.title} successfully deleted from bookRespository.`)
 
             // Removes bookCard from reservationContainerFeed.
             bookCard.remove();
@@ -35,8 +39,9 @@ export function attachRemoveButtonEvent(removeButton: HTMLButtonElement, bookCar
 
             // Toggles confirmButton state.
             toggleConfirmButton();
+
         } catch (error) {
-            console.error(`Failed to remove ${book.title} from reservationContainerFeed: `, error)
+            console.error("Failed to connect to the Spring Boot API: ", error)
         }
     });
 }
@@ -47,7 +52,7 @@ export function toggleConfirmButton(): void {
 
     // Handles error event.
     if (!confirmButton) {
-        throw new Error("Confirm Button did not render.");
+        throw new Error("confirmButton did not render.");
     }
 
     // Toggles confirmButton display.
@@ -60,18 +65,21 @@ export function attachConfirmButtonEvent(): void {
 
     // Handles error event.
     if (!confirmButton) {
-        throw new Error("Confirm Button did not render.");
+        throw new Error("confirmButton did not render.");
     }
 
     // Attaches click event listener to confirmButton.
     confirmButton.addEventListener("click", async () => {
         
-        // Maps data to ReservationRequestDTO.
+        // Maps Date and currentMember data to ReservationRequestDTO.
         const reservation: ReservationRequestDTO = mapReservationRequestDTO();
+
+        // Spring Boot API endpoint.
+        const url = "http://localhost:8080/api/reservations";
         
         try {
             // Attempts to POST ReservationRequestDTO to API endpoint.
-            const response = await fetch("http://localhost:8080/api/reservations", {
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -79,29 +87,33 @@ export function attachConfirmButtonEvent(): void {
                 body: JSON.stringify(reservation),
             })
 
-            if (response.ok) {
-                // Maps response from API endpoint to ReservationResponseDTO.
-                const savedReservation: ReservationResponseDTO = await response.json();
-                console.log("Reservation saved to reservationRepository: ", savedReservation);
-
-                // Sets currentReservation to state.
-                setCurrentReservation(savedReservation);
-
-                // To add attachReservedBooksToReservation:
-                await attachReservedBooksToReservation()
-            } else {
-                console.error("Failed to save reservation to reservationRepository.");
+            if (!response.ok) {
+                throw new Error("Attempted Spring Boot API '/api/reservations' POST request encountered an error.");
             }
+
+            // Maps response from API endpoint to ReservationResponseDTO.
+            const savedReservation: ReservationResponseDTO = await response.json();
+            console.log("Reservation saved to reservationRepository: ", savedReservation);
+
+            // Sets currentReservation to state.
+            setCurrentReservation(savedReservation);
+
+            // To add attachReservedBooksToReservation asynchronously.
+            await attachReservedBooksToReservation();
+
         } catch (error) {
-            console.error("Failed to make reservation: ", error);
+            console.error("Failed to connect to the Spring Boot API: ", error);
         }
-    })
+    });
 }
 
 export async function attachReservedBooksToReservation(): Promise<void> {
     
     // Gets selectedBooks list of BookResponseDTOs held in state.
     const selectedBooks: BookResponseDTO[] = getSelectedBooks();
+
+    // Spring Boot API endpoint.
+    const url = "http://localhost:8080/api/reserved-books";
     
     // forEach cannot work asynchronously, use for...of Loop instead.
     for (const selectedBook of selectedBooks) {
@@ -110,7 +122,7 @@ export async function attachReservedBooksToReservation(): Promise<void> {
             const reservedBook: ReservedBookRequestDTO = mapReservedBookRequestDTO(selectedBook.bookId);
 
             // Attempts to POST ReservedBookRequestDTO to API endpoint.
-            const response = await fetch("http://localhost:8080/api/reserved-books", {
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -118,15 +130,16 @@ export async function attachReservedBooksToReservation(): Promise<void> {
                 body: JSON.stringify(reservedBook),
             })
 
-            if (response.ok) {
-                // Maps response from API endpoint to ReservedBookResponseDTO.
-                const savedReservedBook: ReservedBookResponseDTO = await response.json();
-                console.log("ReservedBook saved to reservedBook repository: ", savedReservedBook);
-            } else {
-                console.error("Failed to save reservedBook to reservedBookRepository.");
+            if (!response.ok) {
+                throw new Error("Attempted Spring Boot API '/api/reserved-books' POST request encountered an error.");
             }
+
+            // Maps response from API endpoint to ReservedBookResponseDTO.
+            const savedReservedBook: ReservedBookResponseDTO = await response.json();
+            console.log("ReservedBook saved to reservedBookRepository: ", savedReservedBook);            
+
         } catch (error) {
-            console.error("Failed to reserve book:", error);
+            console.error("Failed to connect to the Spring Boot API: ", error);
         }
-    }
-};
+    };
+}

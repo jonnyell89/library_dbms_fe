@@ -12,35 +12,35 @@ export function signOut(): void {
   const resultContainer = document.querySelector<HTMLElement>(".resultContainer");
 
   if (!oldMemberForm) {
-    throw new Error("Old Member Form did not render.");
+    throw new Error("oldMemberForm did not render.");
   }
 
   if (!newMemberForm) {
-    throw new Error("New Member Form did not render.");
+    throw new Error("newMemberForm did not render.");
   }
 
   if (!oldContainer) {
-    throw new Error("Old Member Container did not render.");
+    throw new Error("oldContainer did not render.");
   }
 
   if (!newContainer) {
-    throw new Error("New Member Container did not render.");
+    throw new Error("newContainer did not render.");
   }
 
   if (!memberContainer) {
-    throw new Error("Member Container did not render.");
+    throw new Error("memberContainer did not render.");
   }
 
   if (!reservationContainer) {
-    throw new Error("Reservation Container did not render.");
+    throw new Error("reservationContainer did not render.");
   }
 
   if (!searchContainer) {
-    throw new Error("Search Container did not render.");
+    throw new Error("searchContainer did not render.");
   }
 
   if (!resultContainer) {
-    throw new Error("Result Container did not render.");
+    throw new Error("resultContainer did not render.");
   }
 
   // Clears all values set in state.

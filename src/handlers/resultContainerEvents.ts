@@ -11,7 +11,7 @@ export function displayResults(books: BookRequestDTO[]): void {
 
     // Handles error event.
     if (!resultContainerFeed) {
-        throw new Error("Result Container Feed did not render.")
+        throw new Error("resultContainerFeed did not render.");
     }
 
     // Clears resultContainerFeed.
@@ -60,19 +60,19 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
 
 export function bookCardImage(book: BookRequestDTO, bookCard: HTMLDivElement): void {
     // Captures bookCard imageElement.
-    const imageElement = bookCard.querySelector<HTMLImageElement>(".bookCard__image");
+    const bookCardImage = bookCard.querySelector<HTMLImageElement>(".bookCard__image");
     
     // Handles error event.
-    if (!imageElement) {
-        throw new Error("Book Card Image did not render.");
+    if (!bookCardImage) {
+        throw new Error("bookCardImage did not render.");
     }
 
     if (book.coverEditionKey) {
         // Assigns coverEditionKey to src directly from public access URL.
-        imageElement.src = `https://covers.openlibrary.org/b/olid/${book.coverEditionKey}-L.jpg`;
+        bookCardImage.src = `https://covers.openlibrary.org/b/olid/${book.coverEditionKey}-L.jpg`;
     } else if (book.cover) {
         // Assigns cover to src directly from public access URL.
-        imageElement.src = `https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`;
+        bookCardImage.src = `https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`;
     } else {
         console.log(`No cover information available for ${book.title}.`);
     }
@@ -116,7 +116,7 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
             }
 
         } catch (error) {
-            console.error(`Failed to reserve ${book.title}: `, error);
+            console.error("Failed to connect to the Spring Boot API: ", error);
         }
     });
 }
@@ -133,8 +133,9 @@ export async function saveBookToDatabase(book: BookRequestDTO): Promise<BookResp
             body: JSON.stringify(book),
         });    
         
+        // Handles error event.
         if (!response.ok) {
-            throw new Error(`Failed to save ${book.title} to bookRespository.`)
+            throw new Error("Attempted Spring Boot API '/api/books' POST request encountered an error.")
         }
 
         // Maps response from API endpoint to BookResponseDTO.
@@ -143,8 +144,8 @@ export async function saveBookToDatabase(book: BookRequestDTO): Promise<BookResp
         return savedBook;
 
     } catch (error) {
-        console.error("Failed to connect to Spring Boot API: ", error)        
+        console.error("Failed to connect to the Spring Boot API: ", error) 
+        // Re-throws the error in lieu of a Promise<BookResponseDTO>.
         throw error;
-
     }
 }

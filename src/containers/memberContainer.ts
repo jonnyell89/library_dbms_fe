@@ -4,11 +4,11 @@ export function renderMemberContainer(): void {
     const memberContainer = document.querySelector<HTMLElement>(".memberContainer");
 
     if (!memberContainer) {
-        throw new Error("Member Container did not render.");
+        throw new Error("memberContainer did not render.");
     }
 
     if (!currentMember) {
-        throw new Error("No Current Member set to state.")
+        throw new Error("No currentMember set to state.");
     }
 
     memberContainer.innerHTML = `

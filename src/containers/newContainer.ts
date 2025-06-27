@@ -1,8 +1,8 @@
-export function renderNewMemberFormContainer(): void {
+export function renderNewContainer(): void {
   const newContainer = document.querySelector<HTMLElement>(".newContainer");
 
   if (!newContainer) {
-    throw new Error("New Member Container did not render.");
+    throw new Error("newContainer did not render.");
   }
 
   newContainer.innerHTML = `

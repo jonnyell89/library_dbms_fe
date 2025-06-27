@@ -2,7 +2,7 @@ export function renderSearchContainer(): void {
   const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
 
   if (!searchContainer) {
-    throw new Error("Search Container did not render.");
+    throw new Error("searchContainer did not render.");
   }
 
   searchContainer.innerHTML = `

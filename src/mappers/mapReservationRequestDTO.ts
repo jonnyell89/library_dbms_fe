@@ -10,7 +10,7 @@ export function mapReservationRequestDTO(): ReservationRequestDTO {
     end.setDate(start.getDate() + 7);
     const endDate = end.toISOString().split("T")[0];
 
-    if (currentMember.memberId === null) {
+    if (!currentMember || !currentMember.memberId) {
         throw new Error("No currentMember set to state.");
     }
 

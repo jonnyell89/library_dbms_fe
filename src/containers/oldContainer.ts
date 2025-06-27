@@ -1,8 +1,8 @@
-export function renderOldMemberFormContainer(): void {
+export function renderOldContainer(): void {
   const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
 
   if (!oldContainer) {
-    throw new Error("Old Member Container did not render.");
+    throw new Error("oldContainer did not render.");
   }
 
   oldContainer.innerHTML = `

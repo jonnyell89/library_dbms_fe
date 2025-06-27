@@ -6,7 +6,7 @@ export function attachSignOutButtonEvent(): void {
 
     // Handles error event.
     if (!signOutButton) {
-        throw new Error("Sign Out Button did not render.")
+        throw new Error("signOutButton did not render.");
     }
 
     // Attaches click event listener to signOutButton.
@@ -16,5 +16,5 @@ export function attachSignOutButtonEvent(): void {
         } catch (error) {
             console.error("Failed to sign out: ", error);
         }
-    }) 
+    });
 }

@@ -8,18 +8,18 @@ import type { BookResponseDTO } from "../types/BookResponseDTO";
 // attachSearchFormEvent -> mapOLResponseToBookRequestDTO, displayResults.
 
 export function attachSearchFormEvent(): void {
-    // Caputes bookSearchForm.
-    const bookSearchForm = document.querySelector<HTMLFormElement>(".searchContainer__form");
+    // Caputes searchForm.
+    const searchForm = document.querySelector<HTMLFormElement>(".searchContainer__form");
 
     // Handles error event.
-    if (!bookSearchForm) {
-        throw new Error("Book Search Form did not render.")
+    if (!searchForm) {
+        throw new Error("searchForm did not render.");
     }
 
-    // Attaches submit event listener to bookSearchForm.
-    bookSearchForm.addEventListener("submit", async function (event) {
+    // Attaches submit event listener to searchForm.
+    searchForm.addEventListener("submit", async function (event) {
 
-        // Prevents web browser from reloading after bookSearchForm submission.
+        // Prevents web browser from reloading after searchForm submission.
         event.preventDefault();
 
         const author = (document.getElementById("author") as HTMLInputElement).value;
@@ -34,9 +34,9 @@ export function attachSearchFormEvent(): void {
         } else if (author) {
             url += `author=${formatInput(author)}`;
         } else if (title) {
-            url += `title=${formatInput(title)};`
+            url += `title=${formatInput(title)}`;
         } else {
-            throw new Error("Both search fields are empty.")
+            throw new Error("Both search fields are empty.");
         }
 
         try {
@@ -45,17 +45,17 @@ export function attachSearchFormEvent(): void {
 
             // Handles error event.
             if (!response.ok) {
-                throw new Error("The GET operation encountered an error.")
+                throw new Error("Attempted Open Library Search API GET request encountered an error.");
             }
 
             // Maps response from API endpoint to OLResponse interface.
-            const data: OLResponse = await response.json();
-            console.log("Open Library Response: ", data);
+            const json: OLResponse = await response.json();
+            console.log("Open Library Response: ", json);
             
             // Maps OLResponse interface to BookRequestDTO.
-            const books: BookRequestDTO[] = mapOLResponseToBookRequestDTO(data.docs.slice(0, 10));
+            const books: BookRequestDTO[] = mapOLResponseToBookRequestDTO(json.docs.slice(0, 10));
 
-            // Applies availability to BookRequestDTO.
+            // Applies availability to BookRequestDTO asynchronously.
             await checkAvailability(books);
             
             // Triggers resultContainerEvents workflow.
@@ -69,7 +69,7 @@ export function attachSearchFormEvent(): void {
 
 export async function checkAvailability(books: BookRequestDTO[]): Promise<void> {
 
-    // Spring Boot API getAllBooks endpoint.
+    // Spring Boot API endpoint.
     const url = "http://localhost:8080/api/books";
     
     try {
@@ -78,7 +78,7 @@ export async function checkAvailability(books: BookRequestDTO[]): Promise<void> 
 
         // Handles error event.
         if (!response.ok) {
-            throw new Error("The GET operation encountered an error.")
+            throw new Error("Attempted Spring Boot API '/api/books' GET request encountered an error.");
         }
         
         // Maps response from API endpoint to BookResponseDTO interface.
@@ -94,7 +94,7 @@ export async function checkAvailability(books: BookRequestDTO[]): Promise<void> 
         }
 
     } catch (error) {
-        console.error("Failed to connect to Spring Boot API: ", error);
+        console.error("Failed to connect to the Spring Boot API: ", error);
     }
 }
 

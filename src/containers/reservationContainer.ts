@@ -2,7 +2,7 @@ export function renderReservationContainer(): void {
   const reservationContainer = document.querySelector<HTMLElement>(".reservationContainer");
 
   if (!reservationContainer) {
-    throw new Error("Reservation Container did not render.");
+    throw new Error("reservationContainer did not render.");
   }
 
   reservationContainer.innerHTML = `

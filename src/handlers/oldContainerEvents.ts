@@ -4,10 +4,12 @@ import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 import { formatInput } from "../utils/formatInput";
 
 export function attachOldMemberFormEvent(): void {
+  // Captures oldMemberForm.
   const oldMemberForm = document.querySelector<HTMLFormElement>(".oldContainer__form");
 
+  // Handles error event.
   if (!oldMemberForm) {
-    throw new Error("Old Member Form did not render.");
+    throw new Error("oldMemberForm did not render.");
   }
 
   // Attaches submit event listener to oldMemberForm.
@@ -25,27 +27,26 @@ export function attachOldMemberFormEvent(): void {
     try {
       // Attempts to GET member field values from API endpoint.
       const response = await fetch(url);
-
       console.log({ name, email });
 
-      if (response.ok) {
-        // Maps response from API endpoint to MemberResponseDTO.
-        const oldMember: MemberResponseDTO = await response.json();
-        console.log("Old member found: " + oldMember.name + " (ID: " + oldMember.memberId + ")");
-
-        // Sets currentMember to state.
-        setCurrentMember(oldMember);
-        console.log("currentMember: ", currentMember);
-
-        // Initialises containers after currentMember has been set to state.
-        signIn();
-
-      } else {
-        const error = await response.text();
-        console.log("Error: " + error);
+      // Handles error event.
+      if (!response.ok) {
+        throw new Error("Attempted Spring Boot API '/api/members/search' GET request encountered an error.");
       }
-    } catch (e) {
-      console.log("Failed to connect to the Spring Boot API.");
+
+      // Maps response from API endpoint to MemberResponseDTO.
+      const oldMember: MemberResponseDTO = await response.json();
+      console.log("Old member found: " + oldMember.name + " (ID: " + oldMember.memberId + ")");
+
+      // Sets currentMember to state.
+      setCurrentMember(oldMember);
+      console.log("currentMember: ", currentMember);
+
+      // Initialises containers after currentMember has been set to state.
+      signIn();
+
+    } catch (error) {
+      console.error("Failed to connect to the Spring Boot API: ", error);
     }
   });
 }

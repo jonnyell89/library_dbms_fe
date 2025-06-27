@@ -3,10 +3,12 @@ import { currentMember, setCurrentMember } from "../state";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 
 export function attachNewMemberFormEvent(): void {
+  // Captures newMemberForm.
   const newMemberForm = document.querySelector<HTMLFormElement>(".newContainer__form");
 
+  // Handles error event.
   if (!newMemberForm) {
-    throw new Error("New Member Form did not render.");
+    throw new Error("newMemberForm did not render.");
   }
 
   // Attaches submit event listener to newMemberForm.
@@ -16,46 +18,49 @@ export function attachNewMemberFormEvent(): void {
     event.preventDefault();
 
     // Maps newMemberForm data to MemberRequestDTO.
-    const data = {
-      name: (document.getElementById("newName") as HTMLInputElement).value,
-      email: (document.getElementById("newEmail") as HTMLInputElement).value,
+    const memberRequestDTO = {
+      name: (newMemberForm.getElementById("newName") as HTMLInputElement).value,
+      email: (newMemberForm.getElementById("newEmail") as HTMLInputElement).value,
       address: {
-        line1: (document.getElementById("line1") as HTMLInputElement).value,
-        line2: (document.getElementById("line2") as HTMLInputElement).value,
-        city: (document.getElementById("city") as HTMLInputElement).value,
-        county: (document.getElementById("county") as HTMLInputElement).value,
-        postcode: (document.getElementById("postcode") as HTMLInputElement).value,
+        line1: (newMemberForm.getElementById("line1") as HTMLInputElement).value,
+        line2: (newMemberForm.getElementById("line2") as HTMLInputElement).value,
+        city: (newMemberForm.getElementById("city") as HTMLInputElement).value,
+        county: (newMemberForm.getElementById("county") as HTMLInputElement).value,
+        postcode: (newMemberForm.getElementById("postcode") as HTMLInputElement).value,
       },
     };
 
+    // Spring Boot API endpoint.
+    const url = "http://localhost:8080/api/members";
+
     try {
       // Attempts to POST MemberRequestDTO to API endpoint.
-      const response = await fetch("http://localhost:8080/api/members", {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(memberRequestDTO),
       });
 
-      if (response.ok) {
-        // Maps response from API to MemberResponseDTO.
-        const newMember: MemberResponseDTO = await response.json();
-        console.log("New member created: " + newMember.name + " (ID: " + newMember.memberId + ")");
-
-        // Sets currentMember to state.
-        setCurrentMember(newMember);
-        console.log("currentMember: ", currentMember);
-
-        // Initialises containers after currentMember has been set to state.
-        signIn();
-
-      } else {
-        const error = await response.text();
-        console.log("Error: " + error);
+      // Handles error event.
+      if (!response.ok) {
+        throw new Error("Attempted Spring Boot API '/api/members' POST request encountered an error.");
       }
-    } catch (e) {
-      console.log("Failed to connect to the Spring Boot API.");
+
+      // Maps response from API to MemberResponseDTO.
+      const newMember: MemberResponseDTO = await response.json();
+      console.log("New member created: " + newMember.name + " (ID: " + newMember.memberId + ")");
+
+      // Sets currentMember to state.
+      setCurrentMember(newMember);
+      console.log("currentMember: ", currentMember);
+
+      // Initialises containers after currentMember has been set to state.
+      signIn();
+
+    } catch (error) {
+      console.error("Failed to connect to the Spring Boot API: ", error);
     }
   });
 }
