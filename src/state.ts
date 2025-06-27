@@ -49,7 +49,8 @@ export function isSelectedBook(book: BookRequestDTO): boolean {
         bookResponseDTO.authorKey === book.authorKey &&
         bookResponseDTO.titleKey === book.titleKey &&
         bookResponseDTO.firstPublishYear === book.firstPublishYear &&
-        bookResponseDTO.cover === book.cover
+        bookResponseDTO.cover === book.cover &&
+        bookResponseDTO.coverEditionKey === book.coverEditionKey;
     })
 }
 

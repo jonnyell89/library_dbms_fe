@@ -3,7 +3,7 @@ import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 import { attachRemoveButtonEvent, toggleConfirmButton } from "./reservationContainerEvents";
 
-// displayBooks -> createBookCard, bookcardImage -> attachReserveButtonEvent -> saveBookToDatabase, addSelectedBook, toggleConfirmButton -> attachRemoveButtonEvent.
+// displayResults -> createBookCard, bookcardImage, attachReserveButtonEvent -> saveBookToDatabase, addSelectedBook, toggleConfirmButton, attachRemoveButtonEvent.
 
 export function displayResults(books: BookRequestDTO[]): void {
     // Captures resultContainerFeed.
@@ -50,6 +50,7 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
             <p>Title: ${book.title}</p>
             <p>Author: ${book.author}</p>
             <p>Published: ${book.firstPublishYear}</p>
+            <p>Status: ${book.availability === "AVAILABLE" ? "Available" : "Unavailable"}</p>
         </div>
         <button class="bookCard__btn bookCard__btn--reserve" type="button">Reserve</button>
     `;
@@ -113,6 +114,7 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
                 // Appends reservedCard to reservationContainerFeed.
                 reservationContainerFeed.appendChild(reservedCard);
             }
+
         } catch (error) {
             console.error(`Failed to reserve ${book.title}: `, error);
         }
@@ -120,23 +122,29 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
 }
 
 export async function saveBookToDatabase(book: BookRequestDTO): Promise<BookResponseDTO> {
-    // Attempts to POST BookRequestDTO to API endpoint.
-    const response = await fetch("http://localhost:8080/api/books", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(book),
-    });
+    
+    try {
+        // Attempts to POST BookRequestDTO to API endpoint.
+        const response = await fetch("http://localhost:8080/api/books", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(book),
+        });    
+        
+        if (!response.ok) {
+            throw new Error(`Failed to save ${book.title} to bookRespository.`)
+        }
 
-    if (response.ok) {
-        console.log(`${book.title} saved to bookRepository.`)
-    } else {
-        throw new Error(`Failed to save ${book.title} to bookRepository.`)
+        // Maps response from API endpoint to BookResponseDTO.
+        const savedBook: BookResponseDTO = await response.json();
+
+        return savedBook;
+
+    } catch (error) {
+        console.error("Failed to connect to Spring Boot API: ", error)        
+        throw error;
+
     }
-
-    // Maps response from API endpoint to BookResponseDTO.
-    const savedBook: BookResponseDTO = await response.json();
-
-    return savedBook;
 }

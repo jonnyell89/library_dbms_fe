@@ -6,4 +6,5 @@ export interface BookRequestDTO {
   firstPublishYear?: number;
   cover?: number;
   coverEditionKey?: string;
+  availability?: "AVAILABLE" | "UNAVAILABLE";
 };

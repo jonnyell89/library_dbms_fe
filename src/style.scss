@@ -40,7 +40,9 @@ input {
   background-color: #242424;
 }
 
-
+// containerBackground: #0b5239;
+// container__btn: #073928;
+// bookCard__btn: 
 
 .container {
   display: flex;
@@ -61,13 +63,13 @@ input {
   border: 1px solid black;
 
   &__form {
-    background-color: #0D6244;    
+    background-color: #0b5239;    
   }
 
   &__btn {
 
     width: 100%;
-    background-color: #09422d; 
+    background-color: #073928; 
     border: 0px;
 
     &--submit {
@@ -83,12 +85,12 @@ input {
   border: 1px solid black;
 
   &__form {
-    background-color: #0D6244;    
+    background-color: #0b5239;    
   }
 
   &__btn {
     width: 100%;
-    background-color: #09422d; 
+    background-color: #073928; 
     border: 0px;
     
     &--submit {
@@ -103,9 +105,13 @@ input {
   background-color: #0b5239;
   border: 1px solid black;
 
+  &__information {
+    padding-left: 16px;    
+  }
+
   &__btn {
     width: 100%;
-    background-color: #09422d; 
+    background-color: #073928; 
     border: 0px;
 
     &--signOut {
@@ -131,7 +137,7 @@ input {
 
   &__btn {
     width: 100%;
-    background-color: #09422d; 
+    background-color: #073928; 
     border: 0px;
     
     &--confirm {
@@ -148,12 +154,12 @@ input {
   border: 1px solid black;
 
   &__form {
-    background-color: #0D6244;    
+    background-color: #0b5239;
   }
 
   &__btn {
     width: 100%;
-    background-color: #09422d; 
+    background-color: #073928;
     border: 0px;
     
     &--submit {
@@ -184,8 +190,8 @@ input {
   flex-direction: column;
   justify-content: space-between;
   background-color: #0D6244;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
+  // box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  // transition: 0.3s;
 
   &__image {
     display: block;    
@@ -194,12 +200,12 @@ input {
   }
 
   &__information {
-    padding: 2px 16px;
+    padding-left: 16px;
   }
 
   &__btn {
     width: 100%;
-    background-color: #09422d; 
+    background-color: #09422D;
     border: 0px;
 
     &--reserve {
@@ -212,6 +218,6 @@ input {
   }
 }
 
-.bookCard:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);  
-}
+// .bookCard:hover {
+//   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);  
+// }
