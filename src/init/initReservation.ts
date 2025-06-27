@@ -1,5 +1,5 @@
 import { renderReservationContainer } from "../containers/reservationContainer";
-import { attachConfirmButtonEvent } from "../handlers/reservationContainerEvents";
+import { attachConfirmButtonEvent } from "../events/reservationContainerEvents";
 
 export function initReservation(): void {
     renderReservationContainer();

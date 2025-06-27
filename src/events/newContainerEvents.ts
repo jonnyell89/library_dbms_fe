@@ -19,14 +19,14 @@ export function attachNewMemberFormEvent(): void {
 
     // Maps newMemberForm data to MemberRequestDTO.
     const memberRequestDTO = {
-      name: (newMemberForm.getElementById("newName") as HTMLInputElement).value,
-      email: (newMemberForm.getElementById("newEmail") as HTMLInputElement).value,
+      name: (newMemberForm.querySelector("#newName") as HTMLInputElement).value,
+      email: (newMemberForm.querySelector("#newEmail") as HTMLInputElement).value,
       address: {
-        line1: (newMemberForm.getElementById("line1") as HTMLInputElement).value,
-        line2: (newMemberForm.getElementById("line2") as HTMLInputElement).value,
-        city: (newMemberForm.getElementById("city") as HTMLInputElement).value,
-        county: (newMemberForm.getElementById("county") as HTMLInputElement).value,
-        postcode: (newMemberForm.getElementById("postcode") as HTMLInputElement).value,
+        line1: (newMemberForm.querySelector("#line1") as HTMLInputElement).value,
+        line2: (newMemberForm.querySelector("#line2") as HTMLInputElement).value,
+        city: (newMemberForm.querySelector("#city") as HTMLInputElement).value,
+        county: (newMemberForm.querySelector("#county") as HTMLInputElement).value,
+        postcode: (newMemberForm.querySelector("#postcode") as HTMLInputElement).value,
       },
     };
 

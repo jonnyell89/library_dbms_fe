@@ -1,5 +1,5 @@
 import { renderNewContainer } from "../containers/newContainer";
-import { attachNewMemberFormEvent } from "../handlers/newContainerEvents";
+import { attachNewMemberFormEvent } from "../events/newContainerEvents";
 
 export function initNewMember(): void {
     renderNewContainer();

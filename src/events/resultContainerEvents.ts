@@ -1,4 +1,4 @@
-import { addSelectedBook, selectedBooks } from "../state";
+import { addSelectedBook, isSelectedBook, selectedBooks } from "../state";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 import { attachRemoveButtonEvent, toggleConfirmButton } from "./reservationContainerEvents";
@@ -21,7 +21,7 @@ export function displayResults(books: BookRequestDTO[]): void {
         // Creates bookCard.
         const bookCard = createBookCard(book);
 
-        // Assigns image to bookCard imageElement.
+        // Assigns image to bookCard.
         bookCardImage(book, bookCard);
 
         // Captures bookCard reserveButton.
@@ -43,6 +43,9 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
 
     // Adds bookCard class to bookCard element.
     bookCard.classList.add("bookCard");
+
+    // Assigns id to bookCard element.
+    bookCard.id = `${book.titleKey}`;
 
     bookCard.innerHTML = `
         <img class="bookCard__image" alt="${book.title}", style="width: 100%">
@@ -74,8 +77,18 @@ export function bookCardImage(book: BookRequestDTO, bookCard: HTMLDivElement): v
         // Assigns cover to src directly from public access URL.
         bookCardImage.src = `https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`;
     } else {
-        console.log(`No cover information available for ${book.title}.`);
+        console.log(`No cover information available for '${book.title}'.`);
     }
+}
+
+export function toggleBookCard(book: BookRequestDTO): void {
+    const bookCard = document.getElementById(`${book.titleKey}`)
+
+    if (!bookCard) {
+        throw new Error("bookCard did not render.");
+    }
+
+    bookCard.style.display = isSelectedBook(book) ? "none" : "block";
 }
 
 export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookCard: HTMLElement, book: BookRequestDTO): void {
@@ -92,6 +105,9 @@ export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookC
 
             // Toggles confirmButton state.
             toggleConfirmButton();
+
+            // Toggles bookCard state.
+            toggleBookCard(bookCard, book);
 
             // Clones bookCard for reservationContainer.
             const reservedCard = bookCard.cloneNode(true) as HTMLDivElement;

@@ -1,6 +1,6 @@
 import { renderResultContainer } from "../containers/resultContainer";
 import { renderSearchContainer } from "../containers/searchContainer";
-import { attachSearchFormEvent } from "../handlers/searchContainerEvents";
+import { attachSearchFormEvent } from "../events/searchContainerEvents";
 
 export function initSearchResult(): void {
     renderSearchContainer();
