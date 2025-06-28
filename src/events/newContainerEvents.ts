@@ -1,6 +1,9 @@
-import { signIn } from "../transitions/signIn";
-import { currentMember, setCurrentMember } from "../state";
+import { getNewMemberFormValues } from "../utils/getNewMemberFormValues";
+import { postNewMember } from "../services/postNewMember";
+import type { MemberRequestDTO } from "../types/MemberRequestDTO";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
+import { setCurrentMember } from "../state";
+import { signIn } from "../transitions/signIn";
 
 export function attachNewMemberFormEvent(): void {
   // Captures newMemberForm.
@@ -12,55 +15,26 @@ export function attachNewMemberFormEvent(): void {
   }
 
   // Attaches submit event listener to newMemberForm.
-  newMemberForm.addEventListener("submit", async function (event) {
-    
-    // Prevents web browser from reloading after newMemberForm submission.
-    event.preventDefault();
+  newMemberForm.addEventListener("submit", handleNewMemberFormSubmit);
+}
 
-    // Maps newMemberForm data to MemberRequestDTO.
-    const memberRequestDTO = {
-      name: (newMemberForm.querySelector("#newName") as HTMLInputElement).value,
-      email: (newMemberForm.querySelector("#newEmail") as HTMLInputElement).value,
-      address: {
-        line1: (newMemberForm.querySelector("#line1") as HTMLInputElement).value,
-        line2: (newMemberForm.querySelector("#line2") as HTMLInputElement).value,
-        city: (newMemberForm.querySelector("#city") as HTMLInputElement).value,
-        county: (newMemberForm.querySelector("#county") as HTMLInputElement).value,
-        postcode: (newMemberForm.querySelector("#postcode") as HTMLInputElement).value,
-      },
-    };
+async function handleNewMemberFormSubmit(event: Event): Promise<void> {
+  // Prevents web browser from reloading after newMemberForm submission.
+  event.preventDefault();
 
-    // Spring Boot API endpoint.
-    const url = "http://localhost:8080/api/members";
+  try {
+    const memberRequestDTO: MemberRequestDTO = getNewMemberFormValues();
+    const newMember: MemberResponseDTO = await postNewMember(memberRequestDTO);
 
-    try {
-      // Attempts to POST MemberRequestDTO to API endpoint.
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(memberRequestDTO),
-      });
+    // Sets currentMember to state.
+    setCurrentMember(newMember);
 
-      // Handles error event.
-      if (!response.ok) {
-        throw new Error("Attempted Spring Boot API '/api/members' POST request encountered an error.");
-      }
+    // Initialises containers after currentMember has been set to state.
+    signIn();
 
-      // Maps response from API to MemberResponseDTO.
-      const newMember: MemberResponseDTO = await response.json();
-      console.log("New member created: " + newMember.name + " (ID: " + newMember.memberId + ")");
+    console.log("newMember signed in: " + newMember.name + " (ID: " + newMember.memberId + ")");
 
-      // Sets currentMember to state.
-      setCurrentMember(newMember);
-      console.log("currentMember: ", currentMember);
-
-      // Initialises containers after currentMember has been set to state.
-      signIn();
-
-    } catch (error) {
-      console.error("Failed to connect to the Spring Boot API: ", error);
-    }
-  });
+  } catch (error) {
+    console.error("Failed to connect to the Spring Boot API: ", error);
+  }
 }

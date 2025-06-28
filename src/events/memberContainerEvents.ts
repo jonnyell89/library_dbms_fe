@@ -10,11 +10,5 @@ export function attachSignOutButtonEvent(): void {
     }
 
     // Attaches click event listener to signOutButton.
-    signOutButton.addEventListener("click", async () => {
-        try {
-            signOut();
-        } catch (error) {
-            console.error("Failed to sign out: ", error);
-        }
-    });
+    signOutButton.addEventListener("click", signOut);
 }

@@ -1,5 +1,5 @@
-import { initOldNew } from "../main";
 import { clearCurrentMember, clearCurrentReservation, clearSelectedBooks } from "../state";
+import { initOldNew } from "../main";
 
 export function signOut(): void {
   const oldMemberForm = document.querySelector<HTMLFormElement>(".oldContainer__form");

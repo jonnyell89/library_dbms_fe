@@ -1,7 +1,7 @@
+import { getOldMemberFormValues } from "../utils/getOldMemberFormValues";
+import { getOldMember } from "../services/getOldMember";
+import { setCurrentMember } from "../state";
 import { signIn } from "../transitions/signIn";
-import { currentMember, setCurrentMember } from "../state";
-import type { MemberResponseDTO } from "../types/MemberResponseDTO";
-import { formatInput } from "../utils/formatInput";
 
 export function attachOldMemberFormEvent(): void {
   // Captures oldMemberForm.
@@ -13,40 +13,26 @@ export function attachOldMemberFormEvent(): void {
   }
 
   // Attaches submit event listener to oldMemberForm.
-  oldMemberForm.addEventListener("submit", async function (event) {
-    
-    // Prevents web browser from reloading after oldMemberForm submission.
-    event.preventDefault();
+  oldMemberForm.addEventListener("submit", handleOldMemberFormSubmit);
+}
 
-    const name = (document.getElementById("oldName") as HTMLInputElement).value;
-    const email = (document.getElementById("oldEmail") as HTMLInputElement).value;
+async function handleOldMemberFormSubmit(event: Event): Promise<void> {
+  // Prevents web browser from reloading after oldMemberForm submission.
+  event.preventDefault();
 
-    // Attaches member field values to Spring Boot API URL.
-    const url = `http://localhost:8080/api/members/search?name=${formatInput(name)}&email=${formatInput(email)}`;
+  try {
+    const { name, email } = getOldMemberFormValues();
+    const oldMember = await getOldMember(name, email);
 
-    try {
-      // Attempts to GET member field values from API endpoint.
-      const response = await fetch(url);
-      console.log({ name, email });
+    // Sets currentMember to state.
+    setCurrentMember(oldMember);
 
-      // Handles error event.
-      if (!response.ok) {
-        throw new Error("Attempted Spring Boot API '/api/members/search' GET request encountered an error.");
-      }
+    // Initialises containers after currentMember has been set to state.
+    signIn();
 
-      // Maps response from API endpoint to MemberResponseDTO.
-      const oldMember: MemberResponseDTO = await response.json();
-      console.log("Old member found: " + oldMember.name + " (ID: " + oldMember.memberId + ")");
+    console.log("oldMember signed in: " + oldMember.name + " (ID: " + oldMember.memberId + ")");
 
-      // Sets currentMember to state.
-      setCurrentMember(oldMember);
-      console.log("currentMember: ", currentMember);
-
-      // Initialises containers after currentMember has been set to state.
-      signIn();
-
-    } catch (error) {
-      console.error("Failed to connect to the Spring Boot API: ", error);
-    }
-  });
+  } catch (error) {
+    console.error("Failed to connect to the Spring Boot API: ", error);
+  }
 }

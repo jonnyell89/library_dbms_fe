@@ -2,7 +2,7 @@ import type { OLResponse } from "../types/OpenLibraryResponse";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import { mapOLResponseToBookRequestDTO } from "../mappers/mapOLResponseToBookRequestDTO";
 import { displayResults } from "./resultContainerEvents";
-import { formatInput } from "../utils/formatInput";
+import { formatUserInput } from "../utils/formatUserInput";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 
 // attachSearchFormEvent -> mapOLResponseToBookRequestDTO, displayResults.
@@ -30,11 +30,11 @@ export function attachSearchFormEvent(): void {
 
         // Attaches search field values to URL.
         if (author && title) {
-            url += `author=${formatInput(author)}&title=${formatInput(title)}`;
+            url += `author=${encodeURIComponent(formatUserInput(author))}&title=${encodeURIComponent(formatUserInput(title))}`;
         } else if (author) {
-            url += `author=${formatInput(author)}`;
+            url += `author=${encodeURIComponent(formatUserInput(author))}`;
         } else if (title) {
-            url += `title=${formatInput(title)}`;
+            url += `title=${encodeURIComponent(formatUserInput(title))}`;
         } else {
             throw new Error("Both search fields are empty.");
         }
