@@ -10,11 +10,11 @@ export function renderSearchContainer(): void {
     <form class="searchContainer__form">
       <p>
         <label for="author">Author</label><br>
-        <input type="text" id="author" />
+        <input type="text" id="searchAuthor" />
       </p>
       <p>
         <label for="title">Title</label><br>
-        <input type="text" id="title" />
+        <input type="text" id="searchTitle" />
       </p>
       <button class="searchContainer__btn searchContainer__btn--submit" type="submit">Submit</button>
     </form>

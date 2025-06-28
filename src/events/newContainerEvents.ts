@@ -1,7 +1,7 @@
-import { getNewMemberFormValues } from "../utils/getNewMemberFormValues";
-import { postNewMember } from "../services/postNewMember";
 import type { MemberRequestDTO } from "../types/MemberRequestDTO";
+import { getNewMemberFormValues } from "../utils/getNewMemberFormValues";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
+import { postNewMember } from "../services/postNewMember";
 import { setCurrentMember } from "../state";
 import { signIn } from "../transitions/signIn";
 
