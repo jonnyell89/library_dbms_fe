@@ -1,11 +1,11 @@
-import { addSelectedBook, isSelectedBook, selectedBooks } from "../state";
+import { postBook } from "../services/postBook";
+import { addSelectedBook, selectedBooks } from "../state";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
-import { attachRemoveButtonEvent, toggleConfirmButton } from "./reservationContainerEvents";
+import { toggleConfirmButton } from "./reservationContainerEvents";
 
-// displayResults -> createBookCard, bookcardImage, attachReserveButtonEvent -> saveBookToDatabase, addSelectedBook, toggleConfirmButton, attachRemoveButtonEvent.
 
-export function displayResults(books: BookRequestDTO[]): void {
+export function resultContainerFeedEvent(books: BookRequestDTO[]): void {
     // Captures resultContainerFeed.
     const resultContainerFeed = document.querySelector<HTMLDivElement>(".resultContainer__feed");
 
@@ -18,21 +18,15 @@ export function displayResults(books: BookRequestDTO[]): void {
     resultContainerFeed.innerHTML = "";
 
     books.forEach(book => {
-        // Creates bookCard.
+
         const bookCard = createBookCard(book);
 
-        // Assigns image to bookCard.
-        bookCardImage(book, bookCard);
+        assignBookCardImage(bookCard, book);
 
-        // Captures bookCard reserveButton.
-        const reserveButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn--reserve");
+        attachBookCardReserveButton(bookCard);
 
-        if (reserveButton && reserveButton instanceof HTMLButtonElement) {
-            // Attaches click event listener to reserveButton for each bookCard.
-            attachReserveButtonEvent(reserveButton, bookCard, book);
-        }
+        attachBookCardReserveEvent(bookCard, book);
 
-        // Appends bookCard to resultContainerFeed.
         resultContainerFeed.appendChild(bookCard);
     });
 }
@@ -44,9 +38,6 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
     // Adds bookCard class to bookCard element.
     bookCard.classList.add("bookCard");
 
-    // Assigns id to bookCard element.
-    bookCard.id = `${book.titleKey}`;
-
     bookCard.innerHTML = `
         <img class="bookCard__image" alt="${book.title}", style="width: 100%">
         <div class="bookCard__information">
@@ -55,14 +46,14 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
             <p>Published: ${book.firstPublishYear}</p>
             <p>Status: ${book.availability === "AVAILABLE" ? "Available" : "Unavailable"}</p>
         </div>
-        <button class="bookCard__btn bookCard__btn--reserve" type="button">Reserve</button>
+        <button class="bookCard__btn" type="button"></button>
     `;
 
     return bookCard;
 }
 
-export function bookCardImage(book: BookRequestDTO, bookCard: HTMLDivElement): void {
-    // Captures bookCard imageElement.
+export function assignBookCardImage(bookCard: HTMLDivElement, book: BookRequestDTO): void {
+    // Captures bookCardImage.
     const bookCardImage = bookCard.querySelector<HTMLImageElement>(".bookCard__image");
     
     // Handles error event.
@@ -81,87 +72,82 @@ export function bookCardImage(book: BookRequestDTO, bookCard: HTMLDivElement): v
     }
 }
 
-export function toggleBookCard(book: BookRequestDTO): void {
-    const bookCard = document.getElementById(`${book.titleKey}`)
+function attachBookCardReserveButton(bookCard: HTMLDivElement): void {
+    // Captures bookCardButton.
+    const bookCardButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn");
 
-    if (!bookCard) {
-        throw new Error("bookCard did not render.");
+    // Handles error event.
+    if (!bookCardButton) {
+        throw new Error("bookCardButton did not render.");
     }
 
-    bookCard.style.display = isSelectedBook(book) ? "none" : "block";
+    bookCardButton.textContent = "Reserve";
+    bookCardButton.classList.add("bookCard__btn--reserve");
 }
 
-export function attachReserveButtonEvent(reserveButton: HTMLButtonElement, bookCard: HTMLElement, book: BookRequestDTO): void {
-    // Attaches click event listener to reserveButton.
-    reserveButton.addEventListener("click", async () => {
-        
-        try {
-            // Saves book to bookRepository.
-            const savedBook = await saveBookToDatabase(book);
+function attachBookCardReserveEvent(bookCard: HTMLDivElement, book: BookRequestDTO): void {
+    // Captures reserveButton.
+    const reserveButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn--reserve");
 
-            // Adds BookResponseDTO to selectedBooks list held in state.
-            addSelectedBook(savedBook);
-            console.log("selectedBooks list: ", selectedBooks);
+    // Handles error event.
+    if (!reserveButton) {
+        throw new Error("reserveButton did not render.");
+    }
 
-            // Toggles confirmButton state.
-            toggleConfirmButton();
-
-            // Toggles bookCard state.
-            toggleBookCard(bookCard, book);
-
-            // Clones bookCard for reservationContainer.
-            const reservedCard = bookCard.cloneNode(true) as HTMLDivElement;
-
-            // Captures reservedCard reserveButton to become removeButton.
-            const removeButton = reservedCard.querySelector<HTMLButtonElement>(".bookCard__btn--reserve");
-            
-            if (removeButton && removeButton instanceof HTMLButtonElement) {
-                // Swaps Reserve with Remove.
-                removeButton.textContent = "Remove";
-                removeButton.classList.remove("bookCard__btn--reserve");
-                removeButton.classList.add("bookCard__btn--remove");
-                attachRemoveButtonEvent(removeButton, reservedCard, savedBook);
-            }
-
-            // Captures reservationContainerFeed.
-            const reservationContainerFeed = document.querySelector<HTMLDivElement>(".reservationContainer__feed");
-
-            if (reservationContainerFeed && reservationContainerFeed instanceof HTMLDivElement) {
-                // Appends reservedCard to reservationContainerFeed.
-                reservationContainerFeed.appendChild(reservedCard);
-            }
-
-        } catch (error) {
-            console.error("Failed to connect to the Spring Boot API: ", error);
-        }
-    });
+    reserveButton.addEventListener("click", async () => handleBookCardReserveClick(bookCard, book));
 }
 
-export async function saveBookToDatabase(book: BookRequestDTO): Promise<BookResponseDTO> {
-    
+async function handleBookCardReserveClick(bookCard: HTMLDivElement, book: BookRequestDTO): Promise<void> {
     try {
-        // Attempts to POST BookRequestDTO to API endpoint.
-        const response = await fetch("http://localhost:8080/api/books", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(book),
-        });    
-        
-        // Handles error event.
-        if (!response.ok) {
-            throw new Error("Attempted Spring Boot API '/api/books' POST request encountered an error.")
-        }
+        const postedBook: BookResponseDTO = await postBook(book);
 
-        // Maps response from API endpoint to BookResponseDTO.
-        const savedBook: BookResponseDTO = await response.json();
+        addSelectedBook(postedBook);
 
-        return savedBook;
+        console.log(`${postedBook.title} added to selectedBooks list: `, selectedBooks);
+
+        attachBookCardRemoveButton(bookCard);
+
+        appendBookCardToReservationContainer(bookCard);
+
+        toggleConfirmButton();
 
     } catch (error) {
-        console.error("Failed to connect to the Spring Boot API: ", error) 
-        // Re-throws the error in lieu of a Promise<BookResponseDTO>.
-        throw error;
+        console.error("Failed to connect to the Spring Boot API: ", error);
     }
+}
+
+
+
+function attachBookCardRemoveButton(bookCard: HTMLDivElement): void {
+    // Clones bookCard for reservationContainer.
+    const reservedCard = bookCard.cloneNode(true) as HTMLDivElement;
+
+    // Handles error event.
+    if (!reservedCard) {
+        throw new Error("reservedCard did not clone.");
+    }
+
+    // Captures bookCard button element.
+    const removeButton = reservedCard.querySelector<HTMLButtonElement>(".bookCard__btn");
+
+    // Handles error event.
+    if (!removeButton) {
+        throw new Error("removeButton did not render.");
+    }
+
+    removeButton.textContent = "Remove";
+    removeButton.classList.remove("bookCard__btn--reserve");
+    removeButton.classList.add("bookCard__btn--remove");
+}
+
+function appendBookCardToReservationContainer(bookCard: HTMLDivElement): void {
+    // Captures reservationContainerFeed.
+    const reservationContainerFeed = document.querySelector<HTMLDivElement>(".reservationContainer__feed");
+
+    // Handles error event.
+    if (!reservationContainerFeed) {
+        throw new Error("reservationContainerFeed did not render.");
+    }
+
+    reservationContainerFeed.appendChild(bookCard);
 }

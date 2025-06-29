@@ -42,18 +42,6 @@ export function removeSelectedBook(book: BookResponseDTO) {
     }
 }
 
-export function isSelectedBook(book: BookRequestDTO): boolean {
-    return selectedBooks.some(bookResponseDTO => 
-        bookResponseDTO.author === book.author &&
-        bookResponseDTO.title === book.title &&
-        bookResponseDTO.authorKey === book.authorKey &&
-        bookResponseDTO.titleKey === book.titleKey &&
-        bookResponseDTO.firstPublishYear === book.firstPublishYear &&
-        bookResponseDTO.cover === book.cover &&
-        bookResponseDTO.coverEditionKey === book.coverEditionKey
-    )
-}
-
 export function getSelectedBook(book: BookResponseDTO): BookResponseDTO | undefined {
     return selectedBooks.find(bookResponseDTO => bookResponseDTO.bookId === book.bookId);
 }
@@ -64,4 +52,16 @@ export function getSelectedBooks(): BookResponseDTO[] {
 
 export function clearSelectedBooks(): void {
     selectedBooks = [];
+}
+
+export function isSelectedBook(book: BookRequestDTO): boolean {
+    return selectedBooks.some(bookResponseDTO => 
+        bookResponseDTO.author === book.author &&
+        bookResponseDTO.title === book.title &&
+        bookResponseDTO.authorKey === book.authorKey &&
+        bookResponseDTO.titleKey === book.titleKey &&
+        bookResponseDTO.firstPublishYear === book.firstPublishYear &&
+        bookResponseDTO.cover === book.cover &&
+        bookResponseDTO.coverEditionKey === book.coverEditionKey
+    )
 }

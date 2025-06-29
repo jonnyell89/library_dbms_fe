@@ -22,5 +22,5 @@ export function getSearchFormValues(): { author: string; title: string; } {
     return {
         author: formatUserInput(searchAuthor.value),
         title: formatUserInput(searchTitle.value),
-    };
+    }
 }

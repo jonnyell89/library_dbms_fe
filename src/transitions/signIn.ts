@@ -1,6 +1,7 @@
 import { initMember } from "../init/initMember";
 import { initReservation } from "../init/initReservation";
 import { initSearchResult } from "../init/initSearchResult";
+import { currentMember } from "../state";
 
 export function signIn(): void {
   const oldMemberForm = document.querySelector<HTMLFormElement>(".oldContainer__form");
@@ -44,6 +45,10 @@ export function signIn(): void {
     throw new Error("resultContainer did not render.");
   }
 
+  if (!currentMember) {
+    throw new Error("No currentMember set to state.");
+  }
+
   // Containers must be intialised after currentMember has been set to state.
   initMember();
   initReservation();
@@ -55,4 +60,6 @@ export function signIn(): void {
   reservationContainer.style.display = "block";
   searchContainer.style.display = "block";
   resultContainer.style.display = "block";
+
+  console.log("currentMember signed in: " + currentMember.name + " (ID: " + currentMember.memberId + ")");
 }

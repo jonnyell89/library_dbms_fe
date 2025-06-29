@@ -4,7 +4,7 @@ import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { OLResponse } from "../types/OpenLibraryResponse";
 import { getSearchFormValues } from "../utils/getSearchFormValues";
 import { setAvailability } from "../utils/setAvailability";
-import { displayResults } from "./resultContainerEvents";
+import { resultContainerFeedEvent } from "./resultContainerEvents";
 
 export function attachSearchFormEvent(): void {
     // Caputes searchForm.
@@ -29,14 +29,14 @@ async function handleSearchFormSubmit(event: Event): Promise<void> {
         
         console.log("Open Library Search API response: ", searchResults);
 
-        // Maps OLResponse interface to BookRequestDTO.
+        // Maps OLResponse to BookRequestDTO.
         const books: BookRequestDTO[] = mapOLResponseToBookRequestDTO(searchResults.docs.slice(0, 10));
 
-        // Sets availability property of BookRequestDTO[] asynchronously.
+        // Sets BookRequestDTO[] availability property.
         await setAvailability(books);
         
         // Triggers resultContainerEvents workflow.
-        displayResults(books);
+        resultContainerFeedEvent(books);
     
     } catch (error) {
         console.error("Failed to connect to the Open Library Search API: ", error);

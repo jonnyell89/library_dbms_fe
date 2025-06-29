@@ -22,5 +22,5 @@ export function getOldMemberFormValues(): { name: string; email: string } {
     return {
         name: formatUserInput(oldName.value),
         email: formatUserInput(oldEmail.value),
-    };
+    }
 }

@@ -1,9 +1,9 @@
-import type { MemberRequestDTO } from "../types/MemberRequestDTO";
-import { getNewMemberFormValues } from "../utils/getNewMemberFormValues";
-import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 import { postNewMember } from "../services/postNewMember";
 import { setCurrentMember } from "../state";
 import { signIn } from "../transitions/signIn";
+import type { MemberRequestDTO } from "../types/MemberRequestDTO";
+import type { MemberResponseDTO } from "../types/MemberResponseDTO";
+import { getNewMemberFormValues } from "../utils/getNewMemberFormValues";
 
 export function attachNewMemberFormEvent(): void {
   // Captures newMemberForm.
@@ -31,8 +31,6 @@ async function handleNewMemberFormSubmit(event: Event): Promise<void> {
 
     // Initialises containers after currentMember has been set to state.
     signIn();
-
-    console.log("newMember signed in: " + newMember.name + " (ID: " + newMember.memberId + ")");
 
   } catch (error) {
     console.error("Failed to connect to the Spring Boot API: ", error);

@@ -1,7 +1,7 @@
-import { getOldMemberFormValues } from "../utils/getOldMemberFormValues";
 import { getOldMember } from "../services/getOldMember";
 import { setCurrentMember } from "../state";
 import { signIn } from "../transitions/signIn";
+import { getOldMemberFormValues } from "../utils/getOldMemberFormValues";
 
 export function attachOldMemberFormEvent(): void {
   // Captures oldMemberForm.
@@ -29,8 +29,6 @@ async function handleOldMemberFormSubmit(event: Event): Promise<void> {
 
     // Initialises containers after currentMember has been set to state.
     signIn();
-
-    console.log("oldMember signed in: " + oldMember.name + " (ID: " + oldMember.memberId + ")");
 
   } catch (error) {
     console.error("Failed to connect to the Spring Boot API: ", error);

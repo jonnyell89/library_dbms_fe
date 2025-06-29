@@ -55,5 +55,5 @@ export function getNewMemberFormValues(): MemberRequestDTO {
             county: formatUserInput(newCounty.value),
             postcode: formatUserInput(newPostcode.value),
         }
-    };
+    }
 }

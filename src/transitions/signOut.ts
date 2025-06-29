@@ -1,4 +1,4 @@
-import { clearCurrentMember, clearCurrentReservation, clearSelectedBooks } from "../state";
+import { clearCurrentMember, clearCurrentReservation, clearSelectedBooks, currentMember } from "../state";
 import { initOldNew } from "../main";
 
 export function signOut(): void {
@@ -42,6 +42,12 @@ export function signOut(): void {
   if (!resultContainer) {
     throw new Error("resultContainer did not render.");
   }
+
+  if (!currentMember) {
+    throw new Error("No currentMember set to state.");
+  }
+
+  console.log("currentMember signed out: " + currentMember.name + " (ID: " + currentMember.memberId + ")");
 
   // Clears all values set in state.
   clearCurrentMember();
