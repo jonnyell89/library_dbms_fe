@@ -1,8 +1,9 @@
 import type { ReservationRequestDTO } from "../types/ReservationRequestDTO";
 import { currentMember } from "../state";
 
-// Maps data to ReservationRequestDTO.
+// Maps data held in state to ReservationRequestDTO.
 export function mapReservationRequestDTO(): ReservationRequestDTO {
+
     const start = new Date();
     const startDate = start.toISOString().split("T")[0];
 
@@ -18,5 +19,5 @@ export function mapReservationRequestDTO(): ReservationRequestDTO {
         memberId: currentMember.memberId,
         startDate,
         endDate
-    };
+    }
 }

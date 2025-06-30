@@ -1,10 +1,12 @@
-import { initNewMember } from "./init/initNewMember";
-import { initOldMember } from "./init/initOldMember";
+import { initNewContainer } from "./init/initNewContainer";
+import { initOldContainer } from "./init/initOldContainer";
 import "./style.scss";
 
-export function initOldNew(): void {
-  initOldMember();
-  initNewMember();
+export function initApplication(): void {
+
+  initOldContainer();
+  
+  initNewContainer();
 }
 
-initOldNew();
+initApplication();

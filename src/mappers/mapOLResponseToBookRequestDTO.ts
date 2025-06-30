@@ -3,6 +3,7 @@ import type { BookRequestDTO } from "../types/BookRequestDTO";
 
 // Maps Open Library API response to BookRequestDTO.
 export function mapOLResponseToBookRequestDTO(docs: OLDetails[]): BookRequestDTO[] {
+
     return docs.map(doc => ({
         author: doc.author_name?.[0],
         title: doc.title,
@@ -11,5 +12,5 @@ export function mapOLResponseToBookRequestDTO(docs: OLDetails[]): BookRequestDTO
         firstPublishYear: doc.first_publish_year,
         cover: doc.cover_i,
         coverEditionKey: doc.cover_edition_key
-    }));
+    }))
 }

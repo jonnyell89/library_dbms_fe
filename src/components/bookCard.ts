@@ -1,10 +1,9 @@
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 
 export function createBookCard(book: BookRequestDTO): HTMLDivElement {
-    // Creates new bookCard.
+
     const bookCard = document.createElement("div");
 
-    // Adds bookCard class to bookCard element.
     bookCard.classList.add("bookCard");
 
     bookCard.innerHTML = `
@@ -22,10 +21,9 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
 }
 
 export function assignBookCardImage(bookCard: HTMLDivElement, book: BookRequestDTO): void {
-    // Captures bookCardImage.
+
     const bookCardImage = bookCard.querySelector<HTMLImageElement>(".bookCard__image");
     
-    // Handles error event.
     if (!bookCardImage) {
         throw new Error("bookCardImage did not render.");
     }
@@ -42,10 +40,9 @@ export function assignBookCardImage(bookCard: HTMLDivElement, book: BookRequestD
 }
 
 export function attachBookCardReserveButton(bookCard: HTMLDivElement): void {
-    // Captures bookCardButton.
+
     const bookCardButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn");
 
-    // Handles error event.
     if (!bookCardButton) {
         throw new Error("bookCardButton did not render.");
     }
@@ -55,18 +52,15 @@ export function attachBookCardReserveButton(bookCard: HTMLDivElement): void {
 }
 
 export function attachBookCardRemoveButton(bookCard: HTMLDivElement): void {
-    // Clones bookCard for reservationContainer.
+
     const reservedCard = bookCard.cloneNode(true) as HTMLDivElement;
 
-    // Handles error event.
     if (!reservedCard) {
         throw new Error("reservedCard did not clone.");
     }
 
-    // Captures bookCard button element.
     const removeButton = reservedCard.querySelector<HTMLButtonElement>(".bookCard__btn");
 
-    // Handles error event.
     if (!removeButton) {
         throw new Error("removeButton did not render.");
     }

@@ -1,6 +1,7 @@
 import { currentMember } from "../state";
 
 export function renderMemberContainer(): void {
+    
     const memberContainer = document.querySelector<HTMLElement>(".memberContainer");
 
     if (!memberContainer) {

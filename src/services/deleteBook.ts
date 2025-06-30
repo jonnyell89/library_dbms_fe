@@ -9,7 +9,7 @@ export async function deleteBook(book: BookResponseDTO): Promise<string> {
     });
 
     if (!response.ok) {
-        throw new Error("Attempted Spring Boot API '/api/books' DELETE request encountered an error.");
+        throw new Error(`Attempted Spring Boot API DELETE request encountered an errorat: ${url}`);
     }
 
     return await response.json();

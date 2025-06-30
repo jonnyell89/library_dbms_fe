@@ -14,7 +14,7 @@ export async function postReservation(reservation: ReservationRequestDTO): Promi
     });
 
     if (!response.ok) {
-        throw new Error("Attempted Spring Boot API '/api/reservations' POST request encountered an error.");
+        throw new Error(`Attempted Spring Boot API POST request encountered an error at: ${url}`);
     }
 
     return await response.json();

@@ -7,8 +7,8 @@ export async function setAvailability(books: BookRequestDTO[]): Promise<void> {
     try {
         const persistedBooks: BookResponseDTO[] = await getPersistedBooks();
 
-        // Applies availability to BookRequestDTO.
         for (const book of books) {
+            
             if (isPersisted(persistedBooks, book)) {
                 book.availability = "UNAVAILABLE";
             } else {

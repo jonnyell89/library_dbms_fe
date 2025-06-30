@@ -1,5 +1,5 @@
 import { clearCurrentMember, clearCurrentReservation, clearSelectedBooks, currentMember } from "../state";
-import { initOldNew } from "../main";
+import { initApplication } from "../main";
 
 export function signOut(): void {
   const oldMemberForm = document.querySelector<HTMLFormElement>(".oldContainer__form");
@@ -53,7 +53,7 @@ export function signOut(): void {
   clearCurrentReservation();
   clearSelectedBooks();
 
-  initOldNew(); // Resets the application.
+  initApplication(); // Resets the application.
 
   oldContainer.style.display = "block";
   newContainer.style.display = "block";

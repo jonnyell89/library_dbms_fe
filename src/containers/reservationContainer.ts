@@ -1,4 +1,5 @@
 export function renderReservationContainer(): void {
+  
   const reservationContainer = document.querySelector<HTMLElement>(".reservationContainer");
 
   if (!reservationContainer) {

@@ -1,6 +1,6 @@
-import { initMember } from "../init/initMember";
-import { initReservation } from "../init/initReservation";
-import { initSearchResult } from "../init/initSearchResult";
+import { initMemberContainer } from "../init/initMemberContainer";
+import { initReservationContainer } from "../init/initReservationContainer";
+import { initSearchContainer } from "../init/initSearchContainer";
 import { currentMember } from "../state";
 
 export function signIn(): void {
@@ -51,9 +51,9 @@ export function signIn(): void {
 
   console.log("currentMember signed in: " + currentMember.name + " (ID: " + currentMember.memberId + ")");
 
-  initMember();
-  initReservation();
-  initSearchResult();
+  initMemberContainer();
+  initReservationContainer();
+  initSearchContainer();
 
   oldContainer.style.display = "none";
   newContainer.style.display = "none";

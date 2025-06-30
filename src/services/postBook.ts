@@ -14,7 +14,7 @@ export async function postBook(book: BookRequestDTO): Promise<BookResponseDTO> {
     });
 
     if (!response.ok) {
-        throw new Error("Attempted Spring Boot API '/api/books' POST request encountered an error.")
+        throw new Error(`Attempted Spring Boot API POST request encountered an error at: ${url}`);
     }
 
     return await response.json();

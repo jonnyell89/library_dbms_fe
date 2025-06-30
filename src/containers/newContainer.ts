@@ -1,4 +1,5 @@
 export function renderNewContainer(): void {
+  
   const newContainer = document.querySelector<HTMLElement>(".newContainer");
 
   if (!newContainer) {

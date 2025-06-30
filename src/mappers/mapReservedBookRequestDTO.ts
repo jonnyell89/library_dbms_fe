@@ -11,5 +11,5 @@ export function mapReservedBookRequestDTO(currentBookId: number): ReservedBookRe
     return {
         reservationId: currentReservation.reservationId,
         bookId: currentBookId
-    };
+    }
 }

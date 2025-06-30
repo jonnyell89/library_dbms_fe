@@ -1,4 +1,5 @@
 export function renderSearchContainer(): void {
+  
   const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
 
   if (!searchContainer) {

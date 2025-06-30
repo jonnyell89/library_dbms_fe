@@ -2,7 +2,7 @@ import { attachBookCardRemoveButton } from "../components/bookCard";
 import { deleteBook } from "../services/deleteBook";
 import { postBook } from "../services/postBook";
 import { addSelectedBook, removeSelectedBook, selectedBooks } from "../state";
-import { toggleConfirmButton } from "../transitions/toggleConfirmButton";
+import { toggleReservationContainerConfirm } from "../transitions/toggleReservationContainerConfirm";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 import { reservationContainerFeedEvent } from "./reservationContainerEvents";
@@ -34,7 +34,7 @@ async function handleBookCardReserveClick(bookCard: HTMLDivElement, book: BookRe
 
         reservationContainerFeedEvent(bookCard); // Appends bookCard to reservationContainer.
 
-        toggleConfirmButton();
+        toggleReservationContainerConfirm();
 
     } catch (error) {
         console.error("Failed to connect to the Spring Boot API: ", error);
@@ -64,7 +64,7 @@ async function handelBookCardRemoveClick(bookCard: HTMLDivElement, book: BookRes
 
         bookCard.remove(); // Removes bookCard from reservationContainer.
 
-        toggleConfirmButton();
+        toggleReservationContainerConfirm();
 
     } catch (error) {
         console.error("Failed to connect to the Spring Boot API: ", error);

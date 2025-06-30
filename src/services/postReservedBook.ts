@@ -14,7 +14,7 @@ export async function postReservedBook(reservedBook: ReservedBookRequestDTO): Pr
     });
 
     if (!response.ok) {
-        throw new Error("Attempted Spring Boot API '/api/reserved-books' POST request encountered an error.");
+        throw new Error(`Attempted Spring Boot API POST request encountered an error at: ${url}`);
     }
 
     return await response.json();

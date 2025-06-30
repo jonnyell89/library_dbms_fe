@@ -1,7 +1,7 @@
 import { isSelectedBook } from "../state";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 
-export function toggleResultBookCard(book: BookRequestDTO): void {
+export function toggleResultContainerBookCard(book: BookRequestDTO): void {
 
     const bookCard = document.getElementById(`resultContainer__${book.titleKey}`)
 
