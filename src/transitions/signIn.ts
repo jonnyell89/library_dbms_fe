@@ -49,7 +49,8 @@ export function signIn(): void {
     throw new Error("No currentMember set to state.");
   }
 
-  // Containers must be intialised after currentMember has been set to state.
+  console.log("currentMember signed in: " + currentMember.name + " (ID: " + currentMember.memberId + ")");
+
   initMember();
   initReservation();
   initSearchResult();
@@ -60,6 +61,4 @@ export function signIn(): void {
   reservationContainer.style.display = "block";
   searchContainer.style.display = "block";
   resultContainer.style.display = "block";
-
-  console.log("currentMember signed in: " + currentMember.name + " (ID: " + currentMember.memberId + ")");
 }

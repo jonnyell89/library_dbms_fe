@@ -5,32 +5,29 @@ import type { MemberRequestDTO } from "../types/MemberRequestDTO";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 import { getNewMemberFormValues } from "../utils/getNewMemberFormValues";
 
-export function attachNewMemberFormEvent(): void {
-  // Captures newMemberForm.
+export function attachNewContainerSubmitEvent(): void {
+
   const newMemberForm = document.querySelector<HTMLFormElement>(".newContainer__form");
 
-  // Handles error event.
   if (!newMemberForm) {
     throw new Error("newMemberForm did not render.");
   }
 
-  // Attaches submit event listener to newMemberForm.
-  newMemberForm.addEventListener("submit", handleNewMemberFormSubmit);
+  newMemberForm.addEventListener("submit", handleNewContainerSubmit);
 }
 
-async function handleNewMemberFormSubmit(event: Event): Promise<void> {
-  // Prevents web browser from reloading after newMemberForm submission.
-  event.preventDefault();
+async function handleNewContainerSubmit(event: Event): Promise<void> {
+
+  event.preventDefault(); // Prevents web browser from reloading after newMemberForm submission.
 
   try {
     const memberRequestDTO: MemberRequestDTO = getNewMemberFormValues();
+
     const newMember: MemberResponseDTO = await postNewMember(memberRequestDTO);
 
-    // Sets currentMember to state.
     setCurrentMember(newMember);
 
-    // Initialises containers after currentMember has been set to state.
-    signIn();
+    signIn(); // Initialises memberContainer, reservationContainer, searchContainer and resultContainer after currentMember has been set to state.
 
   } catch (error) {
     console.error("Failed to connect to the Spring Boot API: ", error);

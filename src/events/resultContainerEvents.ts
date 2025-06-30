@@ -3,20 +3,18 @@ import type { BookRequestDTO } from "../types/BookRequestDTO";
 import { attachBookCardReserveEvent } from "./bookCardEvents";
 
 export function resultContainerFeedEvent(books: BookRequestDTO[]): void {
-    // Captures resultContainerFeed.
+
     const resultContainerFeed = document.querySelector<HTMLDivElement>(".resultContainer__feed");
 
-    // Handles error event.
     if (!resultContainerFeed) {
         throw new Error("resultContainerFeed did not render.");
     }
 
-    // Clears resultContainerFeed.
-    resultContainerFeed.innerHTML = "";
+    resultContainerFeed.innerHTML = ""; // Clears resultContainerFeed.
 
     books.forEach(book => {
 
-        const bookCard = createBookCard(book);
+        const bookCard: HTMLDivElement = createBookCard(book);
 
         assignBookCardImage(bookCard, book);
 

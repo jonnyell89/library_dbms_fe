@@ -18,5 +18,4 @@ export async function postBook(book: BookRequestDTO): Promise<BookResponseDTO> {
     }
 
     return await response.json();
-
 }

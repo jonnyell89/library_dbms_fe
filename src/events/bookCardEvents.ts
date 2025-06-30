@@ -1,15 +1,16 @@
 import { attachBookCardRemoveButton } from "../components/bookCard";
+import { deleteBook } from "../services/deleteBook";
 import { postBook } from "../services/postBook";
-import { addSelectedBook, selectedBooks } from "../state";
+import { addSelectedBook, removeSelectedBook, selectedBooks } from "../state";
+import { toggleConfirmButton } from "../transitions/toggleConfirmButton";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
-import { appendBookCardToReservationContainer, toggleConfirmButton } from "./reservationContainerEvents";
+import { reservationContainerFeedEvent } from "./reservationContainerEvents";
 
 export function attachBookCardReserveEvent(bookCard: HTMLDivElement, book: BookRequestDTO): void {
-    // Captures reserveButton.
+
     const reserveButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn--reserve");
 
-    // Handles error event.
     if (!reserveButton) {
         throw new Error("reserveButton did not render.");
     }
@@ -21,13 +22,47 @@ async function handleBookCardReserveClick(bookCard: HTMLDivElement, book: BookRe
     try {
         const postedBook: BookResponseDTO = await postBook(book);
 
+        console.log(`Spring Boot API confirmation: ${postedBook}`);
+
         addSelectedBook(postedBook);
 
         console.log(`${postedBook.title} added to selectedBooks list: `, selectedBooks);
 
         attachBookCardRemoveButton(bookCard);
 
-        appendBookCardToReservationContainer(bookCard);
+        attachBookCardRemoveEvent(bookCard, postedBook);
+
+        reservationContainerFeedEvent(bookCard); // Appends bookCard to reservationContainer.
+
+        toggleConfirmButton();
+
+    } catch (error) {
+        console.error("Failed to connect to the Spring Boot API: ", error);
+    }
+}
+
+export function attachBookCardRemoveEvent(bookCard: HTMLDivElement, book: BookResponseDTO): void {
+
+    const removeButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn--remove");
+
+    if (!removeButton) {
+        throw new Error("removeButton did not render.");
+    }
+
+    removeButton.addEventListener("click", async () => handelBookCardRemoveClick(bookCard, book));
+}
+
+async function handelBookCardRemoveClick(bookCard: HTMLDivElement, book: BookResponseDTO): Promise<void> {
+    try {
+        const deletedBook: string = await deleteBook(book);
+
+        console.log(`Spring Boot API confirmation: ${deletedBook}`);
+
+        removeSelectedBook(book);
+
+        console.log(`${book.title} removed from selectedBooks list: `, selectedBooks);
+
+        bookCard.remove(); // Removes bookCard from reservationContainer.
 
         toggleConfirmButton();
 

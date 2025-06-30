@@ -49,13 +49,11 @@ export function signOut(): void {
 
   console.log("currentMember signed out: " + currentMember.name + " (ID: " + currentMember.memberId + ")");
 
-  // Clears all values set in state.
   clearCurrentMember();
   clearCurrentReservation();
   clearSelectedBooks();
 
-  // Resets the application.
-  initOldNew();
+  initOldNew(); // Resets the application.
 
   oldContainer.style.display = "block";
   newContainer.style.display = "block";
