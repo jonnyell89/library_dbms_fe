@@ -51,15 +51,20 @@ export function attachBookCardReserveButton(bookCard: HTMLDivElement): void {
     bookCardButton.classList.add("bookCard__btn--reserve");
 }
 
-export function attachBookCardRemoveButton(bookCard: HTMLDivElement): void {
+export function cloneBookCard(bookCard: HTMLDivElement): HTMLDivElement {
 
-    const reservedCard = bookCard.cloneNode(true) as HTMLDivElement;
+    const reservedBookCard = bookCard.cloneNode(true) as HTMLDivElement;
 
-    if (!reservedCard) {
-        throw new Error("reservedCard did not clone.");
+    if (!reservedBookCard) {
+        throw new Error("reservedBookCard did not clone.");
     }
 
-    const removeButton = reservedCard.querySelector<HTMLButtonElement>(".bookCard__btn");
+    return reservedBookCard;
+}
+
+export function attachBookCardRemoveButton(reservedBookCard: HTMLDivElement): void {
+
+    const removeButton = reservedBookCard.querySelector<HTMLButtonElement>(".bookCard__btn--reserve");
 
     if (!removeButton) {
         throw new Error("removeButton did not render.");

@@ -1,4 +1,4 @@
-import { attachBookCardRemoveButton } from "../components/bookCard";
+import { attachBookCardRemoveButton, cloneBookCard } from "../components/bookCard";
 import { deleteBook } from "../services/deleteBook";
 import { postBook } from "../services/postBook";
 import { addSelectedBook, removeSelectedBook, selectedBooks } from "../state";
@@ -22,17 +22,19 @@ async function handleBookCardReserveClick(bookCard: HTMLDivElement, book: BookRe
     try {
         const postedBook: BookResponseDTO = await postBook(book);
 
-        console.log(`Spring Boot API confirmation: ${postedBook}`);
+        console.log("Spring Boot API confirmation: ", postedBook);
 
         addSelectedBook(postedBook);
 
         console.log(`${postedBook.title} added to selectedBooks list: `, selectedBooks);
 
-        attachBookCardRemoveButton(bookCard);
+        const reservedBookCard: HTMLDivElement = cloneBookCard(bookCard);
 
-        attachBookCardRemoveEvent(bookCard, postedBook);
+        attachBookCardRemoveButton(reservedBookCard);
 
-        reservationContainerFeedEvent(bookCard); // Appends bookCard to reservationContainer.
+        attachBookCardRemoveEvent(reservedBookCard, postedBook);
+
+        reservationContainerFeedEvent(reservedBookCard); // Appends reservedBookCard to reservationContainer.
 
         toggleReservationContainerConfirm();
 
