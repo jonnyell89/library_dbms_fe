@@ -1,7 +1,7 @@
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 
-export async function postBook(book: BookRequestDTO): Promise<BookResponseDTO> {
+export async function createBook(book: BookRequestDTO): Promise<BookResponseDTO> {
 
     const url = "http://localhost:8080/api/books";
 

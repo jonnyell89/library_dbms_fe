@@ -11,6 +11,6 @@ export function mapOLResponseToBookRequestDTO(docs: OLDetails[]): BookRequestDTO
         titleKey: doc.key,
         firstPublishYear: doc.first_publish_year,
         cover: doc.cover_i,
-        coverEditionKey: doc.cover_edition_key
+        coverEditionKey: doc.cover_edition_key,
     }))
 }

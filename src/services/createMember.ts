@@ -1,7 +1,7 @@
 import type { MemberRequestDTO } from "../types/MemberRequestDTO";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 
-export async function postNewMember(newMember: MemberRequestDTO): Promise<MemberResponseDTO> {
+export async function createMember(newMember: MemberRequestDTO): Promise<MemberResponseDTO> {
 
     const url = "http://localhost:8080/api/members";
 

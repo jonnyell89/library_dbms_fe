@@ -1,6 +1,6 @@
 import { attachBookCardRemoveButton, cloneBookCard } from "../components/bookCard";
-import { deleteBook } from "../services/deleteBook";
-import { postBook } from "../services/postBook";
+import { deleteBookById } from "../services/deleteBookById";
+import { createBook } from "../services/createBook";
 import { addSelectedBook, removeSelectedBook, selectedBooks } from "../state";
 import { toggleReservationContainerConfirm } from "../transitions/toggleReservationContainerConfirm";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
@@ -20,7 +20,7 @@ export function attachBookCardReserveEvent(bookCard: HTMLDivElement, book: BookR
 
 async function handleBookCardReserveClick(bookCard: HTMLDivElement, book: BookRequestDTO): Promise<void> {
     try {
-        const postedBook: BookResponseDTO = await postBook(book);
+        const postedBook: BookResponseDTO = await createBook(book);
 
         console.log("Spring Boot API confirmation: ", postedBook);
 
@@ -56,7 +56,7 @@ export function attachBookCardRemoveEvent(bookCard: HTMLDivElement, book: BookRe
 
 async function handelBookCardRemoveClick(bookCard: HTMLDivElement, book: BookResponseDTO): Promise<void> {
     try {
-        const deletedBook: string = await deleteBook(book);
+        const deletedBook: string = await deleteBookById(book);
 
         console.log(`Spring Boot API confirmation: ${deletedBook}`);
 

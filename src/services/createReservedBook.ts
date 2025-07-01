@@ -1,7 +1,7 @@
 import type { ReservedBookRequestDTO } from "../types/ReservedBookRequestDTO";
 import type { ReservedBookResponseDTO } from "../types/ReservedBookResponseDTO";
 
-export async function postReservedBook(reservedBook: ReservedBookRequestDTO): Promise<ReservedBookResponseDTO> {
+export async function createReservedBook(reservedBook: ReservedBookRequestDTO): Promise<ReservedBookResponseDTO> {
 
     const url = "http://localhost:8080/api/reserved-books";
 

@@ -1,6 +1,6 @@
 import { currentMember } from "../state";
 
-export function renderMemberContainer(): void {
+export function renderMemberContainer(): {reservationsButton: HTMLButtonElement, signOutButton: HTMLButtonElement} {
     
     const memberContainer = document.querySelector<HTMLElement>(".memberContainer");
 
@@ -25,6 +25,21 @@ export function renderMemberContainer(): void {
             <p>${currentMember.address.county}, </p>
             <p>${currentMember.address.postcode}. </p>
         </div>
+        <button class="memberContainer__btn memberContainer__btn--reservations" type="button">Reservations</button>
         <button class="memberContainer__btn memberContainer__btn--signOut" type="button">Sign Out</button>
     `;
+
+    const reservationsButton = memberContainer.querySelector<HTMLButtonElement>(".memberContainer__btn--reservations");
+    
+    const signOutButton = memberContainer.querySelector<HTMLButtonElement>(".memberContainer__btn--signOut");
+
+    if (!reservationsButton) {
+        throw new Error("reservationsButton did not render.");
+    }
+
+    if (!signOutButton) {
+        throw new Error("signOutButton did not render.");
+    }
+
+    return { reservationsButton, signOutButton };
 }

@@ -1,4 +1,4 @@
-import { postNewMember } from "../services/postNewMember";
+import { createMember } from "../services/createMember";
 import { setCurrentMember } from "../state";
 import { signIn } from "../transitions/signIn";
 import type { MemberRequestDTO } from "../types/MemberRequestDTO";
@@ -23,7 +23,7 @@ async function handleNewContainerSubmit(event: Event): Promise<void> {
   try {
     const memberRequestDTO: MemberRequestDTO = getNewMemberFormValues();
 
-    const newMember: MemberResponseDTO = await postNewMember(memberRequestDTO);
+    const newMember: MemberResponseDTO = await createMember(memberRequestDTO);
 
     setCurrentMember(newMember);
 

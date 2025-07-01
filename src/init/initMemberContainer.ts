@@ -1,9 +1,12 @@
 import { renderMemberContainer } from "../containers/memberContainer";
-import { attachMemberContainerSignOutEvent } from "../events/memberContainerEvents";
+import { signOut } from "../transitions/signOut";
+import { toggleReservationContainer } from "../transitions/toggleReservationContainer";
 
 export function initMemberContainer(): void {
 
-    renderMemberContainer();
+    const { reservationsButton, signOutButton } = renderMemberContainer();
 
-    attachMemberContainerSignOutEvent();
+    reservationsButton.addEventListener("click", toggleReservationContainer);
+
+    signOutButton.addEventListener("click", signOut)
 }

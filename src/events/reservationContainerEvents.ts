@@ -1,7 +1,7 @@
 import { mapReservationRequestDTO } from "../mappers/mapReservationRequestDTO";
 import { mapReservedBookRequestDTO } from "../mappers/mapReservedBookRequestDTO";
-import { postReservation } from "../services/postReservation";
-import { postReservedBook } from "../services/postReservedBook";
+import { createReservation } from "../services/createReservation";
+import { createReservedBook } from "../services/createReservedBook";
 import { getSelectedBooks, setCurrentReservation } from "../state";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 import type { ReservationRequestDTO } from "../types/ReservationRequestDTO";
@@ -35,7 +35,7 @@ async function handleReservationContainerConfirmClick(): Promise<void> {
     try {
         const reservation: ReservationRequestDTO = mapReservationRequestDTO();
 
-        const postedReservation: ReservationResponseDTO = await postReservation(reservation);
+        const postedReservation: ReservationResponseDTO = await createReservation(reservation);
 
         console.log("Reservation saved to reservationRepository: ", postedReservation);
 
@@ -57,7 +57,7 @@ export async function attachSelectedBooksToReservation(): Promise<void> {
         try {
             const reservedBook: ReservedBookRequestDTO = mapReservedBookRequestDTO(selectedBook.bookId);
             
-            const postedReservedBook: ReservedBookResponseDTO = await postReservedBook(reservedBook);
+            const postedReservedBook: ReservedBookResponseDTO = await createReservedBook(reservedBook);
 
             console.log("ReservedBook saved to reservedBookRepository: ", postedReservedBook);
 

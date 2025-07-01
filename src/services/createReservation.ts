@@ -1,7 +1,7 @@
 import type { ReservationRequestDTO } from "../types/ReservationRequestDTO";
 import type { ReservationResponseDTO } from "../types/ReservationResponseDTO";
 
-export async function postReservation(reservation: ReservationRequestDTO): Promise<ReservationResponseDTO> {
+export async function createReservation(reservation: ReservationRequestDTO): Promise<ReservationResponseDTO> {
 
     const url = "http://localhost:8080/api/reservations";
 

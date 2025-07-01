@@ -1,6 +1,6 @@
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 
-export async function getOldMember(name: string, email: string): Promise<MemberResponseDTO> {
+export async function getMemberByNameAndEmail(name: string, email: string): Promise<MemberResponseDTO> {
 
     const url = `http://localhost:8080/api/members/search?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
 

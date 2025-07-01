@@ -1,4 +1,4 @@
-import { getOldMember } from "../services/getOldMember";
+import { getMemberByNameAndEmail } from "../services/getMemberByNameAndEmail";
 import { setCurrentMember } from "../state";
 import { signIn } from "../transitions/signIn";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
@@ -22,7 +22,7 @@ async function handleOldContainerSubmit(event: Event): Promise<void> {
   try {
     const { name, email } = getOldMemberFormValues();
 
-    const oldMember: MemberResponseDTO = await getOldMember(name, email);
+    const oldMember: MemberResponseDTO = await getMemberByNameAndEmail(name, email);
 
     setCurrentMember(oldMember);
 

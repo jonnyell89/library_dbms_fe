@@ -114,8 +114,13 @@ input {
     background-color: #073928; 
     border: 0px;
 
+    &--reservations {
+      font-weight: bold;
+    }
+
     &--signOut {
       font-weight: bold;
+      margin-top: 1rem; // Gap between memberContainer__btn--signOut and memberContainer__btn--reservations.
     }
   }
 }
@@ -142,7 +147,7 @@ input {
     
     &--confirm {
       font-weight: bold;
-      margin-top: 1rem; // Gap between reservationContainer__btn--confirm and reservationContainer__btn--remove.
+      margin-top: 1rem; // Gap between reservationContainer__btn--confirm and bookCard__btn--remove.
     }
   }
 }

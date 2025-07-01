@@ -1,11 +1,11 @@
-import { getPersistedBooks } from "../services/getPersistedBooks";
+import { getAllBooks } from "../services/getAllBooks";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 
 export async function setAvailability(books: BookRequestDTO[]): Promise<void> {
 
     try {
-        const persistedBooks: BookResponseDTO[] = await getPersistedBooks();
+        const persistedBooks: BookResponseDTO[] = await getAllBooks();
 
         for (const book of books) {
             

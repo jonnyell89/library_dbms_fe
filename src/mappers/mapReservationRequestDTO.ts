@@ -18,6 +18,6 @@ export function mapReservationRequestDTO(): ReservationRequestDTO {
     return {
         memberId: currentMember.memberId,
         startDate,
-        endDate
+        endDate,
     }
 }

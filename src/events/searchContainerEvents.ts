@@ -1,5 +1,5 @@
 import { mapOLResponseToBookRequestDTO } from "../mappers/mapOLResponseToBookRequestDTO";
-import { getSearchResults } from "../services/getSearchResults";
+import { queryOpenLibraryAPI } from "../services/queryOpenLibraryAPI";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { OLResponse } from "../types/OpenLibraryResponse";
 import { getSearchFormValues } from "../utils/getSearchFormValues";
@@ -24,7 +24,7 @@ async function handleSearchContainerSubmit(event: Event): Promise<void> {
     try {
         const { author, title } = getSearchFormValues();
 
-        const searchResults: OLResponse = await getSearchResults(author, title);
+        const searchResults: OLResponse = await queryOpenLibraryAPI(author, title);
         
         console.log("Open Library Search API response: ", searchResults);
 

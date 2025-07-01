@@ -1,6 +1,6 @@
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 
-export async function deleteBook(book: BookResponseDTO): Promise<string> {
+export async function deleteBookById(book: BookResponseDTO): Promise<string> {
     
     const url = `http://localhost:8080/api/books/${book.bookId}`;
 

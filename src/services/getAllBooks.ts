@@ -1,6 +1,6 @@
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 
-export async function getPersistedBooks(): Promise<BookResponseDTO[]> {
+export async function getAllBooks(): Promise<BookResponseDTO[]> {
 
     const url = "http://localhost:8080/api/books";
     
