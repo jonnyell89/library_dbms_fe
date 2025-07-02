@@ -3,25 +3,14 @@ import { setCurrentMember } from "../state";
 import { signIn } from "../transitions/signIn";
 import type { MemberRequestDTO } from "../types/MemberRequestDTO";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
-import { getNewMemberFormValues } from "../utils/getNewMemberFormValues";
+import { getNewContainerFormValues } from "../utils/getNewMemberFormValues";
 
-export function attachNewContainerSubmitEvent(): void {
-
-  const newMemberForm = document.querySelector<HTMLFormElement>(".newContainer__form");
-
-  if (!newMemberForm) {
-    throw new Error("newMemberForm did not render.");
-  }
-
-  newMemberForm.addEventListener("submit", handleNewContainerSubmit);
-}
-
-async function handleNewContainerSubmit(event: Event): Promise<void> {
+export async function handleNewContainerFormEvent(event: Event): Promise<void> {
 
   event.preventDefault(); // Prevents web browser from reloading after newMemberForm submission.
 
   try {
-    const memberRequestDTO: MemberRequestDTO = getNewMemberFormValues();
+    const memberRequestDTO: MemberRequestDTO = getNewContainerFormValues();
 
     const newMember: MemberResponseDTO = await createMember(memberRequestDTO);
 

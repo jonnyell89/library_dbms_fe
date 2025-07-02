@@ -1,9 +1,11 @@
-import { renderOldContainer } from "../containers/oldContainer";
-import { attachOldContainerSubmitEvent } from "../events/oldContainerEvents";
+import { extractOldContainerForm, renderOldContainer } from "../containers/oldContainer";
+import { handleOldContainerFormEvent } from "../events/oldContainerEvents";
 
 export function initOldContainer(): void {
 
-    renderOldContainer();
+    const { oldContainer } = renderOldContainer(); // Render
 
-    attachOldContainerSubmitEvent();
+    const { oldContainerForm } = extractOldContainerForm(oldContainer); // Extract
+
+    oldContainerForm.addEventListener("submit", handleOldContainerFormEvent); // Attach
 }

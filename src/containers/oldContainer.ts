@@ -1,4 +1,4 @@
-export function renderOldContainer(): void {
+export function renderOldContainer(): { oldContainer: HTMLElement } {
   
   const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
 
@@ -20,4 +20,17 @@ export function renderOldContainer(): void {
       <button class="oldContainer__btn oldContainer__btn--submit" type="submit">Submit</button>
     </form>
   `;
+
+  return { oldContainer };
+}
+
+export function extractOldContainerForm(oldContainer: HTMLElement): { oldContainerForm: HTMLFormElement } {
+
+  const oldContainerForm = oldContainer.querySelector<HTMLFormElement>(".oldContainer__form");
+
+  if (!oldContainerForm) {
+    throw new Error("oldContainerForm did not render.");
+  }
+
+  return { oldContainerForm };
 }

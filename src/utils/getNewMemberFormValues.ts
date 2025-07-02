@@ -1,21 +1,21 @@
 import type { MemberRequestDTO } from "../types/MemberRequestDTO";
 import { formatUserInput } from "./formatUserInput";
 
-export function getNewMemberFormValues(): MemberRequestDTO {
+export function getNewContainerFormValues(): MemberRequestDTO {
 
-    const newMemberForm = document.querySelector<HTMLFormElement>(".newContainer__form");
+    const newContainerForm = document.querySelector<HTMLFormElement>(".newContainer__form");
 
-    if (!newMemberForm) {
-        throw new Error("newMemberForm did not render.");
+    if (!newContainerForm) {
+        throw new Error("newContainerForm did not render.");
     }
 
-    const newName = newMemberForm.querySelector("#newName") as HTMLInputElement | null;
-    const newEmail = newMemberForm.querySelector("#newEmail") as HTMLInputElement | null;
-    const newLine1 = newMemberForm.querySelector("#newLine1") as HTMLInputElement | null;
-    const newLine2 = newMemberForm.querySelector("#newLine2") as HTMLInputElement | null;
-    const newCity = newMemberForm.querySelector("#newCity") as HTMLInputElement | null;
-    const newCounty = newMemberForm.querySelector("#newCounty") as HTMLInputElement | null;
-    const newPostcode = newMemberForm.querySelector("#newPostcode") as HTMLInputElement | null;
+    const newName = newContainerForm.querySelector("#newName") as HTMLInputElement | null;
+    const newEmail = newContainerForm.querySelector("#newEmail") as HTMLInputElement | null;
+    const newLine1 = newContainerForm.querySelector("#newLine1") as HTMLInputElement | null;
+    const newLine2 = newContainerForm.querySelector("#newLine2") as HTMLInputElement | null;
+    const newCity = newContainerForm.querySelector("#newCity") as HTMLInputElement | null;
+    const newCounty = newContainerForm.querySelector("#newCounty") as HTMLInputElement | null;
+    const newPostcode = newContainerForm.querySelector("#newPostcode") as HTMLInputElement | null;
 
     if (!newName) {
         throw new Error("newName did not render.");

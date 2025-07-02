@@ -1,9 +1,11 @@
-import { renderNewContainer } from "../containers/newContainer";
-import { attachNewContainerSubmitEvent } from "../events/newContainerEvents";
+import { extractNewContainerForm, renderNewContainer } from "../containers/newContainer";
+import { handleNewContainerFormEvent } from "../events/newContainerEvents";
 
 export function initNewContainer(): void {
 
-    renderNewContainer();
+    const { newContainer } = renderNewContainer(); // Render
 
-    attachNewContainerSubmitEvent();
+    const { newContainerForm } = extractNewContainerForm(newContainer); // Extract
+
+    newContainerForm.addEventListener("submit", handleNewContainerFormEvent); // Attach
 }
