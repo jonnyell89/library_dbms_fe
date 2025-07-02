@@ -2,7 +2,7 @@ import type { OLDetails } from "../types/OpenLibraryResponse";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 
 // Maps Open Library API response to BookRequestDTO.
-export function mapOLResponseToBookRequestDTO(docs: OLDetails[]): BookRequestDTO[] {
+export function mapSearchResultsToBookRequestDTO(docs: OLDetails[]): BookRequestDTO[] {
 
     return docs.map(doc => ({
         author: doc.author_name?.[0],

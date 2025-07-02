@@ -4,6 +4,7 @@ import { initSearchContainer } from "../init/initSearchContainer";
 import { currentMember } from "../state";
 
 export function signIn(): void {
+  
   const oldMemberForm = document.querySelector<HTMLFormElement>(".oldContainer__form");
   const newMemberForm = document.querySelector<HTMLFormElement>(".newContainer__form");
   const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
@@ -11,7 +12,6 @@ export function signIn(): void {
   const memberContainer = document.querySelector<HTMLElement>(".memberContainer");
   const reservationContainer = document.querySelector<HTMLElement>(".reservationContainer");
   const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
-  const resultContainer = document.querySelector<HTMLElement>(".resultContainer");
 
   if (!oldMemberForm) {
     throw new Error("oldMemberForm did not render.");
@@ -41,10 +41,6 @@ export function signIn(): void {
     throw new Error("searchContainer did not render.");
   }
 
-  if (!resultContainer) {
-    throw new Error("resultContainer did not render.");
-  }
-
   if (!currentMember) {
     throw new Error("No currentMember set to state.");
   }
@@ -60,5 +56,4 @@ export function signIn(): void {
   memberContainer.style.display = "block";
   reservationContainer.style.display = "block";
   searchContainer.style.display = "block";
-  resultContainer.style.display = "block";
 }

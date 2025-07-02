@@ -1,4 +1,4 @@
-export function renderSearchContainer(): void {
+export function renderSearchContainer(): { searchContainer: HTMLElement } {
   
   const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
 
@@ -19,5 +19,30 @@ export function renderSearchContainer(): void {
       </p>
       <button class="searchContainer__btn searchContainer__btn--submit" type="submit">Submit</button>
     </form>
+    <div class="searchContainer__feed"></div>
   `;
+
+  return { searchContainer };
+}
+
+export function extractSearchContainerForm(searchContainer: HTMLElement): { searchContainerForm: HTMLFormElement } {
+
+  const searchContainerForm = searchContainer.querySelector<HTMLFormElement>(".searchContainer__form");
+
+  if (!searchContainerForm) {
+    throw new Error("searhcContainerForm did not render.");
+  }
+
+  return { searchContainerForm };
+}
+
+export function extractSearchContainerFeed(searchContainer: HTMLElement): { searchContainerFeed: HTMLDivElement } {
+
+  const searchContainerFeed = searchContainer.querySelector<HTMLDivElement>(".searchContainer__feed");
+
+  if (!searchContainerFeed) {
+    throw new Error("searchContainerFeed did not render.");
+  }
+
+  return { searchContainerFeed };
 }

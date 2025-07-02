@@ -1,12 +1,13 @@
-import { renderResultContainer } from "../containers/resultContainer";
-import { renderSearchContainer } from "../containers/searchContainer";
-import { attachSearchContainerSubmitEvent } from "../events/searchContainerEvents";
+import { extractSearchContainerFeed, extractSearchContainerForm, renderSearchContainer } from "../containers/searchContainer";
+import { handleSearchContainerFormEvent } from "../events/searchContainerEvents";
 
 export function initSearchContainer(): void {
 
-    renderSearchContainer();
+    const { searchContainer } = renderSearchContainer(); // Render
 
-    renderResultContainer();
+    const { searchContainerForm } = extractSearchContainerForm(searchContainer); // Extract
 
-    attachSearchContainerSubmitEvent(); // Triggers resultContainerEvents workflow.
+    const { searchContainerFeed } = extractSearchContainerFeed(searchContainer); // Extract
+
+    searchContainerForm.addEventListener("submit", async (event: SubmitEvent) => handleSearchContainerFormEvent(event, searchContainerFeed)) // Attach
 }

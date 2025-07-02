@@ -1,12 +1,14 @@
-import { renderMemberContainer } from "../containers/memberContainer";
+import { extractReservationsButtonAndSignOutButton, renderMemberContainer } from "../containers/memberContainer";
 import { signOut } from "../transitions/signOut";
 import { toggleReservationContainer } from "../transitions/toggleReservationContainer";
 
 export function initMemberContainer(): void {
 
-    const { reservationsButton, signOutButton } = renderMemberContainer();
+    const { memberContainer } = renderMemberContainer(); // Render
 
-    reservationsButton.addEventListener("click", toggleReservationContainer);
+    const { reservationsButton, signOutButton } = extractReservationsButtonAndSignOutButton(memberContainer); // Extract
 
-    signOutButton.addEventListener("click", signOut)
+    reservationsButton.addEventListener("click", toggleReservationContainer); // Attach
+
+    signOutButton.addEventListener("click", signOut) // Attach
 }

@@ -2,6 +2,7 @@ import { clearCurrentMember, clearCurrentReservation, clearSelectedBooks, curren
 import { initApplication } from "../main";
 
 export function signOut(): void {
+
   const oldMemberForm = document.querySelector<HTMLFormElement>(".oldContainer__form");
   const newMemberForm = document.querySelector<HTMLFormElement>(".newContainer__form");
   const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
@@ -9,7 +10,6 @@ export function signOut(): void {
   const memberContainer = document.querySelector<HTMLElement>(".memberContainer");
   const reservationContainer = document.querySelector<HTMLElement>(".reservationContainer");
   const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
-  const resultContainer = document.querySelector<HTMLElement>(".resultContainer");
 
   if (!oldMemberForm) {
     throw new Error("oldMemberForm did not render.");
@@ -39,10 +39,6 @@ export function signOut(): void {
     throw new Error("searchContainer did not render.");
   }
 
-  if (!resultContainer) {
-    throw new Error("resultContainer did not render.");
-  }
-
   if (!currentMember) {
     throw new Error("No currentMember set to state.");
   }
@@ -60,5 +56,4 @@ export function signOut(): void {
   memberContainer.style.display = "none";
   reservationContainer.style.display = "none";
   searchContainer.style.display = "none";
-  resultContainer.style.display = "none";
 }

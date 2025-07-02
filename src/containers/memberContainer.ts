@@ -1,6 +1,6 @@
 import { currentMember } from "../state";
 
-export function renderMemberContainer(): {reservationsButton: HTMLButtonElement, signOutButton: HTMLButtonElement} {
+export function renderMemberContainer(): { memberContainer: HTMLElement } {
     
     const memberContainer = document.querySelector<HTMLElement>(".memberContainer");
 
@@ -28,6 +28,11 @@ export function renderMemberContainer(): {reservationsButton: HTMLButtonElement,
         <button class="memberContainer__btn memberContainer__btn--reservations" type="button">Reservations</button>
         <button class="memberContainer__btn memberContainer__btn--signOut" type="button">Sign Out</button>
     `;
+
+    return { memberContainer };
+}
+
+export function extractReservationsButtonAndSignOutButton(memberContainer: HTMLElement): { reservationsButton: HTMLButtonElement, signOutButton: HTMLButtonElement} {
 
     const reservationsButton = memberContainer.querySelector<HTMLButtonElement>(".memberContainer__btn--reservations");
     

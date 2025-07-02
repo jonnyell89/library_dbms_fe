@@ -1,40 +1,36 @@
-import { mapOLResponseToBookRequestDTO } from "../mappers/mapOLResponseToBookRequestDTO";
-import { queryOpenLibraryAPI } from "../services/queryOpenLibraryAPI";
-import type { BookRequestDTO } from "../types/BookRequestDTO";
-import type { OLResponse } from "../types/OpenLibraryResponse";
-import { getSearchFormValues } from "../utils/getSearchFormValues";
-import { setAvailability } from "../utils/setAvailability";
-import { resultContainerFeedEvent } from "./resultContainerEvents";
+import { assignBookCardImage, attachBookCardReserveButton, createBookCard } from "../components/bookCard";
+import type { BookRequestDTO } from "../types/BookRequestDTO";  
+import { getBookRequestDTOFromOpenLibraryAPI } from "../utils/getBookRequestDTOFromOpenLibraryAPI";
+import { attachBookCardReserveEvent } from "./bookCardEvents";
 
-export function attachSearchContainerSubmitEvent(): void {
-
-    const searchForm = document.querySelector<HTMLFormElement>(".searchContainer__form");
-
-    if (!searchForm) {
-        throw new Error("searchForm did not render.");
-    }
-
-    searchForm.addEventListener("submit", handleSearchContainerSubmit);
-}    
-
-async function handleSearchContainerSubmit(event: Event): Promise<void> {
+export async function handleSearchContainerFormEvent(event: Event, searchContainerFeed: HTMLDivElement): Promise<void> {
 
     event.preventDefault(); // Prevents web browser from reloading after searchForm submission.
 
     try {
-        const { author, title } = getSearchFormValues();
+        const books: BookRequestDTO[] = await getBookRequestDTOFromOpenLibraryAPI();
 
-        const searchResults: OLResponse = await queryOpenLibraryAPI(author, title);
-        
-        console.log("Open Library Search API response: ", searchResults);
+        handleSearchContainerFeedEvent(searchContainerFeed, books);
 
-        const books: BookRequestDTO[] = mapOLResponseToBookRequestDTO(searchResults.docs.slice(0, 10));
-
-        await setAvailability(books);
-        
-        resultContainerFeedEvent(books); // Triggers resultContainerEvents workflow.
-    
     } catch (error) {
         console.error("Failed to connect to the Open Library Search API: ", error);
     }
+}
+
+function handleSearchContainerFeedEvent(searchContainerFeed: HTMLDivElement, books: BookRequestDTO[]): void {
+
+    searchContainerFeed.innerHTML = ""; // Clears searchContainerFeed.
+
+    books.forEach(book => {
+
+        const bookCard: HTMLDivElement = createBookCard(book);
+
+        assignBookCardImage(bookCard, book);
+
+        attachBookCardReserveButton(bookCard);
+
+        attachBookCardReserveEvent(bookCard, book);
+
+        searchContainerFeed.appendChild(bookCard);
+    });
 }
