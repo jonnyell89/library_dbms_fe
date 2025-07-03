@@ -1,4 +1,4 @@
-export function renderReservationContainer(): void {
+export function renderReservationContainer(): HTMLElement {
   
   const reservationContainer = document.querySelector<HTMLElement>(".reservationContainer");
 
@@ -11,4 +11,6 @@ export function renderReservationContainer(): void {
     <div class="reservationContainer__feed"></div>
     <button class="reservationContainer__btn reservationContainer__btn--confirm" type="button" style="display: none">Confirm</button>
   `;
+
+  return reservationContainer;
 }

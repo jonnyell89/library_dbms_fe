@@ -1,60 +1,41 @@
-import { attachBookCardRemoveButton, cloneBookCard } from "../components/bookCard";
 import { deleteBookById } from "../services/deleteBookById";
 import { createBook } from "../services/createBook";
 import { addSelectedBook, removeSelectedBook, selectedBooks } from "../state";
 import { toggleReservationContainerConfirm } from "../transitions/toggleReservationContainerConfirm";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
-import { reservationContainerFeedEvent } from "./reservationContainerEvents";
+import { initReservationContainerBookCard } from "../init/initReservationContainerBookCard";
+import { selectDocumentElement } from "../utils/selectDocumentElement";
 
-export function attachBookCardReserveEvent(bookCard: HTMLDivElement, book: BookRequestDTO): void {
-
-    const reserveButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn--reserve");
-
-    if (!reserveButton) {
-        throw new Error("reserveButton did not render.");
-    }
-
-    reserveButton.addEventListener("click", async () => handleBookCardReserveClick(bookCard, book));
-}
-
-async function handleBookCardReserveClick(bookCard: HTMLDivElement, book: BookRequestDTO): Promise<void> {
+export async function handleBookCardReserveEvent(book: BookRequestDTO): Promise<void> {
     try {
-        const postedBook: BookResponseDTO = await createBook(book);
+        const createdBook: BookResponseDTO = await createBook(book);
 
-        console.log("Spring Boot API confirmation: ", postedBook);
+        console.log("Spring Boot API confirmation: ", createdBook);
 
-        addSelectedBook(postedBook);
+        addSelectedBook(createdBook);
 
-        console.log(`${postedBook.title} added to selectedBooks list: `, selectedBooks);
+        console.log(`${createdBook.title} added to selectedBooks list: `, selectedBooks);
 
-        const reservedBookCard: HTMLDivElement = cloneBookCard(bookCard);
-
-        attachBookCardRemoveButton(reservedBookCard);
-
-        attachBookCardRemoveEvent(reservedBookCard, postedBook);
-
-        reservationContainerFeedEvent(reservedBookCard); // Appends reservedBookCard to reservationContainer.
-
-        toggleReservationContainerConfirm();
+        handleBookCardReservation(book);
 
     } catch (error) {
         console.error("Failed to connect to the Spring Boot API: ", error);
     }
 }
 
-export function attachBookCardRemoveEvent(bookCard: HTMLDivElement, book: BookResponseDTO): void {
+function handleBookCardReservation(book: BookRequestDTO): void {
 
-    const removeButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn--remove");
+    const reservationContainerFeed: HTMLDivElement = selectDocumentElement(".reservationContainer__feed");
 
-    if (!removeButton) {
-        throw new Error("removeButton did not render.");
-    }
+    const bookCard: HTMLDivElement = initReservationContainerBookCard(book);
 
-    removeButton.addEventListener("click", async () => handelBookCardRemoveClick(bookCard, book));
+    reservationContainerFeed.appendChild(bookCard);
+
+    toggleReservationContainerConfirm();
 }
 
-async function handelBookCardRemoveClick(bookCard: HTMLDivElement, book: BookResponseDTO): Promise<void> {
+async function handleBookCardRemoveEvent(bookCard: HTMLDivElement, book: BookResponseDTO): Promise<void> {
     try {
         const deletedBook: string = await deleteBookById(book);
 

@@ -1,11 +1,12 @@
-import { extractNewContainerForm, renderNewContainer } from "../containers/newContainer";
+import { renderNewContainer } from "../containers/newContainer";
 import { handleNewContainerFormEvent } from "../events/newContainerEvents";
+import { selectContainerElement } from "../utils/selectContainerElement";
 
 export function initNewContainer(): void {
 
-    const { newContainer } = renderNewContainer(); // Render
+    const newContainer: HTMLElement = renderNewContainer(); // Render
 
-    const { newContainerForm } = extractNewContainerForm(newContainer); // Extract
+    const newContainerForm: HTMLFormElement = selectContainerElement(newContainer, ".newContainer__form"); // Select
 
-    newContainerForm.addEventListener("submit", handleNewContainerFormEvent); // Attach
+    newContainerForm.addEventListener("submit", (event: SubmitEvent) => handleNewContainerFormEvent(event)); // Attach -> Handle
 }

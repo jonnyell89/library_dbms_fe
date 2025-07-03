@@ -9,37 +9,16 @@ import type { ReservationResponseDTO } from "../types/ReservationResponseDTO";
 import type { ReservedBookRequestDTO } from "../types/ReservedBookRequestDTO";
 import type { ReservedBookResponseDTO } from "../types/ReservedBookResponseDTO";
 
-export function reservationContainerFeedEvent(bookCard: HTMLDivElement): void {
+export async function handleReservationContainerFeedEvent(): Promise<void> {
 
-    const reservationContainerFeed = document.querySelector<HTMLDivElement>(".reservationContainer__feed");
-
-    if (!reservationContainerFeed) {
-        throw new Error("reservationContainerFeed did not render.");
-    }
-
-    reservationContainerFeed.appendChild(bookCard);
-}
-
-export function attachReservationContainerConfirmEvent(): void {
-
-    const confirmButton = document.querySelector<HTMLButtonElement>(".reservationContainer__btn--confirm");
-
-    if (!confirmButton) {
-        throw new Error("confirmButton did not render.");
-    }
-
-    confirmButton.addEventListener("click", handleReservationContainerConfirmClick);
-}
-
-async function handleReservationContainerConfirmClick(): Promise<void> {
     try {
         const reservation: ReservationRequestDTO = mapReservationRequestDTO();
 
-        const postedReservation: ReservationResponseDTO = await createReservation(reservation);
+        const createdReservation: ReservationResponseDTO = await createReservation(reservation);
 
-        console.log("Reservation saved to reservationRepository: ", postedReservation);
+        console.log("Reservation saved to reservationRepository: ", createdReservation);
 
-        setCurrentReservation(postedReservation);
+        setCurrentReservation(createdReservation);
 
         await attachSelectedBooksToReservation();
 
@@ -48,7 +27,7 @@ async function handleReservationContainerConfirmClick(): Promise<void> {
     }
 }
 
-export async function attachSelectedBooksToReservation(): Promise<void> {
+async function attachSelectedBooksToReservation(): Promise<void> {
 
     const selectedBooks: BookResponseDTO[] = getSelectedBooks();
 
@@ -57,9 +36,9 @@ export async function attachSelectedBooksToReservation(): Promise<void> {
         try {
             const reservedBook: ReservedBookRequestDTO = mapReservedBookRequestDTO(selectedBook.bookId);
             
-            const postedReservedBook: ReservedBookResponseDTO = await createReservedBook(reservedBook);
+            const createdReservedBook: ReservedBookResponseDTO = await createReservedBook(reservedBook);
 
-            console.log("ReservedBook saved to reservedBookRepository: ", postedReservedBook);
+            console.log("ReservedBook saved to reservedBookRepository: ", createdReservedBook);
 
         } catch (error) {
             console.error("Failed to connect to the Spring Boot API: ", error);

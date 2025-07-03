@@ -1,13 +1,12 @@
-import { extractSearchContainerFeed, extractSearchContainerForm, renderSearchContainer } from "../containers/searchContainer";
+import { renderSearchContainer } from "../containers/searchContainer";
 import { handleSearchContainerFormEvent } from "../events/searchContainerEvents";
+import { selectContainerElement } from "../utils/selectContainerElement";
 
 export function initSearchContainer(): void {
 
-    const { searchContainer } = renderSearchContainer(); // Render
+    const searchContainer: HTMLElement = renderSearchContainer(); // Render
 
-    const { searchContainerForm } = extractSearchContainerForm(searchContainer); // Extract
+    const searchContainerForm: HTMLFormElement = selectContainerElement(searchContainer, ".searchContainer__form"); // Select
 
-    const { searchContainerFeed } = extractSearchContainerFeed(searchContainer); // Extract
-
-    searchContainerForm.addEventListener("submit", async (event: SubmitEvent) => handleSearchContainerFormEvent(event, searchContainerFeed)) // Attach
+    searchContainerForm.addEventListener("submit", async (event: SubmitEvent) => handleSearchContainerFormEvent(event)) // Attach -> Handle
 }

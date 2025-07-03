@@ -7,7 +7,7 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
     bookCard.classList.add("bookCard");
 
     bookCard.innerHTML = `
-        <img class="bookCard__image" alt="${book.title}", style="width: 100%">
+        <img class="bookCard__img" alt="${book.title}", style="width: 100%">
         <div class="bookCard__information">
             <p>Title: ${book.title}</p>
             <p>Author: ${book.author}</p>
@@ -20,57 +20,36 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
     return bookCard;
 }
 
-export function assignBookCardImage(bookCard: HTMLDivElement, book: BookRequestDTO): void {
-
-    const bookCardImage = bookCard.querySelector<HTMLImageElement>(".bookCard__image");
-    
-    if (!bookCardImage) {
-        throw new Error("bookCardImage did not render.");
-    }
+export function attachBookCardImage(bookCardImage: HTMLImageElement, book: BookRequestDTO): void {
 
     if (book.coverEditionKey) {
-        // Assigns coverEditionKey to src directly from public access URL.
-        bookCardImage.src = `https://covers.openlibrary.org/b/olid/${book.coverEditionKey}-L.jpg`;
+        bookCardImage.src = `https://covers.openlibrary.org/b/olid/${book.coverEditionKey}-L.jpg`; // Attaches coverEditionKey to src directly from public access URL.
     } else if (book.cover) {
-        // Assigns cover to src directly from public access URL.
-        bookCardImage.src = `https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`;
+        bookCardImage.src = `https://covers.openlibrary.org/b/id/${book.cover}-L.jpg`; // Attaches cover to src directly from public access URL.
     } else {
-        console.log(`No cover information available for '${book.title}'.`);
+        console.log(`No cover information available for ${book.title}.`);
     }
 }
 
-export function attachBookCardReserveButton(bookCard: HTMLDivElement): void {
+export function attachBookCardReserveButton(reserveButton: HTMLButtonElement): void {
 
-    const bookCardButton = bookCard.querySelector<HTMLButtonElement>(".bookCard__btn");
-
-    if (!bookCardButton) {
-        throw new Error("bookCardButton did not render.");
-    }
-
-    bookCardButton.textContent = "Reserve";
-    bookCardButton.classList.add("bookCard__btn--reserve");
+    reserveButton.textContent = "Reserve";
+    reserveButton.classList.add("bookCard__btn--reserve");
 }
 
-export function cloneBookCard(bookCard: HTMLDivElement): HTMLDivElement {
-
-    const reservedBookCard = bookCard.cloneNode(true) as HTMLDivElement;
-
-    if (!reservedBookCard) {
-        throw new Error("reservedBookCard did not clone.");
-    }
-
-    return reservedBookCard;
-}
-
-export function attachBookCardRemoveButton(reservedBookCard: HTMLDivElement): void {
-
-    const removeButton = reservedBookCard.querySelector<HTMLButtonElement>(".bookCard__btn--reserve");
-
-    if (!removeButton) {
-        throw new Error("removeButton did not render.");
-    }
+export function attachBookCardRemoveButton(removeButton: HTMLButtonElement): void {
 
     removeButton.textContent = "Remove";
-    removeButton.classList.remove("bookCard__btn--reserve");
     removeButton.classList.add("bookCard__btn--remove");
 }
+
+// export function cloneBookCard(bookCard: HTMLDivElement): HTMLDivElement {
+
+//     const clonedBookCard = bookCard.cloneNode(true) as HTMLDivElement;
+
+//     if (!clonedBookCard) {
+//         throw new Error("clonedBookCard did not clone.");
+//     }
+
+//     return clonedBookCard;
+// }

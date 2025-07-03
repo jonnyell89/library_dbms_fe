@@ -4,7 +4,7 @@ import { signIn } from "../transitions/signIn";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 import { getOldContainerFormValues } from "../utils/getOldContainerFormValues";
 
-export async function handleOldContainerFormEvent(event: Event): Promise<void> {
+export async function handleOldContainerFormEvent(event: SubmitEvent): Promise<void> {
   
   event.preventDefault(); // Prevents web browser from reloading after oldMemberForm submission.
 
@@ -15,7 +15,7 @@ export async function handleOldContainerFormEvent(event: Event): Promise<void> {
 
     setCurrentMember(oldMember);
 
-    signIn(); // Initialises memberContainer, reservationContainer, searchContainer and resultContainer after currentMember has been set to state.
+    signIn(); // Initialises memberContainer, reservationContainer and searchContainer after currentMember has been set to state.
 
   } catch (error) {
     console.error("Failed to connect to the Spring Boot API: ", error);
