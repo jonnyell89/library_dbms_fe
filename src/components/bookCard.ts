@@ -43,6 +43,10 @@ export function attachBookCardRemoveButton(removeButton: HTMLButtonElement): voi
     removeButton.classList.add("bookCard__btn--remove");
 }
 
+export function attachBookCardUnavailableButton(button: HTMLButtonElement): void {
+
+}
+
 // export function cloneBookCard(bookCard: HTMLDivElement): HTMLDivElement {
 
 //     const clonedBookCard = bookCard.cloneNode(true) as HTMLDivElement;

@@ -35,7 +35,7 @@ function handleBookCardReservation(book: BookRequestDTO): void {
     toggleReservationContainerConfirm();
 }
 
-async function handleBookCardRemoveEvent(bookCard: HTMLDivElement, book: BookResponseDTO): Promise<void> {
+export async function handleBookCardRemoveEvent(bookCard: HTMLDivElement, book: BookResponseDTO): Promise<void> {
     try {
         const deletedBook: string = await deleteBookById(book);
 

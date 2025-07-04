@@ -5,7 +5,6 @@ import "./style.scss";
 export function initApplication(): void {
 
   initOldContainer();
-  
   initNewContainer();
 }
 

@@ -7,6 +7,12 @@ export let currentMember: MemberResponseDTO | null = null;
 export let currentReservation: ReservationResponseDTO | null = null;
 export let selectedBooks: BookResponseDTO[] = [];
 
+export function clearState(): void {
+    clearCurrentMember();
+    clearCurrentReservation();
+    clearSelectedBooks();
+}
+
 export function getCurrentMember(): MemberResponseDTO | null {
     return currentMember;
 }
