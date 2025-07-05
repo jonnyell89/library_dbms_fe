@@ -8,5 +8,5 @@ export function initOldContainer(): void {
 
     const oldContainerForm: HTMLFormElement = selectContainerElement(oldContainer, ".oldContainer__form"); // Select
 
-    oldContainerForm.addEventListener("submit", (event: SubmitEvent) => handleOldContainerFormEvent(event)); // Attach -> Handle
+    oldContainerForm.addEventListener("submit", (event: SubmitEvent) => handleOldContainerFormEvent(event, oldContainerForm)); // Attach -> Handle
 }

@@ -1,12 +1,9 @@
 import { currentMember } from "../state";
+import { selectDocumentElement } from "../utils/selectDocumentElement";
 
 export function renderMemberContainer(): HTMLElement {
     
-    const memberContainer = document.querySelector<HTMLElement>(".memberContainer");
-
-    if (!memberContainer) {
-        throw new Error("memberContainer did not render.");
-    }
+    const memberContainer: HTMLElement = selectDocumentElement(".memberContainer");
 
     if (!currentMember) {
         throw new Error("No currentMember set to state.");

@@ -1,6 +1,6 @@
 import { renderMemberContainer } from "../containers/memberContainer";
 import { signOut } from "../transitions/signOut";
-import { toggleReservationContainer } from "../transitions/toggleReservationContainer";
+import { toggleElement } from "../transitions/toggleElement";
 import { selectContainerElement } from "../utils/selectContainerElement";
 
 export function initMemberContainer(): void {
@@ -10,6 +10,6 @@ export function initMemberContainer(): void {
     const reservationsButton: HTMLButtonElement = selectContainerElement(memberContainer, ".memberContainer__btn--reservations"); // Select
     const signOutButton: HTMLButtonElement = selectContainerElement(memberContainer, ".memberContainer__btn--signOut"); // Select
 
-    reservationsButton.addEventListener("click", toggleReservationContainer); // Attach -> Handle
+    reservationsButton.addEventListener("click", () => toggleElement(".reservationContainer")); // Attach -> Handle
     signOutButton.addEventListener("click", signOut) // Attach -> Handle
 }

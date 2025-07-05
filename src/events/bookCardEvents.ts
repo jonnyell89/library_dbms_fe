@@ -4,10 +4,10 @@ import { addSelectedBook, removeSelectedBook, selectedBooks } from "../state";
 import { toggleReservationContainerConfirm } from "../transitions/toggleReservationContainerConfirm";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
-import { initReservationContainerBookCard } from "../init/initReservationContainerBookCard";
 import { selectDocumentElement } from "../utils/selectDocumentElement";
+import { initBookCard } from "../init/initBookCard";
 
-export async function handleBookCardReserveEvent(book: BookRequestDTO): Promise<void> {
+export async function handleBookCardReserveEvent(bookCard: HTMLDivElement, book: BookRequestDTO): Promise<void> {
     try {
         const createdBook: BookResponseDTO = await createBook(book);
 
@@ -17,33 +17,37 @@ export async function handleBookCardReserveEvent(book: BookRequestDTO): Promise<
 
         console.log(`${createdBook.title} added to selectedBooks list: `, selectedBooks);
 
-        handleBookCardReservation(book);
+        bookCard.style.display = "none"; // Hides searchContainerFeed.bookCard
+
+        handleBookCardReservation(createdBook);
 
     } catch (error) {
         console.error("Failed to connect to the Spring Boot API: ", error);
     }
 }
 
-function handleBookCardReservation(book: BookRequestDTO): void {
+function handleBookCardReservation(createdBook: BookResponseDTO): void {
 
     const reservationContainerFeed: HTMLDivElement = selectDocumentElement(".reservationContainer__feed");
 
-    const bookCard: HTMLDivElement = initReservationContainerBookCard(book);
+    createdBook.availability = "RESERVED"; // Sets book.availability
+
+    const bookCard: HTMLDivElement = initBookCard(createdBook, () => handleBookCardRemoveEvent);
 
     reservationContainerFeed.appendChild(bookCard);
 
     toggleReservationContainerConfirm();
 }
 
-export async function handleBookCardRemoveEvent(bookCard: HTMLDivElement, book: BookResponseDTO): Promise<void> {
+export async function handleBookCardRemoveEvent(bookCard: HTMLDivElement, createdBook: BookResponseDTO): Promise<void> {
     try {
-        const deletedBook: string = await deleteBookById(book);
+        const deletedBook: string = await deleteBookById(createdBook);
 
         console.log(`Spring Boot API confirmation: ${deletedBook}`);
 
-        removeSelectedBook(book);
+        removeSelectedBook(createdBook);
 
-        console.log(`${book.title} removed from selectedBooks list: `, selectedBooks);
+        console.log(`${createdBook.title} removed from selectedBooks list: `, selectedBooks);
 
         bookCard.remove(); // Removes bookCard from reservationContainer.
 

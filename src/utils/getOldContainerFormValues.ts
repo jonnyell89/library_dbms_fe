@@ -1,23 +1,10 @@
 import { formatUserInput } from "./formatUserInput";
+import { selectContainerElement } from "./selectContainerElement";
 
-export function getOldContainerFormValues(): { name: string; email: string } {
-
-    const oldContainerForm = document.querySelector<HTMLFormElement>(".oldContainer__form");
-
-    if (!oldContainerForm) {
-        throw new Error("oldContainerForm did not render.");
-    }
+export function getOldContainerFormValues(oldContainerForm: HTMLFormElement): { name: string; email: string } {
     
-    const oldName = oldContainerForm.querySelector("#oldName") as HTMLInputElement | null;
-    const oldEmail = oldContainerForm.querySelector("#oldEmail") as HTMLInputElement | null;
-
-    if (!oldName) {
-        throw new Error("oldName did not render.");
-    }
-    
-    if (!oldEmail) {
-        throw new Error("oldEmail did not render.");
-    }
+    const oldName = selectContainerElement(oldContainerForm, "#oldName") as HTMLInputElement;
+    const oldEmail = selectContainerElement(oldContainerForm, "#oldEmail") as HTMLInputElement;
 
     return {
         name: formatUserInput(oldName.value),

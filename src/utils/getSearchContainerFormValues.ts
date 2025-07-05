@@ -1,23 +1,10 @@
 import { formatUserInput } from "./formatUserInput";
+import { selectContainerElement } from "./selectContainerElement";
 
-export function getSearchContainerFormValues(): { author: string; title: string; } {
+export function getSearchContainerFormValues(searchContainerForm: HTMLFormElement): { author: string; title: string; } {
 
-    const searchContainerForm = document.querySelector<HTMLFormElement>(".searchContainer__form");
-
-    if (!searchContainerForm) {
-        throw new Error("searchContainerForm did not render.");
-    }
-
-    const searchAuthor = searchContainerForm.querySelector("#searchAuthor") as HTMLInputElement | null;
-    const searchTitle = searchContainerForm.querySelector("#searchTitle") as HTMLInputElement | null;
-
-    if (!searchAuthor) {
-        throw new Error("searchAuthor did not render.");
-    }
-
-    if (!searchTitle) {
-        throw new Error("searchTitle did not render.");
-    }
+    const searchAuthor = selectContainerElement(searchContainerForm, "#searchAuthor") as HTMLInputElement;
+    const searchTitle = selectContainerElement(searchContainerForm, "#searchTitle") as HTMLInputElement;
 
     return {
         author: formatUserInput(searchAuthor.value),

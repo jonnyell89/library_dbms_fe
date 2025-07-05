@@ -1,10 +1,8 @@
-export function renderNewContainer(): HTMLElement {
-  
-  const newContainer = document.querySelector<HTMLElement>(".newContainer");
+import { selectDocumentElement } from "../utils/selectDocumentElement";
 
-  if (!newContainer) {
-    throw new Error("newContainer did not render.");
-  }
+export function renderNewContainer(): HTMLElement {
+
+  const newContainer: HTMLElement = selectDocumentElement(".newContainer");
 
   newContainer.innerHTML = `
     <h1>Become a Member</h1>

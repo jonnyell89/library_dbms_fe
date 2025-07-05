@@ -1,10 +1,8 @@
-export function renderSearchContainer(): HTMLElement {
-  
-  const searchContainer = document.querySelector<HTMLElement>(".searchContainer");
+import { selectDocumentElement } from "../utils/selectDocumentElement";
 
-  if (!searchContainer) {
-    throw new Error("searchContainer did not render.");
-  }
+export function renderSearchContainer(): HTMLElement {
+
+  const searchContainer: HTMLElement = selectDocumentElement(".searchContainer");
 
   searchContainer.innerHTML = `
     <h1>Library Search</h1>

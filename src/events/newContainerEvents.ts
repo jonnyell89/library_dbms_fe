@@ -5,12 +5,12 @@ import type { MemberRequestDTO } from "../types/MemberRequestDTO";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 import { getNewContainerFormValues } from "../utils/getNewMemberFormValues";
 
-export async function handleNewContainerFormEvent(event: SubmitEvent): Promise<void> {
+export async function handleNewContainerFormEvent(event: SubmitEvent, newContainerForm: HTMLFormElement): Promise<void> {
 
   event.preventDefault(); // Prevents web browser from reloading after newMemberForm submission.
 
   try {
-    const memberRequestDTO: MemberRequestDTO = getNewContainerFormValues();
+    const memberRequestDTO: MemberRequestDTO = getNewContainerFormValues(newContainerForm);
 
     const newMember: MemberResponseDTO = await createMember(memberRequestDTO);
 

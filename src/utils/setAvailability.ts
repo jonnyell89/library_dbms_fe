@@ -1,23 +1,13 @@
-import { getAllBooks } from "../services/getAllBooks";
+import { attachBookCardRemoveButton, attachBookCardReserveButton, attachBookCardUnavailableButton } from "../components/bookCard";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 
-export async function setAvailability(books: BookRequestDTO[]): Promise<void> {
+export function setAvailability(persistedBooks: BookResponseDTO[], book: BookRequestDTO): void {
 
-    try {
-        const persistedBooks: BookResponseDTO[] = await getAllBooks();
-
-        for (const book of books) {
-            
-            if (isPersisted(persistedBooks, book)) {
-                book.availability = "UNAVAILABLE";
-            } else {
-                book.availability = "AVAILABLE";
-            }
-        }
-
-    } catch (error) {
-        console.error("Failed to connect to the Spring Boot API: ", error);
+    if (isPersisted(persistedBooks, book)) {
+        book.availability = "UNAVAILABLE";
+    } else {
+        book.availability = "AVAILABLE";
     }
 }
 
@@ -31,4 +21,19 @@ function isPersisted(persistedBooks: BookResponseDTO[], book: BookRequestDTO): b
         persistedBook.cover === book.cover &&
         persistedBook.coverEditionKey === book.coverEditionKey
     )
+}
+
+export function attachBookCardButtonByAvailability(bookCardButton: HTMLButtonElement, book: BookRequestDTO | BookResponseDTO): void {
+    
+    switch (book.availability) {
+        case "AVAILABLE":
+            attachBookCardReserveButton(bookCardButton);
+            break;
+        case "RESERVED":
+            attachBookCardRemoveButton(bookCardButton);
+            break;
+        case "UNAVAILABLE":
+            attachBookCardUnavailableButton(bookCardButton);
+            break;
+    }
 }

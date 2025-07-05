@@ -5,9 +5,9 @@ import type { OLResponse } from "../types/OpenLibraryResponse";
 import { getSearchContainerFormValues } from "./getSearchContainerFormValues";
 import { setAvailability } from "./setAvailability";
 
-export async function getBookRequestDTOFromOpenLibraryAPI(): Promise<BookRequestDTO[]> {
+export async function getBookRequestDTOFromOpenLibraryAPI(searchContainerForm: HTMLFormElement): Promise<BookRequestDTO[]> {
 
-    const { author, title } = getSearchContainerFormValues();
+    const { author, title } = getSearchContainerFormValues(searchContainerForm);
 
     const searchResults: OLResponse = await queryOpenLibraryAPI(author, title);
     

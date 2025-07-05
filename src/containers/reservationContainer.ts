@@ -1,10 +1,8 @@
-export function renderReservationContainer(): HTMLElement {
-  
-  const reservationContainer = document.querySelector<HTMLElement>(".reservationContainer");
+import { selectDocumentElement } from "../utils/selectDocumentElement";
 
-  if (!reservationContainer) {
-    throw new Error("reservationContainer did not render.");
-  }
+export function renderReservationContainer(): HTMLElement {
+
+  const reservationContainer: HTMLElement = selectDocumentElement(".reservationContainer");
 
   reservationContainer.innerHTML = `
     <h1>Reservation</h1>

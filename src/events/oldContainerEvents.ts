@@ -4,12 +4,12 @@ import { signIn } from "../transitions/signIn";
 import type { MemberResponseDTO } from "../types/MemberResponseDTO";
 import { getOldContainerFormValues } from "../utils/getOldContainerFormValues";
 
-export async function handleOldContainerFormEvent(event: SubmitEvent): Promise<void> {
+export async function handleOldContainerFormEvent(event: SubmitEvent, oldContainerForm: HTMLFormElement): Promise<void> {
   
   event.preventDefault(); // Prevents web browser from reloading after oldMemberForm submission.
 
   try {
-    const { name, email } = getOldContainerFormValues();
+    const { name, email } = getOldContainerFormValues(oldContainerForm);
 
     const oldMember: MemberResponseDTO = await getMemberByNameAndEmail(name, email);
 

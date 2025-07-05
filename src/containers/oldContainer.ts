@@ -1,10 +1,8 @@
+import { selectDocumentElement } from "../utils/selectDocumentElement";
+
 export function renderOldContainer(): HTMLElement {
   
-  const oldContainer = document.querySelector<HTMLElement>(".oldContainer");
-
-  if (!oldContainer) {
-    throw new Error("oldContainer did not render.");
-  }
+  const oldContainer: HTMLElement = selectDocumentElement(".oldContainer");
 
   oldContainer.innerHTML = `
     <h1>Already a Member?</h1>

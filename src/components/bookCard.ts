@@ -11,8 +11,6 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
         <div class="bookCard__information">
             <p>Title: ${book.title}</p>
             <p>Author: ${book.author}</p>
-            <p>Published: ${book.firstPublishYear}</p>
-            <p>Status: ${book.availability === "AVAILABLE" ? "Available" : "Unavailable"}</p>
         </div>
         <button class="bookCard__btn" type="button"></button>
     `;
@@ -43,8 +41,11 @@ export function attachBookCardRemoveButton(removeButton: HTMLButtonElement): voi
     removeButton.classList.add("bookCard__btn--remove");
 }
 
-export function attachBookCardUnavailableButton(button: HTMLButtonElement): void {
+export function attachBookCardUnavailableButton(unavailableButton: HTMLButtonElement): void {
 
+    unavailableButton.textContent = "Unavailable";
+    unavailableButton.classList.add("bookCard__btn--unavailable");
+    unavailableButton.disabled = true;
 }
 
 // export function cloneBookCard(bookCard: HTMLDivElement): HTMLDivElement {

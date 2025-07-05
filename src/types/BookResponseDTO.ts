@@ -7,4 +7,5 @@ export interface BookResponseDTO {
   firstPublishYear?: number;
   cover?: number;
   coverEditionKey?: string;
+  availability?: "AVAILABLE" | "RESERVED" | "UNAVAILABLE"; // Front-end enrichment only, currently.
 };
