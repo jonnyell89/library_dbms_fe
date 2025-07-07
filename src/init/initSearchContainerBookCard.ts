@@ -1,16 +1,17 @@
-import { attachBookCardImage, createBookCard } from "../components/bookCard";
+import { attachBookCardImage, createBookCard, setBookCardKey } from "../components/bookCard";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
-import type { BookResponseDTO } from "../types/BookResponseDTO";
 import { selectContainerElement } from "../utils/selectContainerElement";
 import { attachBookCardButtonByAvailability } from "../utils/setAvailability";
 
-export function initBookCard(book: BookRequestDTO, handleBookCardButtonEvent: (bookCard: HTMLDivElement, book: BookRequestDTO | BookResponseDTO) => void): HTMLDivElement {
+export function initSearchContainerBookCard(book: BookRequestDTO, handleBookCardButtonEvent: (bookCard: HTMLDivElement, book: BookRequestDTO) => void): HTMLDivElement {
 
     const bookCard: HTMLDivElement = createBookCard(book); // Render
 
     const bookCardImage: HTMLImageElement = selectContainerElement(bookCard, ".bookCard__img"); // Select
     const bookCardButton: HTMLButtonElement = selectContainerElement(bookCard, ".bookCard__btn"); // Select
 
+    setBookCardKey(bookCard, book);
+    console.log(`searchContainer ${bookCard.getAttribute("bookCardKey")}`);
     attachBookCardImage(bookCardImage, book); // Attach
     attachBookCardButtonByAvailability(bookCardButton, book); // Attach
     bookCardButton.addEventListener("click", async () => handleBookCardButtonEvent(bookCard, book)); // Attach -> Handle

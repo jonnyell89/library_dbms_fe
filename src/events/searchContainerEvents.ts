@@ -1,9 +1,9 @@
-import { initBookCard } from "../init/initBookCard";
+import { initSearchContainerBookCard } from "../init/initSearchContainerBookCard";
 import { getAllBooks } from "../services/getAllBooks";
 import type { BookRequestDTO } from "../types/BookRequestDTO";  
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 import { getBookRequestDTOFromOpenLibraryAPI } from "../utils/getBookRequestDTOFromOpenLibraryAPI";
-import { setAvailability } from "../utils/setAvailability";
+import { isAvailable } from "../utils/setAvailability";
 import { handleBookCardReserveEvent } from "./bookCardEvents";
 
 export async function handleSearchContainerFormEvent(event: SubmitEvent, searchContainerForm: HTMLFormElement, searchContainerFeed: HTMLDivElement): Promise<void> {
@@ -29,9 +29,9 @@ async function handleSearchContainerFeedEvent(searchContainerFeed: HTMLDivElemen
 
         books.forEach(book => {
 
-            setAvailability(persistedBooks, book);
+            isAvailable(persistedBooks, book);
 
-            const bookCard: HTMLDivElement = initBookCard(book, handleBookCardReserveEvent);
+            const bookCard: HTMLDivElement = initSearchContainerBookCard(book, handleBookCardReserveEvent);
 
             searchContainerFeed.appendChild(bookCard);
         });

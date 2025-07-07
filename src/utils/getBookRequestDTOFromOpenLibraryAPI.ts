@@ -3,7 +3,6 @@ import { queryOpenLibraryAPI } from "../services/queryOpenLibraryAPI";
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { OLResponse } from "../types/OpenLibraryResponse";
 import { getSearchContainerFormValues } from "./getSearchContainerFormValues";
-import { setAvailability } from "./setAvailability";
 
 export async function getBookRequestDTOFromOpenLibraryAPI(searchContainerForm: HTMLFormElement): Promise<BookRequestDTO[]> {
 
@@ -14,8 +13,6 @@ export async function getBookRequestDTOFromOpenLibraryAPI(searchContainerForm: H
     console.log("Open Library Search API response: ", searchResults);
 
     const books: BookRequestDTO[] = mapSearchResultsToBookRequestDTO(searchResults.docs.slice(0, 10));
-
-    await setAvailability(books);
 
     return books;
 }

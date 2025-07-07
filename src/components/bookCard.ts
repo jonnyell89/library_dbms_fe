@@ -1,6 +1,7 @@
 import type { BookRequestDTO } from "../types/BookRequestDTO";
+import type { BookResponseDTO } from "../types/BookResponseDTO";
 
-export function createBookCard(book: BookRequestDTO): HTMLDivElement {
+export function createBookCard(book: BookRequestDTO | BookResponseDTO): HTMLDivElement {
 
     const bookCard = document.createElement("div");
 
@@ -18,7 +19,7 @@ export function createBookCard(book: BookRequestDTO): HTMLDivElement {
     return bookCard;
 }
 
-export function attachBookCardImage(bookCardImage: HTMLImageElement, book: BookRequestDTO): void {
+export function attachBookCardImage(bookCardImage: HTMLImageElement, book: BookRequestDTO | BookResponseDTO): void {
 
     if (book.coverEditionKey) {
         bookCardImage.src = `https://covers.openlibrary.org/b/olid/${book.coverEditionKey}-L.jpg`; // Attaches coverEditionKey to src directly from public access URL.
@@ -46,6 +47,35 @@ export function attachBookCardUnavailableButton(unavailableButton: HTMLButtonEle
     unavailableButton.textContent = "Unavailable";
     unavailableButton.classList.add("bookCard__btn--unavailable");
     unavailableButton.disabled = true;
+}
+
+export function setBookCardKey(bookCard: HTMLDivElement, book: BookRequestDTO | BookResponseDTO): void {
+    
+    const bookCardKey: string = `${book.authorKey}-${book.titleKey}`;
+    
+    bookCard.setAttribute("bookCardKey", bookCardKey);
+}
+
+export function getBookCardKey(bookCard: HTMLDivElement): string {
+
+    const bookCardKey = bookCard.getAttribute("bookCardKey");
+
+    if (!bookCardKey) {
+        throw new Error("bookCardKey is not set.");
+    }
+
+    return bookCardKey;
+}
+
+export function selectSearchContainerBookCard(bookCardKey: string): HTMLDivElement {
+    
+    const bookCard = document.querySelector<HTMLDivElement>(`.searchContainer__feed [bookCardKey="${bookCardKey}"]`);
+
+    if (!bookCard) {
+        throw new Error(`searchContainerBookCard [bookCardKey="${bookCardKey}"] did not render.`);
+    }
+
+    return bookCard;
 }
 
 // export function cloneBookCard(bookCard: HTMLDivElement): HTMLDivElement {

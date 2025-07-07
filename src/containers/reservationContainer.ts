@@ -1,7 +1,7 @@
 import { selectDocumentElement } from "../utils/selectDocumentElement";
 
 export function renderReservationContainer(): HTMLElement {
-
+  
   const reservationContainer: HTMLElement = selectDocumentElement(".reservationContainer");
 
   reservationContainer.innerHTML = `

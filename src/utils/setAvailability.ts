@@ -2,7 +2,12 @@ import { attachBookCardRemoveButton, attachBookCardReserveButton, attachBookCard
 import type { BookRequestDTO } from "../types/BookRequestDTO";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 
-export function setAvailability(persistedBooks: BookResponseDTO[], book: BookRequestDTO): void {
+export function setAvailability(book: BookRequestDTO | BookResponseDTO, availability: "AVAILABLE" | "RESERVED" | "UNAVAILABLE"): void {
+
+    book.availability = availability;
+}
+
+export function isAvailable(persistedBooks: BookResponseDTO[], book: BookRequestDTO): void {
 
     if (isPersisted(persistedBooks, book)) {
         book.availability = "UNAVAILABLE";
