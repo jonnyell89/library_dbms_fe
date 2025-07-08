@@ -7,7 +7,7 @@ export function renderReservationContainer(): HTMLElement {
   reservationContainer.innerHTML = `
     <h1>Reservation</h1>
     <div class="reservationContainer__feed"></div>
-    <button class="reservationContainer__btn reservationContainer__btn--confirm" type="button" style="display: none">Confirm</button>
+    <button class="reservationContainer__btn reservationContainer__btn--confirm" type="button">Confirm</button>
   `;
 
   return reservationContainer;

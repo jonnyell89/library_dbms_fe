@@ -10,8 +10,7 @@ export function initReservationContainerBookCard(createdBook: BookResponseDTO, h
     const createdBookCardImage: HTMLImageElement = selectContainerElement(createdBookCard, ".bookCard__img"); // Select
     const createdBookCardButton: HTMLButtonElement = selectContainerElement(createdBookCard, ".bookCard__btn"); // Select
 
-    setBookCardKey(createdBookCard, createdBook);
-    console.log(`reservationContainer ${createdBookCard.getAttribute("bookCardKey")}`);
+    setBookCardKey(createdBookCard, createdBook); // Attach
     attachBookCardImage(createdBookCardImage, createdBook); // Attach
     attachBookCardButtonByAvailability(createdBookCardButton, createdBook); // Attach
     createdBookCardButton.addEventListener("click", async () => handleBookCardButtonEvent(createdBookCard, createdBook)); // Attach -> Handle

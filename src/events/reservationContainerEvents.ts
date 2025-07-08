@@ -3,7 +3,7 @@ import { mapReservedBookRequestDTO } from "../mappers/mapReservedBookRequestDTO"
 import { createReservation } from "../services/createReservation";
 import { createReservedBook } from "../services/createReservedBook";
 import { clearSelectedBooks, getSelectedBooks, setCurrentReservation } from "../state";
-import { toggleReservationContainerConfirm } from "../transitions/toggleReservationContainerConfirm";
+import { toggleReservationContainer } from "../transitions/toggleReservationContainer";
 import type { BookResponseDTO } from "../types/BookResponseDTO";
 import type { ReservationRequestDTO } from "../types/ReservationRequestDTO";
 import type { ReservationResponseDTO } from "../types/ReservationResponseDTO";
@@ -24,13 +24,13 @@ export async function handleReservationContainerFeedEvent(): Promise<void> {
 
         await attachSelectedBooksToReservation();
 
-        const reservationContainerFeed = selectDocumentElement(".reservationContainer__feed");
+        const reservationContainerFeed: HTMLDivElement = selectDocumentElement(".reservationContainer__feed");
 
-        reservationContainerFeed.innerHTML = "";
+        reservationContainerFeed.innerHTML = ""; // Clears reservationContainerFeed.
 
         clearSelectedBooks();
 
-        toggleReservationContainerConfirm();
+        toggleReservationContainer();
 
     } catch (error) {
         console.error("Failed to connect to the Spring Boot API: ", error);

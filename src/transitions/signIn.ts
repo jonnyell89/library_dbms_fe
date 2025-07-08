@@ -25,6 +25,6 @@ export function signIn(): void {
   oldContainer.style.display = "none";
   newContainer.style.display = "none";
   memberContainer.style.display = "block";
-  reservationContainer.style.display = "block";
+  reservationContainer.style.display = "none";
   searchContainer.style.display = "block";
 }

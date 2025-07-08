@@ -10,8 +10,7 @@ export function initSearchContainerBookCard(book: BookRequestDTO, handleBookCard
     const bookCardImage: HTMLImageElement = selectContainerElement(bookCard, ".bookCard__img"); // Select
     const bookCardButton: HTMLButtonElement = selectContainerElement(bookCard, ".bookCard__btn"); // Select
 
-    setBookCardKey(bookCard, book);
-    console.log(`searchContainer ${bookCard.getAttribute("bookCardKey")}`);
+    setBookCardKey(bookCard, book); // Attach
     attachBookCardImage(bookCardImage, book); // Attach
     attachBookCardButtonByAvailability(bookCardButton, book); // Attach
     bookCardButton.addEventListener("click", async () => handleBookCardButtonEvent(bookCard, book)); // Attach -> Handle
